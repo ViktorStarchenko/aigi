@@ -76,10 +76,38 @@ $data_video_suf = '';
             <?php endif ?>
 
             <?php if (get_field('add_diagram')) : ?> <!-- Diagram -->
-                <div class="resource-image__wrap">
-                    <picture>
-                        <img src="<?php echo get_field('add_diagram');?>" alt="<?php the_title();?>">
-                    </picture>
+<!--                <div class="resource-image__wrap">-->
+<!--                    <picture>-->
+<!--                        <img src="--><?php //echo get_field('add_diagram');?><!--" alt="--><?php //the_title();?><!--">-->
+<!--                    </picture>-->
+<!--                </div>-->
+                <div class="popup_item_wrapper resource-image__wrap" data-popup="">
+                    <img class="popup_button zoom-popup_button zoom-popup_button-<?php echo get_the_ID(); ?>" id="popup-main-wrapper-<?php echo get_the_ID(); ?>" src="<?php echo get_field('add_diagram');?>" alt="<?php the_title();?>">
+
+                    <div class="popup-main-wrapper">
+                        <div class="item_popup_wrapper">
+                            <div class="popup_overlay"></div>
+
+                            <div class="popup_content_wrapper download-pdf">
+                                <div class="item_popup_content_inner">
+                                    <div class="popup_close_button popup_close_button-<?php echo get_the_ID(); ?>"></div>
+                                    <div class="download-pdf__wrapper modal modal-content">
+                                        <div class="post-content-form">
+                                            <div class="scholarship-open-form__wrapper zoom">
+                                                <img class="media" src="<?php echo get_field('add_diagram');?>" alt="<?php the_title();?>">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="popup_content_footer">
+                                        <img src="/wp-content/themes/aigi/assets/images/group.svg" alt="footer">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             <?php endif ?>
 
@@ -157,4 +185,33 @@ $data_video_suf = '';
 </div>
 
 
+<script>
+    jQuery( window ).on('load resize', function() {
+        if (jQuery(window).width() > 992) {
+
+            zoom({
+                active: "zoom-active", // Class added to container when it is zoomed
+                transition: "zoom-transition", // Class added to images when they are being animated, class is removed after animation is finished
+                visible: "visible", // Class added to images after they are loaded,
+                zoom: "zoom" // Image container class
+            }, {
+                scaleDefault: 2, // Used on doubleclick, doubletap and resize
+                scaleDifference: 0.1, // Used on wheel zoom
+                scaleMax: 10, // Maximum zoom
+                scaleMin: 1, // Minimum zoom
+                scrollDisable: true, // Disable page scrolling when zooming an image
+                transitionDuration: 900, // This should correspond with zoom-transition transition duration
+                doubleclickDelay: 300 // // Delay between clicks - used when scripts decides if user performed doubleclick or not
+            }, (function ($container, zoomed) {
+                console.log(zoomed); // Callback, gets triggered whenever active class is added/removed from container, value of zoomed is true or false
+            }));
+
+        }
+
+    })
+</script>
+
+<!--<script type="text/javascript">-->
+<!--    zoom();-->
+<!--</script>-->
 <?php wp_reset_query(); ?>

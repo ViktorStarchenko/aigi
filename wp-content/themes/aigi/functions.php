@@ -189,6 +189,7 @@ function custom_wp_custom_scripts(){
 
 
         wp_enqueue_script('slick', get_template_directory_uri() . '/assets/js/slick/slick.min.js', ['jquery'], false, false);
+        wp_enqueue_script('zoom-by-ironex', get_template_directory_uri() . '/assets/js/zoom-by-ironex.min.js', ['jquery'], false, false);
         wp_enqueue_script('scripts', get_template_directory_uri() . '/assets/js/main.js', ['jquery'], false, true);
 
         if(is_page_template('templates/favourites-page.php')){
