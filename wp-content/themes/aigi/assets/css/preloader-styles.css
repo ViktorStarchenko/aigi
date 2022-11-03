@@ -1,0 +1,39 @@
+.page-template-global-search #aigi-preloader {
+    display: none;
+}
+
+#aigi-search-preloader
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffffb3;
+    z-index: 9999;
+    text-align: center;
+}
+#aigi-search-preloader .preloader-logo
+{
+    position: fixed;
+    top: 45%;
+    left: calc(50% - 75px);
+    margin-top: 70px;
+    width: 150px;
+    border-radius: 50%;
+    animation: rotation 1.5s infinite;
+}
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
+@media (max-width: 767px) {
+    #aigi-search-preloader .preloader-logo {
+        margin-top: 0;
+    }
+}

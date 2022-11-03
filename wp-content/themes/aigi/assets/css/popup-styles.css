@@ -1,0 +1,241 @@
+/***Partners block***/
+
+.popup_button {
+    /*width: 270px;*/
+    /*height: 133px;*/
+    /*border-radius: 5px;*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*background-color: white;*/
+    /*padding: 30px;*/
+    /*position: relative;*/
+    cursor: pointer;
+}
+.popup_button img {
+    max-width: 100%;
+}
+.partners_item_popup_wrapper {
+    display: none;
+}
+
+.partners-block-section .popup_button:after {
+    content: '';
+    background-image: url(../images/Information_Icon.svg);
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top: 9px;
+    right: 9px;
+}
+#popup_close_button,
+.popup_close_button {
+    width: 16px;
+    height: 16px;
+    background-image: url(../images/close-blue.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top: 23px;
+    right: 23px;
+    cursor: pointer;
+    z-index: 10;
+}
+.popup_content_wrapper {
+    width: 100%;
+    max-width: 782px;
+    position: absolute;
+    background: white;
+    z-index: 10000000000000000000000000000000000000000000000000001;
+    /*max-width: 1130px;*/
+    padding: 60px 0 0;
+    margin: 20px;
+    /*border-radius: 5px;*/
+    max-height: 90%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /*padding: 60px 0 0;*/
+    /*min-width: 800px;*/
+
+    position: relative;
+}
+
+.popup_content_wrapper.w-1016 {
+    max-width: 1016px;
+}
+.item_popup_wrapper:before {
+    /*content: '';*/
+    width: 100%;
+    height: 50px;
+    margin-bottom: 6px;
+    background-color: #000;
+    background-image: url(/wp-content/themes/aigi/assets/images/group.svg);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+
+}
+.popup_overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(19, 16, 50, 0.8);
+    z-index: 1000000000000000000000000000000000000000000000000000;
+}
+.item_popup_wrapper, .popup-main-wrapper {
+    display: none;
+}
+.popup-main-wrapper.popup_opened {
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 999;
+}
+.popup-main-wrapper.popup_opened .item_popup_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: all;
+    height: 100%;
+}
+
+.modal-content {
+    max-width: 558px;
+    margin: auto;
+}
+
+.popup_content_footer {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 6px;
+    background-color: #000;
+    /*background-image: url(/wp-content/themes/aigi/assets/images/group.svg);*/
+    position: relative;
+}
+.popup_content_footer img {
+    display: none;
+}
+.popup_content_footer:before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-image: url(/wp-content/themes/aigi/assets/images/group.svg);
+    background-repeat: no-repeat;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+
+
+/*Scholarship*/
+.scholarship-open__wrapper.modal-content {
+    max-width: 786px;
+    padding: 16px;
+}
+
+.scholarship-open__wrapper .gform_footer{
+    max-width: 49%;
+}
+body .scholarship-open__wrapper .gfield_label {
+    font-style: normal;
+    font-weight: 400!important;
+    font-size: 15px!important;
+    line-height: 160%;
+    letter-spacing: 0.03em;
+    color: var(--color-main-text);
+}
+.scholarship-open__wrapper .gform_fileupload_rules {
+    display: none;
+}
+.subscribe-event-form__wrapper .gform_button:hover {
+    background-color: var(--color-h-secondary-blue);
+    border: 1px solid var(--color-h-secondary-blue);
+}
+
+
+/*Download PDF*/
+.download-pdf__wrapper {
+    max-width: 600px;
+    padding: 16px;
+}
+
+/*Gallery*/
+.popup_content_wrapper.gallery {
+    padding: 0;
+}
+
+
+/*author */
+.popup_content_wrapper.author .author__content {
+    width: 65%;
+    padding-left: 35px;
+}
+.author__image {
+    width: 240px;
+}
+.author__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/*Mailchimp*/
+.gform_body ul {
+    padding: 0;
+}
+.gform_body ul li:before {
+    display: none;
+}
+body .gform_wrapper.gravity-theme .gfield ul li {
+    display: flex;
+    align-items: center;
+    margin: 8px 0 12px;
+}
+body .gform_wrapper.gravity-theme .gfield ul li input,
+body .gform_wrapper.gravity-theme .gfield ul li select {
+    height: unset;
+}
+
+
+@media (max-width:  767px) {
+    .item_popup_header {
+        flex-wrap: wrap;
+        text-align: center;
+    }
+    .partners_item_popup_text {
+        width: 100%;
+        margin-left: unset;
+    }
+    .popup_content_wrapper {
+        padding: 20px 0 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+
+
+    /*author */
+    .popup_content_wrapper.author {
+       padding: 60px 0 0 ;
+   }
+    .popup_content_wrapper.author .author__content {
+        width: 100%;
+        padding: 32px 16px;
+    }
+
+    /*Scholarship*/
+    .scholarship-open__wrapper .gform_footer{
+        max-width: 100%;
+    }
+
+
+}
+@media (max-width: 580px) {
+
+}

@@ -1,0 +1,13 @@
+.landing-page .post-tile__wrap{
+    margin-left: 0;
+}
+
+/* На мобильных устройствах (767px выбрано, чтобы работал пример) */
+@media screen and (max-width: 820px) {
+    .simplefavorite-button span, .filter-button {
+        display: none;
+    }
+    .search-page__sorting .facetwp-facet select{
+        height: 51px;
+    }
+}

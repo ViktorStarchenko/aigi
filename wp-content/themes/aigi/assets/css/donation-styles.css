@@ -1,0 +1,98 @@
+
+.donation-details {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 88px 20px 65px;
+}
+.donation__heading_section {
+    padding: 64px 0 32px;
+    border-bottom: 2px solid #DFDFDF;;
+}
+.donation__heading_title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40.5px;
+    line-height: 110%;
+    letter-spacing: 0.02em;
+    color: #131032;
+    margin-bottom: 32px;
+}
+
+.donation__image {
+    width: 100%;
+    max-width: 458px;
+}
+.donation__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.donation__content {
+    max-width: 600px;
+    margin: auto;
+}
+.donation__title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26.97px;
+    line-height: 110%;
+    letter-spacing: 0.02em;
+    color: var(--color-brand-navy-primary);
+    margin-bottom: 16px;
+}
+.donation__description {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 160%;
+    letter-spacing: 0.03em;
+    color: #000000;
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--color-line-separator);
+}
+.donation-details .donation-widget.tabs {
+    max-width: unset!important;
+}
+
+/*donorbox styles*/
+.mdl-btn-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+@media (max-width: 1144px) {
+    .donation__content {
+        padding-left: 24px;
+    }
+}
+@media (max-width: 860px) {
+    .donation__heading_section {
+        text-align: center;
+        padding: 10px 0 32px;
+    }
+    .donation__heading_title {
+        font-size: 32.44px;
+        line-height: 110%;
+        letter-spacing: 0.02em;
+        margin-bottom: 16px;
+    }
+    .donation-details {
+        flex-direction: column;
+        padding: 40px 0;
+    }
+    .donation__image {
+        margin-bottom: 24px;
+    }
+    .donation__content {
+        margin: 0;
+        padding: 0;
+    }
+    .donation__title {
+        font-size: 19.98px;
+        line-height: 125%;
+        letter-spacing: 0.02em;
+        margin-bottom: 8px;
+    }
+}
