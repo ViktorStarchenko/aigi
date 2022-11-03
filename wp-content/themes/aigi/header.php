@@ -180,8 +180,14 @@
                   </div>
                   <?php endforeach; ?>
                   <?php endif; ?>
+                   <?php if (get_field('header_contact_button', 'options')) { ?>
+                       <a class="main_menu_top contact-us-link" href="<?php echo get_field('header_contact_button', 'options')['url']; ?>"><?php echo get_field('header_contact_button', 'options')['title']; ?></a>
+                   <?php } ?>
                </nav>
-               <div id="header_button_wrapper">
+               <div id="header_button_wrapper" class="header_button_wrapper">
+                   <?php if (get_field('header_contact_button', 'options')) {?>
+                       <a class="main_menu_top contact-us-link" href="<?php echo get_field('header_contact_button', 'options')['url']; ?>"><?php echo get_field('header_contact_button', 'options')['title']; ?></a>
+                   <?php } ?>
                   <?php if (!empty($button)) : ?>
 <!--                  <a class="btn-body custom-dbox-popu" href="--><?//= $button['url'] ?><!--"><span class="btn-inner">--><?//= $button['title'] ?><!--</span></a>-->
                       <a class="custom-dbox-popup btn-body" href="<?= $button['url'] ?>">Donate</a>
