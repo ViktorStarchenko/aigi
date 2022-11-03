@@ -101,6 +101,57 @@
 }
 
 
+/*Blockquotes*/
+blockquote {
+    font-weight: 700;
+    font-size: 19.98px;
+    line-height: 110%;
+    letter-spacing: 0.02em;
+    color: var(--color-p-primary-orange);
+    margin-bottom: 24px;
+}
+
+blockquote p {
+    margin-bottom: 0px!important;
+}
+blockquote a {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12.85px;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+    color: var(--color-brand-m-blue-primary);
+    text-decoration: none;
+    position: relative;
+    margin-left: 6px;
+}
+blockquote a:before {
+    width: 13px;
+    height: 9px;
+    display: inline-block;
+    content: '';
+    background-image: url("/wp-content/themes/aigi/assets/images/path-next-blue.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin-right: 6px;
+}
+blockquote strong {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15.8px;
+    line-height: 130%;
+    letter-spacing: 0.05em;
+    color: var(--color-p-primary-orange);
+    margin-top: 12px;
+    display: inline-block;
+}
+blockquote em {
+    font-style: normal;
+}
+
 /****************************** ACCORDION STYLES ************************/
 
 /*basic*/
@@ -203,6 +254,18 @@
     }
     .accordion_btn.active:before {
         top: 19px;
+    }
+
+    /*Blockquotes*/
+    blockquote {
+        font-size: 15.78px;
+        line-height: 125%;
+        letter-spacing: 0.02em;
+    }
+    blockquote strong {
+        font-size: 14.4px;
+        line-height: 130%;
+        letter-spacing: 0.05em;
     }
 
 }
