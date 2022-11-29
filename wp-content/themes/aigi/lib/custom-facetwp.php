@@ -20,7 +20,7 @@ if (!is_admin()) {
         }
         /*** Add event, news, resource, toolkit, case_studies to query if the shortcode template is named "landing_page_result" ***/
         if ( 'landing_page_result' == $class->ajax_params['template'] ) {
-            $query_args['post_type'] = ['event', 'news', 'resource', 'toolkit', 'case_studies'];
+            $query_args['post_type'] = ['event', 'news', 'resource', 'toolkit', 'case_studies', 'governance-stories'];
         }
         return $query_args;
     }, 10, 2 );

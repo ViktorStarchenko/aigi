@@ -67,7 +67,7 @@ if ( is_user_logged_in() ) {
                 if($sort_info === 'newes'){
                     $query = new WP_Query( [
                         'paged' => $paged,
-                        'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies' ),
+                        'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies', 'governance-stories' ),
                         'posts_per_page' => 5,
                         'post__in'  => $reading_list,
                         'orderby' => 'date',
@@ -76,7 +76,7 @@ if ( is_user_logged_in() ) {
                 } elseif ($sort_info === 'oldest'){
                     $query = new WP_Query( [
                         'paged' => $paged,
-                        'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies' ),
+                        'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies', 'governance-stories' ),
                         'posts_per_page' => 5,
                         'post__in'  => $reading_list,
                         'orderby' => 'date',
@@ -85,7 +85,7 @@ if ( is_user_logged_in() ) {
                 } elseif($sort_info === 'relevance'){
                     $query = new WP_Query( [
                         'paged' => $paged,
-                        'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies' ),
+                        'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies', 'governance-stories' ),
                         'posts_per_page' => 5,
                         'post__in'  => $reading_list,
                         'orderby' => 'post_views_count',
@@ -94,7 +94,7 @@ if ( is_user_logged_in() ) {
                 } else {
                     $query = new WP_Query( [
                         'paged' => $paged,
-                        'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies' ),
+                        'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies', 'governance-stories' ),
                         'posts_per_page' => 5,
                         'post__in'  => $reading_list,
                         'orderby' => 'date',
@@ -120,7 +120,7 @@ if ( is_user_logged_in() ) {
 
                     if(get_post_type() == 'resource' || get_post_type() == 'toolkit'){
                         $term_list = wp_get_post_terms( get_the_ID(), 'topic', array('fields' => 'all'));
-                    } else if (get_post_type() == 'news' || get_post_type() == 'case_studies'  || get_post_type() == 'event') {
+                    } else if (get_post_type() == 'news' || get_post_type() == 'case_studies' || get_post_type() == 'governance-stories' || get_post_type() == 'event') {
                         $term_list = wp_get_post_terms( get_the_ID(), 'content_tags', array('fields' => 'all'));
                     }
 
@@ -165,7 +165,7 @@ if ( is_user_logged_in() ) {
                                     <?php foreach ($term_list as $term) : ?>
                                     <?php if(get_post_type() == 'resource' || get_post_type() == 'toolkit'){ ?>
                                             <a class="content-tags__item" href="/search?_topics=<?php echo $term->slug ?>" data-tem-id="<?php echo  $term->term_id ?>"><?php echo $term->name ?></a>
-                                        <?php } else if (get_post_type() == 'news' || get_post_type() == 'case_studies'  || get_post_type() == 'event') { ?>
+                                        <?php } else if (get_post_type() == 'news' || get_post_type() == 'case_studies' || get_post_type() == 'governance-stories' || get_post_type() == 'event') { ?>
                                             <a class="content-tags__item" href="/search?_content_tags=<?php echo $term->slug ?>" data-tem-id="<?php echo  $term->term_id ?>"><?php echo $term->name ?></a>
                                       <?php  } ?>
                                     <?php endforeach ?>

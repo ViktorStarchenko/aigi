@@ -1,5 +1,5 @@
 <?php
-
+// currently governance-stories
 function get_pdf_case_studies_writer($post) {
     $authors = get_field('author',$post);
 
@@ -21,7 +21,7 @@ function get_pdf_case_studies_writer($post) {
     return $html;
 
 }
-
+//currently governance-stories
 function get_pdf_case_studies_location($post) {
     $c_studies_locationtion = get_field('c_studies_locationtion', $post);
 

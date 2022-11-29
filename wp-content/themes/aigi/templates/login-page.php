@@ -47,7 +47,7 @@ if ($content['form_type']) {
         <!--            <div class="hero-slider" style="height: 548px; width: 100%; background: var(--color-error)" ></div>-->
         <!--        </div>-->
         <!--    </div>-->
-        <div class="main-inner <?php  echo ((get_field('header_slider')['enable'] == true) ? ' top-of-hero ' :''); ?> <?php echo ($post_type == 'case_studies') ? 'map-enable' : ''; ?>">
+        <div class="main-inner <?php  echo ((get_field('header_slider')['enable'] == true) ? ' top-of-hero ' :''); ?> <?php echo ($post_type == 'case_studies') ? 'map-enable' : ''; ?> <?php echo ($post_type == 'governance-stories') ? 'map-enable' : ''; ?>">
             <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
             <?php get_template_part('template-parts/layout', 'page-before-content-blocks'); ?>
 

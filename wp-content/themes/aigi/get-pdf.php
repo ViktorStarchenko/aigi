@@ -256,6 +256,13 @@ ob_start();
         ?>
 
         <?php
+        if (get_post_type($post) =='governance-stories') {
+            get_template_part('template-parts/pdf-parts/pdf', 'case-studies-info', $post);
+            get_template_part('template-parts/pdf-parts/pdf', 'case-studies-organisation', $post);
+        }
+        ?>
+
+        <?php
         $content_items = get_field('content_items', $post);
         get_template_part('template-parts/pdf-parts/pdf', 'page-content-unstyled', $content_items);
         ?>
