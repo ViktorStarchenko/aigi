@@ -148,44 +148,9 @@ get_header(); ?>
 <!--                                                        Direct PDF download-->
 <!--                                                        <a   target="_blank" download href="--><?php //echo $table_of_contents['download_topic']['url'] ?><!-- " class="toolkit-download-topic">Download Topic</a>-->
                                                     <?php } ?>
-                                                    <div class="popup_item_wrapper" data-popup="">
-                                                        <div href="" class="popup_button post-technical__button">
+                                                    <div class="popup_item_wrapper">
+                                                        <div href="" class="popup_button toolkit-topic-button post-technical__button"  data-topic-pdf-url="<?php echo $table_of_contents['download_topic']['url']; ?>">
                                                             <span href="" class="toolkit-download-topic">Download Topic</span>
-                                                        </div>
-
-                                                        <div class="popup-main-wrapper" id="popup-main-wrapper">
-                                                            <div class="item_popup_wrapper">
-                                                                <div class="popup_overlay"></div>
-                                                                <div class="popup_content_wrapper download-pdf">
-                                                                    <div class="item_popup_content_inner">
-                                                                        <div class="popup_close_button"></div>
-                                                                        <div class="download-pdf__wrapper modal modal-content">
-                                                                            <div class="post-content-form">
-                                                                                <div class="scholarship-open-form__wrapper">
-                                                                                    <div class="form-heading">
-                                                                                        <?php if (get_field('download_button', 'option')['modal_pdf_heading']) {?>
-                                                                                            <div class="form-title"><?php echo get_field('download_button', 'option')['modal_pdf_heading']; ?></div>
-                                                                                        <?php } ?>
-                                                                                        <?php if (get_field('download_button', 'option')['modal_pdf_description']) { ?>
-                                                                                            <div class="form-desc"><?php echo get_field('download_button', 'option')['modal_pdf_description']; ?></div>
-                                                                                        <?php } ?>
-                                                                                    </div>
-
-                                                                                    <?php if (get_field('download_button', 'option')['modal_toolkit_topics_pdf_form_id']) { ?>
-                                                                                        <div class=""><?php echo do_shortcode('[gravityform id="'.get_field('download_button', 'option')['modal_toolkit_topics_pdf_form_id'].'" title="false" description="false" ajax="true" tabindex="49" field_values="'.get_field('download_button', 'option')['pdf_link_parameter'].'='.$table_of_contents['download_topic']['url'].'"]');?></div>
-                                                                                    <?php } ?>
-
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="popup_content_footer">
-                                                                            <img src="/wp-content/themes/aigi/assets/images/group.svg" alt="">
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -218,4 +183,55 @@ get_header(); ?>
 
     </footer>
 </main>
+
+<div class="popup-main-wrapper popup-toolkit-topic" id="popup-toolkit-topic">
+    <div class="item_popup_wrapper">
+        <div class="popup_overlay"></div>
+        <div class="popup_content_wrapper download-pdf">
+            <div class="item_popup_content_inner">
+                <div class="popup_close_button toolkit_topic_close_button"></div>
+                <div class="download-pdf__wrapper modal modal-content">
+                    <div class="post-content-form">
+                        <div class="scholarship-open-form__wrapper">
+                            <div class="form-heading">
+                                <?php if (get_field('download_button', 'option')['modal_pdf_heading']) {?>
+                                    <div class="form-title"><?php echo get_field('download_button', 'option')['modal_pdf_heading']; ?></div>
+                                <?php } ?>
+                                <?php if (get_field('download_button', 'option')['modal_pdf_description']) { ?>
+                                    <div class="form-desc"><?php echo get_field('download_button', 'option')['modal_pdf_description']; ?></div>
+                                <?php } ?>
+                            </div>
+
+                            <?php if (get_field('download_button', 'option')['modal_toolkit_topics_pdf_form_id']) { ?>
+                                <div class=""><?php echo do_shortcode('[gravityform id="'.get_field('download_button', 'option')['modal_toolkit_topics_pdf_form_id'].'" title="false" description="false" ajax="true" tabindex="49" ]');?></div>
+                            <?php } ?>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="popup_content_footer">
+                    <img src="/wp-content/themes/aigi/assets/images/group.svg" alt="">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    jQuery('.toolkit-topic-button').on('click', function () {
+    console.log(jQuery(this).attr('data-topic-pdf-url'))
+        jQuery('.data-topic-pdf-url input').val(jQuery(this).attr('data-topic-pdf-url'));
+        jQuery(".popup-toolkit-topic").addClass('popup_opened');
+
+    });
+
+    jQuery(document).on('click', '.toolkit_topic_close_button', function () {
+        jQuery(".toolkit-topic-button").removeClass('popup_opened');
+        jQuery('.data-topic-pdf-url input').val('');
+    });
+
+</script>
 <?php get_footer(); ?>

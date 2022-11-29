@@ -256,16 +256,16 @@ if ($slider): ?>
 
                         <?php if ($button_group) : ?>
 
-                            <?php if ($slide['button_group']['link_to_post'] == true) : ?>
+                            <?php if ($slide['slide_type'] == 'post' && $slide['button_group']['link_to_post'] == true) {?>
 
                                 <div class="btn-group f-start m-center">
-                                        <a href="<?php echo get_the_permalink($post->ID) ;?>" class="btn-body btn-body btn-m-blue Between ">
-                                            <span class="btn-inner">Read More</span>
-                                        </a>
+                                    <a href="<?php echo get_the_permalink($post->ID) ;?>" class="btn-body btn-body btn-m-blue Between ">
+                                        <span class="btn-inner">Read More</span>
+                                    </a>
 
                                 </div>
 
-                            <?php elseif ($slide['button_group']['link_to_post'] == false) : ?>
+                            <?php } else { ?>
 
                                 <?php if($button_group['buttons']) : ?>
                                     <div class="btn-group f-start m-center">
@@ -295,9 +295,9 @@ if ($slider): ?>
                                             </a>
                                         <?php endforeach; ?>
                                     </div>
-                                <?php endif; //edif buttons ?>
+                                <?php endif; //endif buttons ?>
 
-                            <?php endif ?>
+                            <?php } ?>
 
                         <?php endif ?>
 
