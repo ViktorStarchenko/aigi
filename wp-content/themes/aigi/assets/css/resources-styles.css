@@ -245,6 +245,7 @@
 .resource-link a {
     position: relative;
     word-break: break-all;
+    font-size: 14px;
 }
 .resource-link:not(:last-child) a {
     margin-bottom: 16px;
