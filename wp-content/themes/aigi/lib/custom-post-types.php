@@ -81,7 +81,7 @@ $args = array(
 'query_var' => true
 );
 
-register_taxonomy( 'topic', array('toolkit', 'resource', 'event', 'news', 'case_studies'), $args );
+register_taxonomy( 'topic', array('toolkit', 'resource', 'event', 'news', 'case_studies', 'governance-stories'), $args );
 
 }
 

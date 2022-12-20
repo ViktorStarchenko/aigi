@@ -14,7 +14,8 @@
             'numberposts' => $numberposts,
             'orderby'     => 'date',
             'order'       => 'DESC',
-            'post_type'   => 'case_studies',
+//            'post_type'   => 'case_studies',
+            'post_type'   => 'governance-stories',
         ) );
     } else if ($content['slider_type'] == 'custom') {
         if ($content['resources']) {

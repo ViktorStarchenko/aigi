@@ -11,7 +11,7 @@ Template Name: Sitemap
 //$wpb_all_query = new WP_Query(array('post_type'=>'post, toolkit, page, resource, events, people, staff, partners', 'post_status'=>'publish', 'posts_per_page'=>-1)); ?>
 <?php
 $wpb_all_query = new WP_Query( [
-    'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies' ),
+    'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies', 'governance-stories' ),
     'posts_per_page' => -1,
     'orderby' => 'date',
     'order'   => 'DESC',

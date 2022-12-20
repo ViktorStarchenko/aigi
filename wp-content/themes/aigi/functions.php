@@ -161,6 +161,7 @@ include 'lib/events-post-type.php';
 include 'lib/people-post-type.php';
 include 'lib/partners-post-type.php';
 include 'lib/case-studies-post-type.php';
+include 'lib/governance-stories-post-type.php';
 include 'lib/news-post-type.php';
 include 'lib/staff-post-type.php';
 include 'lib/author-post-type.php';
@@ -317,7 +318,7 @@ function sort_favourites(){
     if($sorted == 'newes'){
         $query = new WP_Query( [
             'paged' => $paged,
-            'post_type' => array( 'post', 'page', 'resource', 'news','toolkit', 'case_studies' ),
+            'post_type' => array( 'post', 'page', 'resource', 'news','toolkit', 'case_studies', 'governance-stories' ),
             'posts_per_page' => 5,
             'post__in'  => $reading_list,
             'orderby' => 'date',
@@ -326,7 +327,7 @@ function sort_favourites(){
     } elseif ($sorted === 'oldest'){
         $query = new WP_Query( [
             'paged' => $paged,
-            'post_type' => array( 'post', 'page', 'resource', 'news','toolkit', 'case_studies' ),
+            'post_type' => array( 'post', 'page', 'resource', 'news','toolkit', 'case_studies', 'governance-stories' ),
             'posts_per_page' => 5,
             'post__in'  => $reading_list,
             'orderby' => 'date',
@@ -335,7 +336,7 @@ function sort_favourites(){
     } elseif($sorted === 'relevance'){
         $query = new WP_Query( [
             'paged' => $paged,
-            'post_type' => array( 'post', 'page', 'resource', 'news','toolkit', 'case_studies' ),
+            'post_type' => array( 'post', 'page', 'resource', 'news','toolkit', 'case_studies', 'governance-stories' ),
             'posts_per_page' => 5,
             'post__in'  => $reading_list,
             'orderby' => 'post_views_count',
@@ -344,7 +345,7 @@ function sort_favourites(){
     } else {
         $query = new WP_Query( [
             'paged' => $paged,
-            'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies' ),
+            'post_type' => array( 'post', 'page', 'resource', 'news', 'toolkit', 'case_studies', 'governance-stories' ),
             'posts_per_page' => 5,
             'post__in'  => $reading_list,
             'orderby' => 'date',
