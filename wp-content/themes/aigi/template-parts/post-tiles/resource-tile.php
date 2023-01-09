@@ -21,7 +21,7 @@ if($terms[0] == 'Video') {
     }
 } else if ($terms[0] == 'File') {
     $type = 'file';
-} else if ($terms[0] == 'Example') {
+} else if ($terms[0] == 'Example' || $terms[0] == 'Reflection Questions') {
     $term_list = wp_get_post_terms(get_the_ID(), 'resource_tag', array("fields" => "names"));
     $the_tags = implode(", ", $term_list);
     if($the_tags == 'Tips'):
