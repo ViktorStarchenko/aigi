@@ -842,10 +842,12 @@ jQuery(document).ready(function(){
 
 jQuery('.popup_button').on('click', function () {
     jQuery(this).siblings(".popup-main-wrapper").addClass('popup_opened');
+    jQuery('body').addClass('hidden');
 });
 
 jQuery(document).on('click', '#popup_close_button, .popup_close_button', function () {
     jQuery(".popup-main-wrapper").removeClass('popup_opened');
+    jQuery('body').removeClass('hidden');
 });
 
 

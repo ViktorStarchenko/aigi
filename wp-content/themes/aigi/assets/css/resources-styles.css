@@ -178,6 +178,16 @@
     position: relative;
     z-index: 1;
 }
+.scholarship-open-form__wrapper.zoom img {
+    cursor: zoom-in;
+}
+.zoom-in-message {
+    position: absolute;
+    top: 23px;
+    left: 23px;
+    font-size: 12px;
+    color: var(--color-discount);
+}
 .resource__text {
     font-size: 14.4px;
     line-height: 24px;
@@ -315,6 +325,10 @@
     .single-resource__container ul:not(:last-child),
     .single-resource__container p:not(:last-child) {
         margin-bottom: 24px;
+    }
+
+    .zoom-in-message {
+        display: none;
     }
 }
 @media (max-width: 610px) {

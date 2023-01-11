@@ -172,7 +172,7 @@ body {
     overflow: auto!important;
 }
 body.hidden {
-    overflow: hidden;
+    overflow: hidden!important;
 }
 @media (max-width: 767px) {
     body {

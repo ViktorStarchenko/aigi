@@ -218,6 +218,10 @@ body .gform_wrapper.gravity-theme .gfield ul li select {
         overflow-x: hidden;
     }
 
+    #popup_close_button, .popup_close_button {
+        top: 13px;
+        right: 17px;
+    }
 
 
     /*author */
