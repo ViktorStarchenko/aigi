@@ -137,6 +137,15 @@ blockquote a:before {
     background-position: center;
     margin-right: 6px;
 }
+blockquote .modern-footnotes-footnote a,
+blockquote .modern-footnotes-footnote__note a {
+    font-weight: 400;
+    margin-left: 0;
+}
+blockquote .modern-footnotes-footnote a:before,
+blockquote .modern-footnotes-footnote__note a:before {
+    display: none;
+}
 blockquote strong {
     font-family: 'Proxima Nova';
     font-style: normal;
