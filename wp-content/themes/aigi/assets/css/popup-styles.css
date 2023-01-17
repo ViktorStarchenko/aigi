@@ -62,6 +62,10 @@
     position: relative;
 }
 
+.popup_content_wrapper.image {
+    max-width: 95%;
+}
+
 .popup_content_wrapper.w-1016 {
     max-width: 1016px;
 }
@@ -165,7 +169,12 @@ body .scholarship-open__wrapper .gfield_label {
     padding: 16px;
 }
 
-/*Gallery*/
+/*Image*/
+.modal-content-image {
+    max-width: 80%;
+    padding: 16px;
+}
+    /*Gallery*/
 .popup_content_wrapper.gallery {
     padding: 0;
 }

@@ -88,10 +88,10 @@ $data_video_suf = '';
                         <div class="item_popup_wrapper">
                             <div class="popup_overlay"></div>
 
-                            <div class="popup_content_wrapper download-pdf">
+                            <div class="popup_content_wrapper image">
                                 <div class="item_popup_content_inner">
                                     <div class="popup_close_button popup_close_button-<?php echo get_the_ID(); ?>"></div>
-                                    <div class="download-pdf__wrapper modal modal-content">
+                                    <div class="modal modal-content modal-content-image">
                                         <div class="post-content-form">
                                             <span class="zoom-in-message">Scroll in to zoom image</span>
                                             <div class="scholarship-open-form__wrapper zoom">
