@@ -71,8 +71,13 @@ get_header(); ?>
                     </div>
                     <div class="col-content">
                         <div class="has-sidebar__inner">
+                            <?php $terms =  wp_get_post_terms( get_the_id(), 'resource_type', array('fields' => 'names') );?>
                             <div class="toolkit-single__header">
-                                <h1 class="toolkit-single__title"><?php the_title(); ?></h1>
+                                <?php if ($terms[0] == 'Reflection Questions') { ?>
+                                    <h1 class="toolkit-single__title"><? echo (get_field('add_heading')) ? get_field('add_heading') : 'Reflection Questions' ?></h1>
+                                <?php } else { ?>
+                                    <h1 class="toolkit-single__title"><?php the_title(); ?></h1>
+                                <?php } ?>
                             </div>
                             <div class="toolkit-tag-container">
                                 <div class="post-tile__tags">
