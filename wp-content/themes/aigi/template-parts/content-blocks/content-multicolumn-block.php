@@ -125,13 +125,20 @@ if($content['multicolumn_list_bg_color']) {
         <div class="multicolumn__list <?php echo $multicolumn_list_bg_color; ?>">
             <?php if ($content['multicolumn_list']) : ?>
                 <?php foreach ($content['multicolumn_list'] as $multicolumn_list) : ?>
+                    <?php
+                    $equalize_text_height = '';
+                    if ($content['equalize_text_height'] == true) {
+                        $equalize_text_height = 'equalize_text_height';
+                    } ?>
+                    <div class="multicolumn__item <?php echo $equalize_text_height; ?> <?php echo $multicolumn_list['text_color']; ?> <?php echo $columns_per_row_desk; ?> <?php echo $columns_per_row_tablet; ?>" data-equal-heigh-elements="<?php echo count($multicolumn_list['multicolumn_item']); ?>">
+                        <?php $count = 0; ?>
 
-                    <div class="multicolumn__item <?php echo $multicolumn_list['text_color']; ?> <?php echo $columns_per_row_desk; ?> <?php echo $columns_per_row_tablet; ?>" >
-                        <div class="multicolumn__item-inner" data-height="multicolumnItem">
+                        <div class="multicolumn__item-inner" data-height="multicolumnItem_<?php echo $attributes['uniq_id']; ?>">
+
                             <?php foreach ($multicolumn_list['multicolumn_item'] as $content_item) : ?>
 
                                 <?php if ($content_item['content_type'] == 'text') : ?>
-                                    <div class="text_item <?php echo $content_item['type'] ?> <?php echo $content_item['alighnment']; ?>">
+                                    <div class="text_item text_item_<?php echo $count; ?> <?php echo $content_item['type'] ?> <?php echo $content_item['alighnment']; ?>" data-height="text_item_<?php echo $attributes['uniq_id']; ?>_<?php echo $count; ?>">
                                         <?php echo $content_item['text'] ?>
                                     </div>
                                 <?php elseif ($content_item['content_type'] == 'image') : ?>
@@ -147,7 +154,7 @@ if($content['multicolumn_list_bg_color']) {
                                         $image_height = $content_item['image_width'];
                                     }
                                     ?>
-                                    <div class="header-block__content-item text_item image <?php echo $custom_width; ?> <?php echo $content_item['alighnment']; ?> <?php echo ($content_item['rounded_image'] == true ) ? 'rounded' : '' ?>" style="width: <?php echo $image_width; ?>; height: <?php echo $image_height; ?>">
+                                    <div class="header-block__content-item text_item  text_item_<?php echo $count; ?> image <?php echo $custom_width; ?> <?php echo $content_item['alighnment']; ?> <?php echo ($content_item['rounded_image'] == true ) ? 'rounded' : '' ?>"  data-height="text_item_<?php echo $attributes['uniq_id']; ?>_<?php echo $count; ?>" style="width: <?php echo $image_width; ?>; height: <?php echo $image_height; ?>">
                                         <img src="<?php echo $content_item['image']['url'] ?>" alt="<?php echo $content_item['image']['title'] ?>">
                                     </div>
                                 <?php elseif ($content_item['content_type'] == 'button_group') : ?>
@@ -205,6 +212,7 @@ if($content['multicolumn_list_bg_color']) {
                                     <?php endif; //edif buttons ?>
 
                                 <?php endif ?>
+                                <?php $count++; ?>
                             <?php endforeach ?>
                         </div>
                     </div>
@@ -217,4 +225,42 @@ if($content['multicolumn_list_bg_color']) {
 
 
 <?php wp_reset_postdata(); ?>
+
+<script>
+
+    //  Alignment heigh of similar blocks
+    function normalizeHeigh_<?php echo $attributes['uniq_id']; ?>(data) {
+        let data_height = jQuery('[data-height=' +  data + ']');
+
+        let data_allHeight = [];
+        data_height.each(function(elem){
+            // console.log($(this).outerHeight())
+            data_allHeight.push(parseInt(jQuery(this).outerHeight()));
+        })
+        slider1_maxHeight = Math.max.apply(Math, data_allHeight);
+        jQuery('[data-height=' +  data + ']').css('min-height', slider1_maxHeight + 'px')
+        // console.log(slider1_maxHeight);
+    }
+
+    jQuery(document).ready(function() {
+        let data_arr = [];
+        if (jQuery('.acf-section-' + <?php echo json_encode($attributes['uniq_id']); ?>+ ' .equalize_text_height').length > 0) {
+            console.log(jQuery('.acf-section-' + <?php echo json_encode($attributes['uniq_id']); ?>))
+            let multicolumn__item = jQuery('.acf-section-' + <?php echo json_encode($attributes['uniq_id']); ?>+ ' .equalize_text_height');
+
+            let text_item_number = jQuery(multicolumn__item[0]).attr('data-equal-heigh-elements')
+            for (i=0; i<text_item_number; i++) {
+                let value = 'text_item_' + <?php echo json_encode($attributes['uniq_id']); ?>+ '_' + i;
+                data_arr.push(value)
+            }
+
+        }
+        data_arr.push('multicolumnItem_' + <?php echo json_encode($attributes['uniq_id']); ?>)
+        console.log(data_arr)
+        for(i=0; i<=data_arr.length; i++) {
+            normalizeHeigh_<?php echo $attributes['uniq_id']; ?>(data_arr[i])
+        }
+
+    })
+</script>
 
