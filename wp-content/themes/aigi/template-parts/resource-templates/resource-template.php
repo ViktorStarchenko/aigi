@@ -93,7 +93,7 @@ $data_video_suf = '';
                                     <div class="popup_close_button popup_close_button-<?php echo get_the_ID(); ?>"></div>
                                     <div class="modal modal-content modal-content-image">
                                         <div class="post-content-form">
-                                            <span class="zoom-in-message">Scroll in to zoom image</span>
+<!--                                            <span class="zoom-in-message">Scroll in to zoom image</span>-->
                                             <div class="scholarship-open-form__wrapper zoom">
                                                 <img class="media" src="<?php echo get_field('add_diagram');?>" alt="<?php the_title();?>">
                                             </div>
@@ -187,6 +187,8 @@ $data_video_suf = '';
 
 
 <script>
+
+    // The plugin is disconected now
     jQuery( window ).on('load resize', function() {
         if (jQuery(window).width() > 992) {
 
