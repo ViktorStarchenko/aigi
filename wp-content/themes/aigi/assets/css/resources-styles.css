@@ -178,9 +178,9 @@
     position: relative;
     z-index: 1;
 }
-.scholarship-open-form__wrapper.zoom img {
-    cursor: zoom-in;
-}
+/*.scholarship-open-form__wrapper.zoom img {*/
+/*    cursor: zoom-in;*/
+/*}*/
 .zoom-in-message {
     position: absolute;
     top: 23px;
