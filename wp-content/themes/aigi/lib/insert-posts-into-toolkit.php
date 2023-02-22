@@ -108,7 +108,7 @@ function show_resource($atts){
             ob_get_clean();
             return $return;
 
-        } elseif(has_term( 'example', 'resource_type')) {
+        } elseif(has_term( 'example', 'resource_type') || has_term( 'reflection-questions', 'resource_type')) {
 
             // get standard post data
             $title = get_the_title();
