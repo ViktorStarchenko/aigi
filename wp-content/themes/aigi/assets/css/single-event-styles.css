@@ -124,7 +124,12 @@
     font-size: 19.98px;
     padding: 16px 0;
 }
-
+.custom-gutenberg-accordion .accordion_content p {
+    margin-bottom: 16px;
+}
+.custom-gutenberg-accordion .accordion_content p:last-child {
+    margin-bottom: 0;
+}
 
 .location_item {
     display: flex;
