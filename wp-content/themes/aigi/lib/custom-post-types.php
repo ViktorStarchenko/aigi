@@ -1,6 +1,4 @@
 <?php
-
-
 /* Custom Post Type For Toolkits */
 
 add_action( 'init', 'register_cpt_toolkit' );
