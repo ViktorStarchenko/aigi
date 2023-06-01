@@ -25,7 +25,7 @@ $labels = array(
 $args = array(
 'labels' => $labels,
 'hierarchical' => false,
-
+'show_in_rest' => true,
 'supports' => array( 'title', 'editor', 'custom-fields', 'thumbnail' ),
 'taxonomies' => array('topic', 'post_tag'),
 'public' => true,

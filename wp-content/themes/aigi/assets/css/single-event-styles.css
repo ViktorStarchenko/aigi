@@ -116,6 +116,14 @@
 .single-event .accordion_btn:before {
     top: 25px;
 }
+
+.custom-gutenberg-accordion {
+    margin-bottom: 32px;
+}
+.custom-gutenberg-accordion .accordion_btn {
+    font-size: 19.98px;
+}
+
 .location_item {
     display: flex;
     align-items: flex-start;
@@ -393,5 +401,9 @@
         font-size: 16px;
         line-height: 19px;
         letter-spacing: 0.3px;
+    }
+    /*acordion*/
+    .custom-gutenberg-accordion .accordion_btn {
+        font-size: 15.78px;
     }
 }
