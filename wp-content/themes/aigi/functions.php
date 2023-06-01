@@ -177,6 +177,7 @@ include 'lib/custom-gutenberg-blocks.php';
 
 function custom_wp_custom_admin_scripts() {
     wp_enqueue_style('admin-styles', get_theme_file_uri() . '/assets/css/admin-styles.css');
+    wp_enqueue_script('admin-scripts', get_template_directory_uri() . '/assets/js/main-admin.js', ['jquery'], false, true);
 }
 add_action( 'admin_enqueue_scripts', 'custom_wp_custom_admin_scripts' );
 
