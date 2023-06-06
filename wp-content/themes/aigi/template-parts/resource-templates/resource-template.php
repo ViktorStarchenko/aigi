@@ -42,18 +42,10 @@ $data_video_suf = '';
         <div class="single-resource__header">
             <div class="single-resource__title">
                 <?php if (get_post_status(get_the_ID()) == 'publish') {?>
-                    <?php if ($terms[0] == 'Reflection Questions') { ?>
-                        <span><? echo (get_field('add_heading')) ? get_field('add_heading') : 'Reflection Questions' ?></span>
-                    <?php } else { ?>
-                        <a href="<?php echo  get_the_permalink(get_the_ID()) ?>"><?=$tag_title?><?php the_title();?></a>
-                    <?php } ?>
+                    <a href="<?php echo  get_the_permalink(get_the_ID()) ?>"><span><? echo (get_field('add_heading')) ? get_field('add_heading') : $terms[0] ?></span></a>
 
                 <?php } else if (get_post_status(get_the_ID()) == 'draft') { ?>
-                    <?php if ($terms[0] == 'Reflection Questions') { ?>
-                        <span><? echo (get_field('add_heading')) ? get_field('add_heading') : 'Reflection Questions' ?></span>
-                    <?php } else { ?>
-                        <span><?=$tag_title?><?php the_title();?></span>
-                    <?php } ?>
+                    <span><? echo (get_field('add_heading')) ? get_field('add_heading') : $terms[0] ?></span>
                 <?php } ?>
 
             </div>
