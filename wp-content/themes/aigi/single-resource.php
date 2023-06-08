@@ -73,7 +73,7 @@ get_header(); ?>
                         <div class="has-sidebar__inner">
                             <?php $terms =  wp_get_post_terms( get_the_id(), 'resource_type', array('fields' => 'names') );?>
                             <div class="toolkit-single__header">
-                                <h1 class="toolkit-single__title"><? echo (get_field('add_heading')) ? get_field('add_heading') : $terms[0] ?></h1>
+                                <h1 class="toolkit-single__title"><? echo (get_field('add_heading')) ? get_field('add_heading') : the_title(); ?></h1>
                             </div>
                             <div class="toolkit-tag-container">
                                 <div class="post-tile__tags">
