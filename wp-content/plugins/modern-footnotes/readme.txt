@@ -2,8 +2,8 @@
 Contributors: Sean Williams
 Tags: footnotes, citations, inline footnotes, inline citations, mobile-friendly citations, mobile-friendly footnotes
 Requires at least: 4.6
-Tested up to: 5.9
-Stable tag: 1.4.11
+Tested up to: 6.2
+Stable tag: 1.4.16
 License: GNU General Public License v2
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -32,6 +32,13 @@ The official GitHub repository is at <a href="https://github.com/seankwilliams/m
 .modern-footnotes-footnote__note--mobile - The styling for a mobile footnote
 .modern-footnotes-footnote__note--desktop - The styling for a desktop footnote
 
+== Shortcode options ==
+You can modify some behaviours or styles of your footnotes by using the following options within our shortcode.
+[mfn referencenumber=3]This footnote will have the number 3[/mfn] 
+[mfn class='my-pretty-class']This footnote will have 'my-pretty-class' as additional class, allowing for custom styling of individual footnotes.[/mfn]
+[mfn referencereset='true']This footnote will reset the footnote counter and therfore receive 1 as its number. Following footnotes will also receive their number according to this new start.[/mfn]
+
+
 == Frequently Asked Questions ==
 =How do I create a footnote?=
 Use a footnote in your post by using the footnote icon in the WordPress editor or by using the shortcode: [mfn]this will be a footnote[/mfn]
@@ -56,6 +63,9 @@ If you want to customize the styles, you can do so by overriding the following s
 .modern-footnotes-footnote__note--mobile - The styling for a mobile footnote
 .modern-footnotes-footnote__note--desktop - The styling for a desktop footnote
 
+Furthermore, if you want to apply different styles to different footnotes, you can add additional classes to each individual footnote by using the `class` option in the shortcode like this:
+[mfn class="my-pretty-class"] [/mfn]
+
 =Is there support for the Block Editor/Gutenberg Editor?=
 Yes. You can use the Modern Footnotes button in the toolbar of the Block Editor to move the selected text into a footnote. However, if you want to customize the reference numbers output by the plugin, you'll have to type out the shortcode instead.
 
@@ -72,6 +82,24 @@ Modern Footnotes is an open source project built with its contributors' free tim
 4. http://prismtechstudios.com/modern-footnotes/modern-footnotes-4.png
 
 == Changelog ==
+
+= 1.4.16 = 
+* Security fix for XSS issue. Thanks to Rio Darmawan for identifying the issue.
+
+= 1.4.15 =
+* Fix for duplicate HTML ids
+
+= 1.4.14 =
+* Minor fix for a PHP warning where foreach was attempting to access a null object
+
+= 1.4.13 =
+* Fixed a problem where using the hover option for footnotes would cause footnote display issues on mobile.
+
+= 1.4.12 =
+* Add ability to provide a custom class attribute to mfn shortcode tags
+* Fix JavaScript error loading Modern Footnotes on widgets page
+* Add a new option to customize the heading of a footnote list
+* Fix PHP type warnings when strings were provided as footnote reference numbers
 
 = 1.4.11 =
 * Accessibility fix: set aria-describedby and gave footnote links a role of "button"
