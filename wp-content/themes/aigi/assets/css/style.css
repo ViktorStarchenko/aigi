@@ -2511,6 +2511,10 @@ input[type="submit"].btn-transparent-white:hover {
     border-top: 1px solid #DFDFDF;
     display: none;
 }
+.toolkit-template-single-toolkit .footones_custom_wrapper {
+    margin-top: 0;
+    border-top: unset;
+}
 .footones_custom_wrapper.visible {
     display: block;
 }
