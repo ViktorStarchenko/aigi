@@ -116,6 +116,25 @@
 .single-event .accordion_btn:before {
     top: 25px;
 }
+
+.custom-gutenberg-accordion {
+    margin-bottom: 32px;
+}
+.custom-gutenberg-accordion .accordion_btn {
+    font-size: 18px;
+    padding: 16px 0;
+    line-height: 1;
+}
+.custom-gutenberg-accordion .accordion_btn:before {
+    top: 22px;
+}
+.custom-gutenberg-accordion .accordion_content p {
+    margin-bottom: 16px;
+}
+.custom-gutenberg-accordion .accordion_content p:last-child {
+    margin-bottom: 0;
+}
+
 .location_item {
     display: flex;
     align-items: flex-start;
@@ -393,5 +412,9 @@
         font-size: 16px;
         line-height: 19px;
         letter-spacing: 0.3px;
+    }
+    /*acordion*/
+    .custom-gutenberg-accordion .accordion_btn {
+        font-size: 16px;
     }
 }
