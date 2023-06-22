@@ -887,7 +887,7 @@ jQuery(document).ready(function(){
         jQuery('[aria-describedby="'+footnote_id+'"]').html(custom_nfm_number)
         let footnotes_text = '<div>Ref:  '+jQuery(this).html()+'</div>'
         // let footnotes_number = '<span data-mfn="'+jQuery(this).attr('data-mfn')+'" class="footones_custom_prefix">['+jQuery(this).attr('data-mfn')+']</span>';
-        let footnotes_number = '<span data-mfn-id="'+jQuery(this).attr('id')+'" data-mfn="'+custom_nfm_number+'" class="footones_custom_prefix">['+custom_nfm_number+']</span>';
+        let footnotes_number = '<span data-mfn-id="'+jQuery(this).attr('id')+'" data-mfn="'+custom_nfm_number+'" class="footones_custom_prefix"><span class="footnotes-braces">[</span>'+custom_nfm_number+'<span class="footnotes-braces">]</span></span>';
 
         // console.log(footnotes_text);
         // console.log(footnotes_number);
