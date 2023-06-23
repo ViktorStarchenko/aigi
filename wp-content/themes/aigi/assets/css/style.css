@@ -2539,7 +2539,7 @@ input[type="submit"].btn-transparent-white:hover {
     cursor: pointer;
 }
 .toolkit-template-single-toolkit .footones_custom_list li {
-    font-size: inherit;
+    font-size: 12.8px;
     line-height: 2;
     letter-spacing: 0.05em;
     color: inherit;
