@@ -2511,6 +2511,10 @@ input[type="submit"].btn-transparent-white:hover {
     border-top: 1px solid #DFDFDF;
     display: none;
 }
+.toolkit-template-single-toolkit .footones_custom_wrapper {
+    margin-top: 0;
+    border-top: unset;
+}
 .footones_custom_wrapper.visible {
     display: block;
 }
@@ -2534,7 +2538,24 @@ input[type="submit"].btn-transparent-white:hover {
     margin-right: 10px;
     cursor: pointer;
 }
-
+.toolkit-template-single-toolkit .footones_custom_list li,
+.single-resource .footones_custom_list li {
+    font-size: 12.8px;
+    line-height: 2;
+    letter-spacing: 0.05em;
+    color: inherit;
+    display: flex;
+    align-items: flex-start;
+}
+.toolkit-template-single-toolkit .footones_custom_list li:before,
+.single-resource .footones_custom_list li:before {
+    display: block;
+    top: 9px;
+}
+.toolkit-template-single-toolkit .footnotes-braces,
+.single-resource .footnotes-braces {
+    display: none;
+}
 /*SASSY ICONS*/
 .social-share__container .heateor_sss_svg {
     background-color: transparent!important;
