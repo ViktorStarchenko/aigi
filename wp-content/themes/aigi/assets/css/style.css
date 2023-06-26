@@ -2538,7 +2538,8 @@ input[type="submit"].btn-transparent-white:hover {
     margin-right: 10px;
     cursor: pointer;
 }
-.toolkit-template-single-toolkit .footones_custom_list li {
+.toolkit-template-single-toolkit .footones_custom_list li,
+.single-resource .footones_custom_list li {
     font-size: 12.8px;
     line-height: 2;
     letter-spacing: 0.05em;
@@ -2546,11 +2547,13 @@ input[type="submit"].btn-transparent-white:hover {
     display: flex;
     align-items: flex-start;
 }
-.toolkit-template-single-toolkit .footones_custom_list li:before {
+.toolkit-template-single-toolkit .footones_custom_list li:before,
+.single-resource .footones_custom_list li:before {
     display: block;
     top: 9px;
 }
-.toolkit-template-single-toolkit .footnotes-braces {
+.toolkit-template-single-toolkit .footnotes-braces,
+.single-resource .footnotes-braces {
     display: none;
 }
 /*SASSY ICONS*/
