@@ -30,12 +30,12 @@
     color: var(--color-p-primary-orange);
 }
 .blockquote-text {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 30.35px;
     line-height: 36px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.4px;
     margin-bottom: 32px;
     position: relative;
 }
@@ -60,18 +60,18 @@
     margin-right: -23px;
 }
 .blockquote-author {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 19.98px;
     line-height: 22px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.79px;
     margin-bottom: 8px;
 }
 .blockquote-author-position {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 15.8px;
     line-height: 21px;
     letter-spacing: 0.05em;
@@ -115,7 +115,7 @@ blockquote p {
     margin-bottom: 0px!important;
 }
 blockquote a {
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 600;
     font-size: 12.85px;
@@ -147,7 +147,7 @@ blockquote .modern-footnotes-footnote__note a:before {
     display: none;
 }
 blockquote strong {
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 15.8px;
@@ -194,7 +194,7 @@ blockquote em {
 /*custom*/
 
 .accordion_btn {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;
@@ -212,7 +212,7 @@ blockquote em {
     border-top: 1px solid var(--color-line-separator);
 }
 .accordion_subtitle {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;
@@ -223,7 +223,7 @@ blockquote em {
     display: inline-block;
 }
 .accordion_content {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-size: 16.88px;
     line-height: 27px;
     letter-spacing: 0.05em;

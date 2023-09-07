@@ -195,7 +195,7 @@
     margin: 0 -4px 20px;
 }
 .post-tile__title {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 19.98px;
@@ -207,7 +207,7 @@
     display: inline-block;
 }
 .post-tile__excerpt {
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 15px;
     line-height: 24px;
     margin-bottom: 20px;
@@ -651,7 +651,7 @@
     margin-top: 16px;
 }
 .post-tile__pricing-title {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 10.53px;
@@ -677,7 +677,7 @@
     border-right: 1px solid var(--color-field-border);
 }
 .post-tile__pricing-type {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 14.8px;
@@ -686,7 +686,7 @@
     color: var(--color-brand-navy-primary);
 }
 .post-tile__pricing-price {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: normal;
     font-size: 14.4px;
@@ -733,7 +733,7 @@
     text-align: center;
 }
 .speakers-slider__heading {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 10.53px;
@@ -745,7 +745,7 @@
     text-align: center;
 }
 .speakers-slider__name {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 14.8px;

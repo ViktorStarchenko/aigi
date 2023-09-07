@@ -3,6 +3,7 @@
    <head>
       <meta charset="<?php bloginfo( 'charset' ); ?>" />
       <meta name="viewport" content="width=device-width" />
+      <link rel="stylesheet" href="https://use.typekit.net/iae2hhb.css">
 <!--       <script type="text/javascript" defer src="https://donorbox.org/install-popup-button.js"></script><script>window.DonorBox = { widgetLinkClassName: 'custom-dbox-popup' }</script>-->
       <?php wp_head(); ?>
    </head>

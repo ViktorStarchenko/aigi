@@ -61,7 +61,7 @@
     padding: 24px 0;
 }
 .gallery__title {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 18px;

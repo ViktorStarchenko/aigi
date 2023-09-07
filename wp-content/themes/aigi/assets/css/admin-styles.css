@@ -52,7 +52,7 @@
 /*custom*/
 
 .accordion_btn {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;
@@ -70,7 +70,7 @@
     border-top: 1px solid var(--color-line-separator);
 }
 .accordion_subtitle {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;
@@ -81,7 +81,7 @@
     display: inline-block;
 }
 .accordion_content {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-size: 16.88px;
     line-height: 27px;
     letter-spacing: 0.05em;

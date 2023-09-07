@@ -277,7 +277,7 @@ a.main_menu_top.has_sub:after {
 	font-weight: bold;
 	font-size: 19.98px;
 	line-height: 110%;
-	letter-spacing: 0.02em;
+	letter-spacing: 0.4px;
 	color: var(--color-brand-navy-primary);
 
 }
@@ -286,7 +286,7 @@ a.main_menu_top.has_sub:after {
 	font-weight: bold;
 	font-size: 15px;
 	line-height: 110%;
-	letter-spacing: 0.05em;
+	letter-spacing: 0.75px;
 	margin-bottom: 17px;
 }
 #header .main_menu_submenu_overlay .main_menu_sub a {
@@ -296,7 +296,7 @@ a.main_menu_top.has_sub:after {
 	color: var(--color-brand-navy-primary);
 	font-size: 11.85px;
 	line-height: 130%;
-	letter-spacing: 0.05em;
+	letter-spacing: 0.593px;
 }
 #header .main_menu_submenu_overlay .main_menu_sub_link {
 	color: var(--color-brand-m-blue-primary);
@@ -466,7 +466,7 @@ p.image_description {
 	color: #fff;
 }
 .account-dropdown__username {
-	font-family: 'Proxima Nova';
+	font-family: var(--font-family);
 	font-style: normal;
 	font-weight: 700;
 	font-size: 18px;

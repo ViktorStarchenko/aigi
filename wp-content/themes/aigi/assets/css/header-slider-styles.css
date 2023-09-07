@@ -81,12 +81,12 @@
     max-width: 672px
 }
 .header-slider__title {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 40.5px;
     line-height: 45px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.81px;
     color: #fff;
     /*margin-bottom: 32px;*/
     margin-bottom: 16px;
@@ -95,21 +95,21 @@
     margin-bottom: 16px;
 }
 .header-slider__short-text p {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 15px;
     line-height: 24px;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.45px;
     color: #fff;
 }
 .header-slider__image-credit {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 14.4px;
     line-height: 19px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.72px;
     color: #FFFFFF;
 }
 .header-slider .highlighted-text {
@@ -310,7 +310,7 @@
     .header-slider__title {
         font-size: 32.44px;
         line-height: 36px;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.649px;
     }
     .header-slider .highlighted-img__wrap {
         width: 100%;
@@ -388,6 +388,6 @@
     .single-aigi_staff .header-slider__short-text p {
         font-size: 15.78px;
         line-height: 20px;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.45px;
     }
 }

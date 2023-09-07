@@ -44,32 +44,32 @@
 
 
 /********************************* FONTS *****************************/
-@font-face {
-    font-family: 'Proxima Nova';
-    font-style: normal;
-    font-stretch: normal;
-    font-weight: normal;
-    font-display: swap;
-    src: url(../fonts/ProximaNova/ProximaNova-Regular.ttf);
-}
+/*@font-face {*/
+/*    font-family: var(--font-family);*/
+/*    font-style: var(--font-weight-normal);*/
+/*    font-stretch: normal;*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    font-display: swap;*/
+/*    src: url(../fonts/ProximaNova/ProximaNova-Regular.ttf);*/
+/*}*/
 
-@font-face {
-    font-family: 'Proxima Nova';
-    font-style: normal;
-    font-stretch: normal;
-    font-weight: 600;
-    font-display: swap;
-    src: url(../fonts/ProximaNova/ProximaNova-Semibold.ttf);
-}
+/*@font-face {*/
+/*    font-family: var(--font-family);*/
+/*    font-style: normal;*/
+/*    font-stretch: normal;*/
+/*    font-weight: 600;*/
+/*    font-display: swap;*/
+/*    src: url(../fonts/ProximaNova/ProximaNova-Semibold.ttf);*/
+/*}*/
 
-@font-face {
-    font-family: 'Proxima Nova';
-    font-style: normal;
-    font-stretch: normal;
-    font-weight: bold;
-    font-display: swap;
-    src: url(../fonts/ProximaNova/ProximaNova-Bold.ttf);
-}
+/*@font-face {*/
+/*    font-family: var(--font-family);*/
+/*    font-style: normal;*/
+/*    font-stretch: normal;*/
+/*    font-weight: bold;*/
+/*    font-display: swap;*/
+/*    src: url(../fonts/ProximaNova/ProximaNova-Bold.ttf);*/
+/*}*/
 
 
 
@@ -141,6 +141,10 @@
     --color-status-complete: #81CB9F;
     --color-status-closed: #DCDCDC;
 
+    --font-family: 'proxima-nova';
+    --font-weight-300: 300;
+    --font-weight-normal: 300;
+
 
 }
 @media screen and (max-width: 1400px) {
@@ -162,11 +166,11 @@
 /************************ GENERAL ************************/
 
 body {
-    font-family: Proxima Nova;
-    font-weight: normal;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-normal);
     font-size: 16px;
     line-height: 24px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.45px;
     color: var(--color-main-text);
     overflow: auto!important;
 }
@@ -177,7 +181,7 @@ body.hidden {
     body {
         font-size: 15px;
         line-height: 160%;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.45px;
     }
 }
 
@@ -243,9 +247,9 @@ select {
     border-radius: 5px;
     background-color: #fff;
     /* color: red; */
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 13.33px;
     line-height: 18px;
     letter-spacing: 0.05em;
@@ -265,7 +269,7 @@ h3, .h3,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-weight: bold;
     line-height: 110%;
     letter-spacing: 0.02em;
@@ -290,7 +294,7 @@ h6, .h6 {
 }
 
 .sub-heading {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 600;
     font-size: 22.78px;
@@ -299,7 +303,7 @@ h6, .h6 {
     color: var( --color-brand-earth-primary);
 }
 a {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     /*font-size: 14px;*/
     line-height: 22px;
     letter-spacing: 0.7px;
@@ -307,12 +311,12 @@ a {
     color: var(--color-brand-m-blue-primary);
 }
 strong {
-    /*font-family: Proxima Nova;*/
+    /*font-family: var(--font-family);*/
     /*font-style: normal;*/
     /*font-weight: 600;*/
     /*letter-spacing: 0.06em;*/
     /*color: var(--color-brand-earth-primary);*/
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-weight: bold;
     font-size: 16.88px;
     line-height: 27px;
@@ -830,7 +834,7 @@ strong {
     display: inline-block;
     margin: 4px;
 
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 11.85px;
@@ -841,7 +845,7 @@ strong {
     text-decoration: none;
 }
 .content-tags__item a {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 11.85px;
@@ -1199,7 +1203,7 @@ body .ginput_container_textarea:before,
 body .ginput_container_textarea:before,
 body .ginput_container_textarea:before {
     content: 'Characters Count: 200';
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 13.33px;
     line-height: 18px;
     text-align: right;
@@ -1214,7 +1218,7 @@ body .ginput_container_textarea:before {
 
 input[type="submit"].gform_button {
     min-width: 217px;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 800;
     font-size: 15px;
@@ -1293,7 +1297,7 @@ body .gform_wrapper.gravity-theme .ginput_container_date:before {
     content: 'DD/MM/YYYY';
     position: absolute;
     right: 10px;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 13.33px;
@@ -1402,9 +1406,9 @@ textarea {
 }
 textarea:before {
     content: 'Characters Count: 200';
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 11.85px;
     line-height: 130%;
     text-align: right;
@@ -1447,9 +1451,9 @@ textarea, input[type="text"], input[type="button"], input[type="submit"], input[
 }
 .form-input::placeholder {
     color: var(--color-text-field-grey);
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 13.33px;
     line-height: 18px;
     letter-spacing: 0.05em;
@@ -1471,9 +1475,9 @@ textarea, input[type="text"], input[type="button"], input[type="submit"], input[
 
 /*CF7*/
 .wpcf7-not-valid-tip {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 11.85px;
     line-height: 130%;
     letter-spacing: 0.05em;
@@ -1494,9 +1498,9 @@ input.wpcf7-not-valid {
     border: 1px solid var(--color-error);
 }
 .wpcf7-response-output {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 11.85px;
     line-height: 130%;
     letter-spacing: 0.05em;
@@ -1527,7 +1531,7 @@ input.wpcf7-not-valid {
     width: 100%;
     max-width: 280px;
     display: inline-block;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 15px;
@@ -1583,7 +1587,7 @@ input.wpcf7-not-valid {
 .btn-body,
 input[type="submit"].btn-body {
     min-width: 217px;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 800;
     font-size: 15px;
@@ -2054,7 +2058,7 @@ input[type="submit"].btn-transparent-white:hover {
     border-bottom: 5px solid transparent;
     cursor: pointer;
     flex: 1;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 15px;
@@ -2522,7 +2526,7 @@ input[type="submit"].btn-transparent-white:hover {
     padding-left: 0;
 }
 .footones_custom_list li {
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 14.4px;
     line-height: 19px;
     letter-spacing: 0.05em;

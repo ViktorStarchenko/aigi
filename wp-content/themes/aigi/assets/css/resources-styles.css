@@ -111,7 +111,7 @@
     align-items: center;
     justify-content: space-between;
     color: var(--color-white);
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;
@@ -121,7 +121,7 @@
 }
 .single-resource__title a {
     color: var(--color-white);
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;

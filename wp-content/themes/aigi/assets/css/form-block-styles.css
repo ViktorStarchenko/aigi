@@ -9,13 +9,13 @@
     font-weight: bold;
     font-size: 30.35px;
     line-height: 120%;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.607px;
 }
 .form-block-wrapper  .text-media__text.medium-text p {
     font-size: 15px;
     line-height: 75%;
     text-align: center;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.45px;
     color: var(--color-main-text);
 }
 .form-block-wrapper .form-wrapper {
@@ -26,7 +26,7 @@
  }
  .form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_footer input {
     min-width: 217px;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 800;
     font-size: 15px;
@@ -34,7 +34,7 @@
     align-items: center;
     text-align: center;
     display: inline-block;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.666px;
     text-transform: uppercase;
     text-decoration: none;
     border-radius: 5px;

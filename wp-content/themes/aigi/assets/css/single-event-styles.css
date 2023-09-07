@@ -28,14 +28,14 @@
     line-height: 20px;
     display: flex;
     align-items: center;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.316px;
     color: var(--color-overlay-bg);
 }
 .single-event__pricing-price {
     font-size: 15px;
     line-height: 24px;
     text-align: right;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.45px;
 }
 .single-event__pricing-item .btn-body {
     width: 100%;
@@ -55,14 +55,14 @@
     font-weight: bold;
     font-size: 19.98px;
     line-height: 22px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.4px;
     color: var(--color-brand-navy-primary);
     margin-bottom: 16px;
 }
 .post-details__text {
     font-size: 14px;
     line-height: 22px;
-    letter-spacing: 0.08em;
+    letter-spacing: 1.12px;
 }
 .post-details__text.d-flex {
     display: flex;
@@ -110,7 +110,7 @@
 .single-event .accordion_btn {
     font-size: 15.78px;
     line-height: 20px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.316px;
     padding: 18px 0;
 }
 .single-event .accordion_btn:before {
@@ -154,7 +154,7 @@
     margin-right: 10px;
 }
 .post-details__link {
-    /*font-weight: normal;*/
+    /*font-weight: var(--font-weight-normal);*/
     /*font-size: 14px;*/
     /*line-height: 22px;*/
     /*letter-spacing: 0.08em;*/
@@ -167,7 +167,7 @@
 .single-event .accordion_content {
     font-size: 14px;
     line-height: 22px;
-    letter-spacing: 0.08em;
+    letter-spacing: 1.12px;
     padding: 16px 20px;
 }
 .single-event .tabs-nav {
@@ -278,7 +278,7 @@
 .subscribe-event-form__wrapper .gform_button {
     min-width: 217px;
     height: 50px;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 800;
     font-size: 15px;
@@ -287,7 +287,7 @@
     align-items: center;
     text-align: center;
     display: inline-block;
-    letter-spacing: 0.08em;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
     text-decoration: none;
     border-radius: 5px;
@@ -327,7 +327,7 @@
     margin-bottom: 22px;
 }
 .social-share__title {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;
@@ -377,14 +377,12 @@
         line-height: 20px;
         display: flex;
         align-items: center;
-        letter-spacing: 0.02em;
         color: var(--color-overlay-bg);
     }
     .single-event__pricing-price {
         font-size: 15px;
         line-height: 24px;
         text-align: right;
-        letter-spacing: 0.03em;
     }
 
     .single-event .tabs-nav {

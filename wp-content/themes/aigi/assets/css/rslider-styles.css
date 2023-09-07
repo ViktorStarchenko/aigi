@@ -50,7 +50,7 @@
 }
 .rslider__heading {
     max-width: 803px;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;

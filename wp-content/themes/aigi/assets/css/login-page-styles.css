@@ -19,7 +19,7 @@
     margin: 0 auto 16px;
 }
 .login-page__form-heading {
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 700;
     font-size: 22.44px;
@@ -29,7 +29,7 @@
     margin-bottom: 16px;
 }
 .login-page__form-description {
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 13.33px;
@@ -117,7 +117,7 @@ body .select2-drop.select2-drop-above {
     box-sizing: border-box!important;
     border-radius: 5px;
 
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 13.33px;
@@ -138,7 +138,7 @@ body .login-page__form .um-col-alt-b {
 body .login-page__form .um input[type=submit].um-button {
     width: 100%!important;
     background: #0762A4;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 800!important;
     font-size: 15px;
@@ -223,7 +223,7 @@ body .login-page__wrapper.registration .um-right.um-half .um-button {
 
 /*Password*/
 .login-page__additional-link {
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 700;
     font-size: 15px;
@@ -272,7 +272,7 @@ body .login-page__wrapper.registration .um-right.um-half .um-button {
     border: 1px solid var(--color-field-border)!important;
     box-sizing: border-box!important;
     border-radius: 5px;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 13.33px;
@@ -303,7 +303,7 @@ body .login-page__wrapper.registration .um-right.um-half .um-button {
     border: 1px solid var(--color-field-border)!important;
     box-sizing: border-box!important;
     border-radius: 5px;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 13.33px;
@@ -343,7 +343,7 @@ body .rmagic .buttonarea input[type='button'],
 body .rmagic .buttonarea input[type='submit'] {
     width: 100%!important;
     background: #0762A4;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 800!important;
     font-size: 15px;
@@ -363,7 +363,7 @@ body .rmagic .buttonarea input[type='submit'] {
     position: relative;
 }
 .rm_forgot_pass a {
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -391,7 +391,7 @@ body .rmagic .buttonarea input[type='submit'] {
     border: 1px solid var(--color-field-border)!important;
     box-sizing: border-box!important;
     border-radius: 5px;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 13.33px;
@@ -415,7 +415,7 @@ body .wppb-user-forms input[type='submit'] {
     width: 100%!important;
     height: 50px;
     background: #0762A4;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 800!important;
     font-size: 15px;
@@ -436,7 +436,7 @@ body .wppb-user-forms input[type='submit'] {
 }
 .wppb-user-forms p,
 .wppb-alert {
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 13.33px;
@@ -448,7 +448,7 @@ body .wppb-user-forms input[type='submit'] {
     border: none;
     background: #D9EACD;
     border-radius: 2px;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
@@ -465,7 +465,7 @@ body .wppb-warning {
     background: #FACFBF!important;
     border-radius: 2px!important;
     border: none!important;
-    font-family: 'Proxima Nova';
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     font-size: 15px;

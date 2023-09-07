@@ -29,7 +29,7 @@
     display: block;
 }
 .search-page_title {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 22.44px;
@@ -38,9 +38,9 @@
     color: var(--color-brand-navy-primary);
 }
 .search-page_desc {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 15px;
     line-height: 24px;
     letter-spacing: 0.03em;
@@ -49,7 +49,7 @@
 
 /*Filter*/
 .search__filter-heading {
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: bold;
     font-size: 10.53px;
@@ -357,9 +357,9 @@ global-search__filter-mobile .tab {
     text-align: center;
     line-height: 2.5;
     text-decoration: none;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 13.33px;
     text-align: center;
     letter-spacing: 0.05em;
@@ -398,9 +398,9 @@ body .fs-label-wrap {
     box-sizing: border-box;
     border-radius: 5px;
     background-color: #fff;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 13.33px;
     line-height: 18px;
     letter-spacing: 0.05em;
@@ -420,7 +420,7 @@ body .fs-dropdown {
     box-sizing: border-box;
     border-radius: 5px;
     background-color: #fff;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: normal;
     font-size: 13.33px;
@@ -507,7 +507,7 @@ body .fs-wrap.fs-open .fs-label-wrap {
     }
     .search__nav-mobile .btn-body {
         text-transform: capitalize;
-        font-family: Proxima Nova;
+        font-family: var(--font-family);
         font-style: normal;
         font-weight: normal;
         font-size: 13.33px;

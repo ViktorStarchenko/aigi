@@ -5,14 +5,14 @@
 .got-questions .highlighted__title {
     font-size: 25.28px;
     line-height: 28px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.506px;
 }
 .got-questions .highlighted__short-text,
 .got-questions .highlighted__short-text p {
     font-weight: bold;
     font-size: 18px;
     line-height: 22px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.36px;
 }
 .got-questions.bg-texture:before {
     background-image: url(/wp-content/themes/aigi/assets/images/art-got-questions.svg)!important;
@@ -39,7 +39,7 @@
         font-size: 18px;
         line-height: 22px;
         text-align: center;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.36px;
     }
     .got-questions .highlighted__short-text,
     .got-questions .highlighted__short-text p {

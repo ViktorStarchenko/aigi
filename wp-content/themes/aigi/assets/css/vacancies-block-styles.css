@@ -78,7 +78,7 @@
     margin-bottom: 16px;
 }
 .vacancies__item-description {
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 15px;
     line-height: 24px;
     letter-spacing: 0.03em;

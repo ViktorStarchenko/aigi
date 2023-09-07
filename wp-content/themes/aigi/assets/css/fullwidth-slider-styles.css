@@ -26,7 +26,7 @@
     font-weight: bold;
     font-size: 25.28px;
     line-height: 28px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.506px;
 }
 
 .fwslider-section .slider__progress-bar {
@@ -66,7 +66,7 @@
     .fwslider-item .header-slider__title {
         font-size: 19.98px;
         line-height: 25px;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.4px;
     }
     .fwslider-section .slider__progress-bar {
         bottom: 64px;

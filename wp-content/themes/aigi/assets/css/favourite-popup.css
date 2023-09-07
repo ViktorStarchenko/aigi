@@ -16,9 +16,9 @@
     text-align: center;
     line-height: 2.5;
     text-decoration: none;
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-style: normal;
-    font-weight: normal;
+    font-weight: var(--font-weight-normal);
     font-size: 13.33px;
     letter-spacing: 0.05em;
     color: #1A1A1A;
@@ -60,7 +60,7 @@
 }
 
 .reading-header-left span{
-    font-family: Proxima Nova;
+    font-family: var(--font-family);
     font-weight: 700;
     font-size: 19px;
     color: #131032;

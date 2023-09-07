@@ -16,7 +16,7 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 24px;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.45px;
 }
 .account-menu__links {
     width: 100%;
@@ -95,7 +95,7 @@
     font-weight: 700;
     font-size: 19.98px;
     line-height: 22px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.4px;
     color: var(--color-brand-navy-primary);
 }
 .account-menu__user-name {
@@ -130,7 +130,7 @@
     .page-template-account-page .search-page_title {
         font-size: 16.0091px;
         line-height: 125%;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.32px;
     }
     .profile-details__wrap .wppb-user-forms .wppb-form-field {
         width: 100%;
