@@ -227,6 +227,7 @@ ul.toolkit-menu__list > li:before {
 .toolkit-single__content h5,
 .toolkit-single__content h6,
 .toolkit-single__content ul,
+.toolkit-single__content ol,
 .toolkit-single__content address,
 .toolkit-single__content p {
     margin-bottom: 32px;
@@ -448,6 +449,7 @@ ul.toolkit-menu__list > li:before {
     }
 
     .toolkit-single__content ul,
+    .toolkit-single__content ol,
     .toolkit-single__content address,
     .toolkit-single__content p {
         margin-bottom: 24px;
