@@ -198,20 +198,39 @@ th, td {
     line-height: 24px;
     letter-spacing: 0.03em;
     padding: 16px;
-    box-shadow: 0px 0px 0px #e0e0e0, 0px -1px 0px #e0e0e0;
+    /*box-shadow: 0px 0px 0px #e0e0e0, 0px -1px 0px #e0e0e0;*/
+    border: 1px solid #e0e0e0;
+    text-align: left;
     position: relative;
 }
 tr:last-child th, tr:last-child td {
-    box-shadow: 0px 1px 0px #e0e0e0, 0px -1px 0px #e0e0e0;
+    /*box-shadow: 0px 1px 0px #e0e0e0, 0px -1px 0px #e0e0e0;*/
+}
+tr:first-child th, tr:first-child td {
+    /*box-shadow: 0px 1px 0px #e0e0e0, 0px -1px 0px #e0e0e0;*/
 }
 tr:last-child th:nth-child(even), tr:last-child td:nth-child(even) {
-    box-shadow: 0px 1px 0px #e0e0e0, -1px -1px 0px #e0e0e0;
+    /*box-shadow: 0px 1px 0px #e0e0e0, -1px -1px 0px #e0e0e0;*/
 }
 th:nth-child(even), td:nth-child(even) {
-    box-shadow: 0px 0px 0px #e0e0e0, -1px -1px 0px #e0e0e0;
+    /*box-shadow: 0px 0px 0px #e0e0e0, -1px -1px 0px #e0e0e0;*/
 }
-th p, td p {
-    text-align: left;
+th:last-child, td:last-child {
+    /*box-shadow: 0px 0px 0px #e0e0e0, -1px -1px 0px #e0e0e0;*/
+    border-right: unset;
+}
+th:first-child, td:first-child {
+    /*box-shadow: 0px 0px 0px #e0e0e0, -1px -1px 0px #e0e0e0;*/
+    border-left: unset;
+}
+th p,
+td p,
+tr:last-child th p,
+tr:last-child td p,
+tr:last-child th:nth-child(even) p,
+tr:last-child td:nth-child(even) p {
+ position: relative;
+ text-align: left;
 }
 /*List styles*/
 ul, ol, ul {
