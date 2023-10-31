@@ -79,9 +79,9 @@ return array (
     'normal' => $fontDir . '/DejaVuSerif',
   ),
   'proxima nova' => array(
-    'normal' => $fontDir . '/proxima_nova_normal_d21525650fe9b7d102ceb0b316a8847d',
-    '600' => $fontDir . '/proxima_nova_600_fe12fe05affceea4d9e90b500616a31f',
-    'bold' => $fontDir . '/proxima_nova_bold_827ff91d231fb47be9fb2649e617dd84',
+    'normal' => $fontDir . '/proxima_nova_normal_bbc3fe34a52a553b630bc949a48b7c87',
+    '600' => $fontDir . '/proxima_nova_600_e48e222daae9841bed08244b027b2164',
+    'bold' => $fontDir . '/proxima_nova_bold_dd9aa2afee1e88e2b63e26da1db446ff',
   ),
 );
 }; ?>
