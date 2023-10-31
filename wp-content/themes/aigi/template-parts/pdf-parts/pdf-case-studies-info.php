@@ -8,7 +8,7 @@ if ($authors) { ?>
         <?php foreach (get_field('author') as $author) { ?>
             <div class="post-details__text" style="font-size: 14px;line-height: 22px;letter-spacing: 0.08em;color:#4d4d4d">
                 <?php echo $author->post_title ?>:
-                <?php if (get_field ('author_title', $author->ID)) { ?>
+                <?php if (!empty(get_field ('author_title', $author->ID))) { ?>
                     <span><?php echo get_field("author_title", $author->ID)?> </span>
         <?php } ?>
             </div>

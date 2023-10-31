@@ -36,7 +36,7 @@ function get_pdf_resource ($post) {
          $type = 'tips';
      } else if ($terms[0] == 'Publication') {
          $type = 'publication';
-         if (get_field('td_resource_image')) {
+         if (!empty(get_field('td_resource_image'))) {
              $resource_bg_extended = 'extended';
          }
      }
@@ -76,13 +76,13 @@ function get_pdf_resource ($post) {
     $html.=                '</div>';
                 }
 
-                if (get_field('add_diagram')) {
+                if (!empty(get_field('add_diagram'))) {
     $html.=                '<div class="resource-image__wrap" style="padding:16px;margin:16px 0;">';
     $html.=                        '<img src="'.get_field("add_diagram").'" alt="'.$post->post_title.'" style="width:100%;max-width:500px;height:100%;object-fit:contain">';
     $html.=                '</div>';
                 }
 
-                if (get_field('td_resource_image')) {
+                if (!empty(get_field('td_resource_image'))) {
 
     $html.=                '<div class="resource-image__wrap" style="padding:16px;margin:16px 0;">';
     $html.=                        '<img src="'.get_field("td_resource_image")["url"].'" alt="'.get_field("td_resource_image")["title"].'" style="width:100%;max-width:500px;height:100%;object-fit:contain">';
@@ -99,20 +99,20 @@ function get_pdf_resource ($post) {
     $html.=                 '</div>';
                 }
 
-                if(get_field('td_resource_content')) {
+                if(!empty(get_field('td_resource_content'))) {
     $html.=                '<div class="resource__text" style="font-size: 14.4px;line-height: 24px;letter-spacing: 0.05em;color: #4d4d4d;">';
     $html.=                    get_field('td_resource_content');
     $html.=                '</div>';
                 }
 
-                if(get_field('add_link')) {
+                if(!empty(get_field('add_link'))) {
     $html.=                '<div class="resource-link">';
     $html.=                    '<a target="_blank" href="'.get_field("add_link").'">'.parse_url(get_field("add_link"), PHP_URL_HOST).'</a>';
     $html.=                '</div>';
                 }
 
 
-                if(get_field('td_resource_download')['file']) {
+                if(!empty(get_field('td_resource_download')['file'])) {
     $html.=                '<div class="resource-link file">';
     $html.=                    '<a target="_blank" href="'.get_field("td_resource_download")["file"].'">'.get_field("td_resource_download")["link_text"].'</a>';
     $html.=                '</div>';
@@ -124,7 +124,7 @@ function get_pdf_resource ($post) {
     $html.=                '</div>';
                 }
 
-                if(get_field('how_to_use')) {
+                if(!empty(get_field('how_to_use'))) {
     $html.=         '<div class="resource__text" style="font-size: 14.4px;line-height: 24px;letter-spacing: 0.05em;color: #4d4d4d;">';
     $html.=               '<p><strong>How To Use:</strong><br/>'.get_field("how_to_use").'<p>';
     $html.=          '</div>';

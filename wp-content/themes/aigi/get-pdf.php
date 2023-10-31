@@ -80,13 +80,13 @@ ob_start();
         left: 32px;
         font-size: 12px;
     }
-    <?php if (get_field('pdf_settings', 'option')['header_logo_width']) {?>
+    <?php if (!empty(get_field('pdf_settings', 'option')['header_logo_width'])) {?>
     .pdf_header__logo {
         width: <?php echo get_field('pdf_settings', 'option')['header_logo_width']; ?>
     }
     <?php } ?>
 
-    <?php if (get_field('pdf_settings', 'option')['footer_logo_width']) {?>
+    <?php if (!empty(get_field('pdf_settings', 'option')['footer_logo_width'])) {?>
     .footer_logo_image {
         width: <?php echo get_field('pdf_settings', 'option')['footer_logo_width']; ?>
     }
@@ -208,7 +208,7 @@ ob_start();
     </script>
     <div class="pdf_fixed_header" style="display: flex;flex-direction:row;align-items:center;justify-content:space-between;">
         <div class="pdf_header__top-date" style="display: inline-block"><?php echo $date; ?></div>
-        <?php if (get_field('pdf_settings', 'option')['header_title']) {?>
+        <?php if (!empty(get_field('pdf_settings', 'option')['header_title'])) {?>
         <div class="pdf_header__top-brand" style="display: inline-block;margin-left:50px"><?php echo get_field('pdf_settings', 'option')['header_title'] ; ?></div>
         <?php } ?>
 
@@ -216,7 +216,7 @@ ob_start();
     <div class="wrapper">
         <div class="pdf-header">
             <div class="pdf_header__bottom" style="margin: 48px 0 32px">
-            <?php if (get_field('pdf_settings', 'option')['header_logo']) {?>
+            <?php if (!empty(get_field('pdf_settings', 'option')['header_logo'])) {?>
                 <img class="pdf_header__logo" src="<?php echo get_field('pdf_settings', 'option')['header_logo']['url']; ?>" alt="logo">
             <?php } ?>
             </div>
@@ -289,7 +289,7 @@ ob_start();
 
 
         <div class="pdf-footer <?php echo get_field('pdf_settings', 'option')['footer_bg_color']; ?>">
-            <?php if (get_field('pdf_settings', 'option')['footer_logo']) {?>
+            <?php if (!empty(get_field('pdf_settings', 'option')['footer_logo'])) {?>
                 <div class="footer_logo">
                     <img class="footer_logo_image" src="<?php echo get_field('pdf_settings', 'option')['footer_logo']['url']; ?>" alt="footer logo" style ="width: 44px;height: 82px;">
                 </div>

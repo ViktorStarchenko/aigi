@@ -10,16 +10,16 @@ $freepaid = '';
 $ticket_link = '';
     if (get_field('pricing', $post)['freepaid'] == 'paid') {
 
-        if (get_field('pricing', $post)['early_bird']) {
+        if (!empty(get_field('pricing', $post)['early_bird'])) {
         $early_bird = get_field('pricing', $post)['early_bird'];
         }
-        if (get_field('pricing', $post)['full_price']) {
+        if (!empty(get_field('pricing', $post)['full_price'])) {
         $full_price = get_field('pricing', $post)['full_price'];
         }
-        if (get_field('pricing', $post)['partner_price']) {
+        if (!empty(get_field('pricing', $post)['partner_price'])) {
         $partner_price = get_field('pricing', $post)['partner_price'];
         }
-        if (get_field('pricing', $post)['date_rate']) {
+        if (!empty(get_field('pricing', $post)['date_rate'])) {
         $date_rate = get_field('pricing', $post)['date_rate'];
         }
     }
@@ -28,7 +28,7 @@ $ticket_link = '';
     $freepaid = get_field('pricing', $post)['freepaid'];
     }
 
-    if (get_field('pricing', $post)['ticket_link']) {
+    if (!empty(get_field('pricing', $post)['ticket_link'])) {
     $ticket_link = get_field('pricing', $post)['ticket_link']['url'];
     }
 ?>
@@ -40,31 +40,31 @@ $ticket_link = '';
 
         <div class="post-tile__pricing-title" style="font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 10.53px;line-height: 12px;letter-spacing: 2px;text-transform: uppercase;color:#0762a4;margin-bottom: 24px">Event Pricing</div>
         <div class="post-tile__pricing-list" style="display: flex;align-items: center;justify-content: flex-start;">
-         <?php   if ($early_bird) { ?>
+         <?php   if (!empty($early_bird)) { ?>
             <div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;padding-left:0;border-right: 1px solid #e0e0e0;">
                 <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Early Bird</span>
                 <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;"><?php echo $early_bird?></span>
             </div>
             <?php } ?>
-            <?php if ($full_price) { ?>
+            <?php if (!empty($full_price)) { ?>
             <div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;border-right: 1px solid #e0e0e0;">
                 <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Full Price</span>
                 <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;"><?php echo $full_price?></span>
             </div>
             <?php } ?>
-            <?php if ($partner_price) { ?>
+            <?php if (!empty($partner_price)) { ?>
             <div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;border-right: 1px solid #e0e0e0;">
                 <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Partner Price</span>
                 <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;"><?php echo $partner_price?></span>
             </div>
             <?php } ?>
-            <?php if ($partner_price) { ?>
+            <?php if (!empty($partner_price)) { ?>
             <div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;border-right: 1px solid #e0e0e0;">
                 <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Date Rate</span>
                 <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;"><?php echo $date_rate; ?></span>
             </div>
             <?php } ?>
-            <?php if ($freepaid) { ?>
+            <?php if (!empty($freepaid)) { ?>
             <div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;">
                 <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Free</span>
                 <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;"><?php echo $freepaid?></span>
@@ -77,7 +77,7 @@ $ticket_link = '';
 
 
 
-    <?php if ($ticket_link) { ?>
+    <?php if (!empty($ticket_link)) { ?>
     <div class="single-event__pricing-list" style="margin: 16px 0 32px">
 
             <div class="single-event__pricing-item">
@@ -86,7 +86,7 @@ $ticket_link = '';
     </div>
     <?php } ?>
 
-<?php if (get_field('events_details', $post)['start_date']) { ?>
+<?php if (!empty(get_field('events_details', $post)['start_date'])) { ?>
         <div class="post-details">
             <div class="post-details__item" style="margin-bottom: 16px;">
                 <div class="post-details__heading" style="font-weight: bold;font-size: 19.98px;line-height: 22px;letter-spacing: 0.02em;color:#131032;margin-bottom: 16px;">Events details</div>

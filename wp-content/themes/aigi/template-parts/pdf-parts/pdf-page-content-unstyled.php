@@ -232,7 +232,7 @@
 
 $content_items = $args;
 
-if ($content_items)  {
+if (!empty($content_items))  {
 
     foreach ($content_items as $content_item) {
 //Subheads-->
@@ -273,14 +273,14 @@ if ($content_items)  {
 
                             <?php if ($content_item['video_block']['video_source_type'] == 'embed') { ?>
 
-                                <?php if($content_item['video_block']['youtube_code']) { ?>
+                                <?php if(!empty($content_item['video_block']['youtube_code'])) { ?>
 
                                     <a target="_blank" href="https://youtu.be/<?php echo $content_item['video_block']['youtube_code']?>"> <?php echo $content_item["video_block"]["title"]?></a>
 
                                 <?php } ?>
 
                             <?php } else if ($content_item['video_block']['video_source_type'] == 'upload') { ?>
-                                <?php if ($content_item['video_block']['add_file']) { ?>
+                                <?php if (!empty($content_item['video_block']['add_file'])) { ?>
                                     <a  class="video-link" target="_blank" href="<?php echo $content_item['video_block']['add_file']['url']?>"> <?php echo $content_item["video_block"]["title"]?></a>
                                 <?php } ?>
 
@@ -300,12 +300,12 @@ if ($content_items)  {
 
         <?php if ($content_item['item_type'] == 'Video') { ?>
             <!--                Image-->
-            <?php if ($content_item['image_block']['add_image']) { ?>
+            <?php if (!empty($content_item['image_block']['add_image'])) { ?>
                 <div class="resource-image__wrap">
                     <img src="<?php echo $content_item["image_block"]["add_image"]["url"] ?>" alt="<?php echo $content_item["image_block"]["add_image"]["title"] ?>"/>
                 </div>
             <?php } ?>
-            <?php if($content_item['image_block']['add_text']) { ?>
+            <?php if(!empty($content_item['image_block']['add_text'])) { ?>
                 <div class="resource__text">
                     <p><?php echo   $content_item['image_block']['add_text'] ?></p>
                 </div>
@@ -329,22 +329,22 @@ if ($content_items)  {
         <!--            Accordion-->
         <?php if ($content_item['item_type'] == 'Accordion') { ?>
 
-            <?php if ($content_item['accordion_block']) { ?>
+            <?php if (!empty($content_item['accordion_block'])) { ?>
                 <div class="content-item accordion">
                     <div class="accordion_wrapper">
                         <?php foreach ($content_item['accordion_block'] as $accordion_item) { ?>
                             <div class="accordion_item">
-                                <?php if($accordion_item['content']) { ?>
+                                <?php if(!empty($accordion_item['content'])) { ?>
                                     <span class="title-h4 nav_list-title"><?php echo $accordion_item["title"]?></span>
                                 <?php } ?>
 
                                 <div  class="accordion_panel">
-                                    <?php if($accordion_item['subtitle']) { ?>
+                                    <?php if(!empty($accordion_item['subtitle'])) { ?>
                                         <span class="accordion_subtitle"><?php echo $accordion_item["subtitle"]; ?></span>
                                     <?php } ?>
 
                                     <div class="accordion_content">
-                                        <?php if($accordion_item['content']) { ?>
+                                        <?php if(!empty($accordion_item['content'])) { ?>
                                             <?php echo  $accordion_item['content']; ?>
                                         <?php } ?>
                                     </div>
@@ -374,7 +374,7 @@ if ($content_items)  {
 
                             <div class="resource__text"><?php echo  $content_item['file_block']['file_text'];?></div>
 
-                            <?php if($content_item['file_block']['files']) { ?>
+                            <?php if(!empty($content_item['file_block']['files'])) { ?>
                                 <?php foreach ($content_item['file_block']['files'] as $file) { ?>
                                     <div class="resource-link file">
                                         <a href="<?php echo $file["file"]["url"];?>" download><?php echo $file["file"]["title"] ?></a>;
@@ -403,7 +403,7 @@ if ($content_items)  {
                         </div>
                         <div class="single-resource__body">
                             <div class="resource__text"><?php echo $content_item['link_block']['link_text'];?></div>
-                            <?php if($content_item['link_block']['link']) { ?>
+                            <?php if(!empty($content_item['link_block']['link'])) { ?>
                                 <div class="resource-link">
                                     <a target="_blank" href="<?php echo $content_item["link_block"]["link"]["url"] ; ?>"> <?php echo $content_item["link_block"]["link"]["title"]; ?></a>
                                 </div>
@@ -421,9 +421,7 @@ if ($content_items)  {
         <?php if ($content_item['item_type'] == 'Buttons Group') { ?>
             <div class="content-item buttons-block">
 
-                <?php $button_group = $content_item['button_group']; ?>
-
-                <?php if($button_group['buttons']) { ?>
+                <?php if(!empty($content_item['button_group']['buttons'])) { ?>
                     <div class="btn-group">
                         <?php foreach($button_group['buttons'] as $button) { ?>
                             <a href="<?php echo  $button['button']['url'] ?>" target="_blank" class=""><?php echo $button["button"]["title"] ; ?></a><span class="coma">, </span>

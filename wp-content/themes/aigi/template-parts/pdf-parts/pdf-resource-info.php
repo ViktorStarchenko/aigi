@@ -33,7 +33,7 @@ $data_video_suf = '';
      $type = 'tips';
  } else if ($terms[0] == 'Publication') {
      $type = 'publication';
-     if (get_field('td_resource_image')) {
+     if (!empty(get_field('td_resource_image'))) {
          $resource_bg_extended = 'extended';
      }
  }
@@ -115,7 +115,7 @@ $data_video_suf = '';
                 </div>
             <?php endif ?>
 
-            <?php if (get_field('add_diagram')) : ?> <!-- Diagram -->
+            <?php if (!empty(get_field('add_diagram'))) : ?> <!-- Diagram -->
                 <div class="resource-image__wrap">
                     <picture>
                         <img src="<?php echo get_field('add_diagram');?>" alt="<?php the_title();?>">
@@ -123,7 +123,7 @@ $data_video_suf = '';
                 </div>
             <?php endif ?>
 
-            <?php if (get_field('td_resource_image')) : ?> <!-- Publication -->
+            <?php if (!empty(get_field('td_resource_image'))) : ?> <!-- Publication -->
                 <div class="resource-image__wrap">
                     <picture>
                         <img src="<?php echo get_field('td_resource_image')['url'];?>" alt="<?php echo get_field('td_resource_image')['title'];?>">
@@ -157,20 +157,20 @@ $data_video_suf = '';
                 </div>
             <?php endif; ?>
 
-            <?php if(get_field('td_resource_content')): ?> <!--publication -->
+            <?php if(!empty(get_field('td_resource_content'))): ?> <!--publication -->
             <div class="resource__text">
                 <?php the_field('td_resource_content'); ?>
             </div>
             <?php endif ?>
 
-            <?php if(get_field('add_link')): ?> <!-- Link -->
+            <?php if(!empty(get_field('add_link'))): ?> <!-- Link -->
                 <div class="resource-link">
                     <a target="_blank" href="<?php echo get_field('add_link'); ?>"><?php echo parse_url(get_field('add_link'), PHP_URL_HOST); ?></a>
                 </div>
             <?php endif; ?>
 
 
-            <?php if(get_field('td_resource_download')['file']): ?> <!--publication -->
+            <?php if(!empty(get_field('td_resource_download')['file'])): ?> <!--publication -->
                 <div class="resource-link file">
                     <a target="_blank" href="<?php echo get_field('td_resource_download')['file']; ?>"><?php echo get_field('td_resource_download')['link_text']; ?></a>
                 </div>
@@ -182,7 +182,7 @@ $data_video_suf = '';
                 </div>
             <?php endif; ?>
 
-            <?php if(get_field('how_to_use')): ?>
+            <?php if(!empty(get_field('how_to_use'))): ?>
             <div class="resource__text">
                 <p><strong>How To Use:</strong><br/><?php echo get_field('how_to_use'); ?><p>
             </div>

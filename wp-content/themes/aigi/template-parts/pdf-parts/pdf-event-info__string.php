@@ -12,16 +12,16 @@ function get_pdf_event_info($post) {
     $ticket_link = '';
     if (get_field('pricing', $post)['freepaid'] == 'paid') {
 
-        if (get_field('pricing', $post)['early_bird']) {
+        if (!empty(get_field('pricing', $post)['early_bird'])) {
             $early_bird = get_field('pricing', $post)['early_bird'];
         }
-        if (get_field('pricing', $post)['full_price']) {
+        if (!empty(get_field('pricing', $post)['full_price'])) {
             $full_price = get_field('pricing', $post)['full_price'];
         }
-        if (get_field('pricing', $post)['partner_price']) {
+        if (!empty(get_field('pricing', $post)['partner_price'])) {
             $partner_price = get_field('pricing', $post)['partner_price'];
         }
-        if (get_field('pricing', $post)['date_rate']) {
+        if (!empty(get_field('pricing', $post)['date_rate'])) {
             $date_rate = get_field('pricing', $post)['date_rate'];
         }
 
@@ -29,38 +29,38 @@ function get_pdf_event_info($post) {
     if (get_field('pricing', $post)['freepaid'] == 'free') {
         $freepaid = get_field('pricing', $post)['freepaid'];
     }
-    if (get_field('pricing', $post)['ticket_link']) {
+    if (!empty(get_field('pricing', $post)['ticket_link'])) {
         $ticket_link = get_field('pricing', $post)['ticket_link']['url'];
     }
 
     $html .=                                    '<div class="post-tile__pricing-block" style="margin:32px auto;">';
     $html .=                                        '<div class="post-tile__pricing-title" style="font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 10.53px;line-height: 12px;letter-spacing: 2px;text-transform: uppercase;color:#0762a4;margin-bottom: 16px;">Event Pricing</div>';
     $html .=                                       '<div class="post-tile__pricing-list" style="display: flex;align-items: center;justify-content: flex-start;">';
-    if ($early_bird) {
+    if (!empty($early_bird)) {
         $html .=           '<div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;padding-left:0;border-right: 1px solid #e0e0e0;">
                                                             <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Early Bird</span>
                                                             <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;">'.$early_bird.'</span>
                                                         </div>';
                                 }
-                                if ($full_price) {
+                                if (!empty($full_price)) {
                                     $html .=            '<div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;border-right: 1px solid #e0e0e0;">
                                                             <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Full Price</span>
                                                             <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;">'.$full_price.'</span>
                                                         </div>';
                                 }
-                                if ($partner_price) {
+                                if (!empty($partner_price)) {
                                     $html .=              '<div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;border-right: 1px solid #e0e0e0;">
                                                                 <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Partner Price</span>
                                                                 <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;">'.$partner_price.'</span>
                                                             </div>';
                                 }
-                                if ($partner_price) {
+                                if (!empty($partner_price)) {
                                     $html .=              '<div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;border-right: 1px solid #e0e0e0;">
                                                                 <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Date Rate</span>
                                                                 <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;">'.$date_rate.'</span>
                                                             </div>';
                                 }
-                                if ($freepaid) {
+                                if (!empty($freepaid)) {
                                     $html .=          ' <div class="post-tile__pricing-item" style="display: inline-block;width: 20%;max-width: 100px;padding: 0 25px;">
                                                                 <span class="post-tile__pricing-type" style="display: block;font-family: Proxima Nova;font-style: normal;font-weight: bold;font-size: 14.8px;line-height: 19px;letter-spacing: 0.05em;color:#131032;">Free</span>
                                                                 <span class="post-tile__pricing-price" style="font-family: Proxima Nova;font-style: normal;font-weight: normal;font-size: 14.4px;line-height: 19px;text-align: right;letter-spacing: 0.05em;color:#4d4d4d;">'.$freepaid.'</span>
@@ -69,7 +69,7 @@ function get_pdf_event_info($post) {
 
     $html .=               '</div>';
     $html .=           '</div>';
-                                if ($ticket_link) {
+                                if (!empty($ticket_link)) {
                                     $html .=                '<div class="single-event__pricing-list" style="margin: 16px 0 32px">';
 
                                     $html .=                 '<div class="single-event__pricing-item">';
@@ -102,9 +102,12 @@ function get_pdf_event_info($post) {
 
 
 function get_pdf_event_speakers($post) {
-    $speakers = get_field('speakers', $post);
+    if (!empty(get_field('speakers', $post))) {
+        $speakers = get_field('speakers', $post);
+    }
+
     $html = '';
-    if ($speakers) {
+    if (!empty($speakers)) {
         $html.=    '<div class="content-item profile-list">';
         $html.=        '<div class="rslider__header">';
         $html.=            '<div class="rslider__header-top">';
@@ -149,15 +152,17 @@ function get_pdf_event_speakers($post) {
 }
 
 function get_pdf_event_program($post) {
-    $programs = get_field('program',$post);
+    if (!empty(get_field('program',$post))) {
+        $programs = get_field('program',$post);
+    }
     $html = '';
-    if ($programs) {
+    if (!empty($programs)) {
 
         $html .= '<div class="tab-heading" style="font-weight: bold;font-size: 22.44px;line-height: 25px;letter-spacing: 0.02em;color:#131032;margin-bottom: 26px;">Program</div>';
         $html .= '<div class="accordion_wrapper">';
         foreach ($programs as $program) {
             $html .=     '<div class="accordion_item" style="border-top: 1px solid #dfdfdf;padding-top: 12px;">';
-                 if($program['action_description']) {
+                 if(!empty($program['action_description'])) {
                      $html .=            '<span class="title-h4 nav_list-title accordion_btn" style="font-size: 15.78px;line-height: 20px;letter-spacing: 0.02em;padding: 18px 0;color:#231F20;font-style: normal;font-weight: bold;"> '.$program["action_time"].'  -  '.$program["action_title"].'</span>';
                  }
             $html .=             '<div  class="accordion_panel">';
@@ -174,9 +179,11 @@ function get_pdf_event_program($post) {
 
 
 function get_pdf_event_venue_details($post) {
-    $venue_details = get_field('venue_details', $post);
+    if (!empty(get_field('venue_details', $post))) {
+        $venue_details = get_field('venue_details', $post);
+    }
     $html = '';
-    if ($venue_details['catered'] == 'yes' || $venue_details['accessibility_options'] || $venue_details['carparking_options'] || $venue_details['other_transport_options'] || $venue_details['covid_safe_plan']) {
+    if ($venue_details['catered'] == 'yes' || !empty($venue_details['accessibility_options']) || !empty($venue_details['carparking_options']) || !empty($venue_details['other_transport_options']) || !empty($venue_details['covid_safe_plan'])) {
         $html .= '<div class="tab tab-venue-details global-search-tab" data-post-type="venue-details">';
         $html .=        '<div class="tab-heading" style="font-weight: bold;font-size: 22.44px;line-height: 25px;letter-spacing: 0.02em;color:#131032;margin-bottom: 26px;">Venue details</div>';
         $html .=        '<div class="tab-content-wrapper">';
@@ -189,7 +196,7 @@ function get_pdf_event_venue_details($post) {
                  $html .=            '</div>';
              }
 
-             if ($venue_details["accessibility_options"]) {
+             if (!empty($venue_details["accessibility_options"])) {
                  $html .=            '<div class="post-details__item" style="padding: 8px 0 8px 12px;">';
                  $html .=                '<div class="post-details__heading" style="font-weight: bold;font-size: 19.98px;line-height: 22px;letter-spacing: 0.02em;color:#131032;margin-bottom: 16px;">Accessibility Options</div>';
                  $html .=                '<div class="post-details__text" style="font-size: 14px;line-height: 22px;letter-spacing: 0.08em;color:#4d4d4d">';
@@ -200,7 +207,7 @@ function get_pdf_event_venue_details($post) {
                  $html .=        '</div>';
                 }
 
-             if ($venue_details['carparking_options']) {
+             if (!empty($venue_details['carparking_options'])) {
                  $html .=        '<div class="post-details__item" style="padding: 8px 0 8px 12px;">';
                  $html .=            '<div class="post-details__heading" style="font-weight: bold;font-size: 19.98px;line-height: 22px;letter-spacing: 0.02em;color:#131032;margin-bottom: 16px;">Carparking Options</div>';
                  $html .=             '<div class="post-details__text" style="font-size: 14px;line-height: 22px;letter-spacing: 0.08em;color:#4d4d4d">';
@@ -211,7 +218,7 @@ function get_pdf_event_venue_details($post) {
                  $html .=        '</div>';
              }
 
-             if ($venue_details['other_transport_options']) {
+             if (!empty($venue_details['other_transport_options'])) {
                  $html .=        '<div class="post-details__item" style="padding: 8px 0 8px 12px;">';
                  $html .=            '<div class="post-details__heading" style="font-weight: bold;font-size: 19.98px;line-height: 22px;letter-spacing: 0.02em;color:#131032;margin-bottom: 16px;">Other Transport Options</div>';
                  $html .=                '<div class="post-details__text" style="font-size: 14px;line-height: 22px;letter-spacing: 0.08em;color:#4d4d4d">';
@@ -220,7 +227,7 @@ function get_pdf_event_venue_details($post) {
                  $html .=         '</div>';
              }
 
-            if ($venue_details['covid_safe_plan']) {
+            if (!empty($venue_details['covid_safe_plan'])) {
                 $html .=        '<div class="post-details__item" style="padding: 8px 0 8px 12px;">';
                 $html .=          '<div class="post-details__heading" style="font-weight: bold;font-size: 19.98px;line-height: 22px;letter-spacing: 0.02em;color:#131032;margin-bottom: 16px;">COVID safe plan</div>';
                 $html .=                '<div class="post-details__text" style="font-size: 14px;line-height: 22px;letter-spacing: 0.08em;color:#4d4d4d">';
@@ -242,10 +249,11 @@ function get_pdf_event_venue_details($post) {
 }
 
 function get_pdf_event_faqs($post) {
-    $faqs = get_field('faqs',$post);
-
+    if (!empty(get_field('faqs',$post))) {
+        $faqs = get_field('faqs',$post);
+    }
     $html = '';
-    if ($faqs) {
+    if (!empty($faqs)) {
         $html .=  '<div style="margin: 32px 0">';
         $html .= '<div class="tab-heading" style="font-weight: bold;font-size: 22.44px;line-height: 25px;letter-spacing: 0.02em;color: #131032;margin-bottom: 26px;">FAQS</div>';
         $html .=   ' <div class="tab-content-wrapper">';
@@ -253,7 +261,7 @@ function get_pdf_event_faqs($post) {
                 foreach ($faqs as $faq) {
                     $html .=                '<div class="accordion_item" style="border-top: 1px solid #dfdfdf;
     padding-top: 12px;">';
-                        if($faq['question']) {
+                        if(!empty($faq['question'])) {
                             $html .=                    '<span class="title-h4 nav_list-title accordion_btn" style="font-size: 15.78px;line-height: 20px;letter-spacing: 0.02em;padding: 18px 0;color: #231F20;font-style: normal;font-weight: bold;"> '.$faq["question"].'</span>';
                         }
                     $html .=                    '<div  class="accordion_panel">';

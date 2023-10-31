@@ -1,9 +1,11 @@
 <?php
 
 function get_pdf_news_info($post) {
-    $authors = get_field('author', $post);
+    if (!empty(get_field('author', $post))) {
+        $authors = get_field('author', $post);
+    }
     $html = '';
-    if ($authors) {
+    if (!empty($authors)) {
         $html.=    '<div class="post-details__item author" style="margin: 32px 0;">';
         $html.=    '<div class="post-details__heading" style="font-weight: bold;font-size: 19.98px;line-height: 22px;letter-spacing: 0.02em;color: #131032;margin-bottom: 16px;">Written by</div>';
 

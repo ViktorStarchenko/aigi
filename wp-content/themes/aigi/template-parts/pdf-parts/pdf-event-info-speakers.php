@@ -1,8 +1,10 @@
 <?php
 
-$speakers = get_field('speakers', $post);
+if (!empty(get_field('speakers', $post))) {
+    $speakers = get_field('speakers', $post);
+}
 
-if ($speakers) { ?>
+if (!empty($speakers)) { ?>
     <div class="content-item profile-list">
         <div class="rslider__header">
             <div class="rslider__header-top" style="margin: 16px 0 32px;">

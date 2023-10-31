@@ -5,7 +5,7 @@ function get_pdf_people_position($post) {
 
     $html = '';
 
-    if ($people_info_get_position) {
+    if (!empty($people_info_get_position)) {
     $html.=    '<div class="post-details__item" style="margin:8px 0">';
     $html.=        '<div class="post-details__text">'.$people_info_get_position.'</div>';
     $html.=    '</div>';
@@ -19,7 +19,7 @@ function get_pdf_people_qualification($post) {
 
     $html = '';
 
-    if ($people_info_get_qualification['qualification']) {
+    if (!empty($people_info_get_qualification['qualification'])) {
     $html .=    '<div class="post-details__item">';
     $html .=        '<div class="post-details__text">';
     $html .=            '<ul class="rounded-list">';
@@ -41,7 +41,7 @@ function get_pdf_people_topics_of_expertis($post) {
 
     $html = '';
 
-    if ($people_info_get_topics_of_expertise) {
+    if (!empty($people_info_get_topics_of_expertise)) {
     $html.=    '<div class="post-details__item border-top" style="margin: 16px;">';
     $html.=        '<div class="post-details__heading topics_of_expertise" style="font-weight: bold;font-size: 19.98px;line-height: 22px;letter-spacing: 0.02em;color:#131032;margin-bottom: 16px;">topics of expertise:</div>';
     $html.=        '<div class="post-details__text">';

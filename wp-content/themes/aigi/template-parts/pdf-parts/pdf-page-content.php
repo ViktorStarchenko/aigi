@@ -17,7 +17,7 @@
 
 $content_items = $args;
 
-if ($content_items)  {
+if (!empty($content_items))  {
 
 foreach ($content_items as $content_item) {
 //Subheads-->
@@ -58,14 +58,14 @@ foreach ($content_items as $content_item) {
 
                             <?php if ($content_item['video_block']['video_source_type'] == 'embed') { ?>
 
-                                <?php if($content_item['video_block']['youtube_code']) { ?>
+                                <?php if(!empty($content_item['video_block']['youtube_code'])) { ?>
 
                                     <a  style="font-family: Proxima Nova;font-size: 14px;line-height: 22px;letter-spacing: 0.7px;text-decoration-line: underline;color:#0762a4;position: relative;word-break: break-all;" target="_blank" href="https://youtu.be/<?php echo $content_item['video_block']['youtube_code']?>"> <?php echo $content_item["video_block"]["title"]?></a>
 
                                 <?php } ?>
 
                             <?php } else if ($content_item['video_block']['video_source_type'] == 'upload') { ?>
-                                <?php if ($content_item['video_block']['add_file']) { ?>
+                                <?php if (!empty($content_item['video_block']['add_file'])) { ?>
                                     <a  style="font-family: Proxima Nova;font-size: 14px;line-height: 22px;letter-spacing: 0.7px;text-decoration-line: underline;color:#0762a4;position: relative;word-break: break-all;" target="_blank" href="<?php echo $content_item['video_block']['add_file']['url']?>"> <?php echo $content_item["video_block"]["title"]?></a>
                                 <?php } ?>
 
@@ -85,12 +85,12 @@ foreach ($content_items as $content_item) {
 
         <?php if ($content_item['item_type'] == 'Video') { ?>
             <!--                Image-->
-            <?php if ($content_item['image_block']['add_image']) { ?>
+            <?php if (!empty($content_item['image_block']['add_image'])) { ?>
                 <div class="resource-image__wrap">
                     <img src="<?php echo $content_item["image_block"]["add_image"]["url"] ?>" alt="<?php echo $content_item["image_block"]["add_image"]["title"] ?>" style="max-width: 600px;"/>
                 </div>
             <?php } ?>
-            <?php if($content_item['image_block']['add_text']) { ?>
+            <?php if(!empty($content_item['image_block']['add_text'])) { ?>
                 <div class="resource__text">
                     <p style="font-size: 14px;line-height: 24px;letter-spacing: 0.03em;color:#4d4d4d"><?php echo   $content_item['image_block']['add_text'] ?></p>
                 </div>
@@ -114,22 +114,22 @@ foreach ($content_items as $content_item) {
 <!--            Accordion-->
         <?php if ($content_item['item_type'] == 'Accordion') { ?>
 
-        <?php if ($content_item['accordion_block']) { ?>
+        <?php if (!empty($content_item['accordion_block'])) { ?>
             <div class="content-item accordion" style="margin: 16px 0">
             <div class="accordion_wrapper">
             <?php foreach ($content_item['accordion_block'] as $accordion_item) { ?>
                 <div class="accordion_item" style="border-top: 1px solid #dfdfdf; padding-top: 12px;">
-                <?php if($accordion_item['content']) { ?>
+                <?php if(!empty($accordion_item['content'])) { ?>
                     <span class="title-h4 nav_list-title" style="font-style: normal;font-weight: bold;font-size: 22.44px;line-height: 25px;letter-spacing: 0.02em;color: #231F20;"><?php echo $accordion_item["title"]?></span>
                     <?php } ?>
 
                     <div  class="accordion_panel" style="padding-top: 10px;">
-                        <?php if($accordion_item['subtitle']) { ?>
+                        <?php if(!empty($accordion_item['subtitle'])) { ?>
                             <span class="accordion_subtitle" style="font-style: normal;font-weight: bold;font-size: 18px;line-height: 25px;letter-spacing: 0.02em;color:#0762a4; padding-left: 16px"><?php echo $accordion_item["subtitle"]; ?></span>
                         <?php } ?>
 
                         <div class="accordion_content" style="font-style: normal;font-weight: normal;font-size: 16px;line-height: 24px; letter-spacing: 0.05em; color:#4d4d4d; padding-left: 16px">
-                            <?php if($accordion_item['content']) { ?>
+                            <?php if(!empty($accordion_item['content'])) { ?>
                                 <?php echo  $accordion_item['content']; ?>
                             <?php } ?>
                         </div>
@@ -159,7 +159,7 @@ foreach ($content_items as $content_item) {
 
                             <div class="resource__text" style="font-size: 14.4px;line-height: 24px;letter-spacing: 0.05em;color:#4d4d4d;padding: 20px 0;"><?php echo  $content_item['file_block']['file_text'];?></div>
 
-                            <?php if($content_item['file_block']['files']) { ?>
+                            <?php if(!empty($content_item['file_block']['files'])) { ?>
                                 <?php foreach ($content_item['file_block']['files'] as $file) { ?>
                                     <div class="resource-link file">
                                         <a style="font-family: Proxima Nova;font-size: 14px;line-height: 22px;letter-spacing: 0.7px;text-decoration-line: underline;color:#0762a4;position: relative;word-break: break-all;" href="<?php echo $file["file"]["url"];?>" download><?php echo $file["file"]["title"] ?></a>;
@@ -188,7 +188,7 @@ foreach ($content_items as $content_item) {
                         </div>
                         <div class="single-resource__body"  style="padding:12px 20px;">
                             <div class="resource__text"  style="font-size: 14.4px;line-height: 24px;letter-spacing: 0.05em;color:#4d4d4d;padding: 20px 0;"><?php echo $content_item['link_block']['link_text'];?></div>
-                            <?php if($content_item['link_block']['link']) { ?>
+                            <?php if(!empty($content_item['link_block']['link'])) { ?>
                                 <div class="resource-link">
                                     <a  style="font-family: Proxima Nova;font-size: 14px;line-height: 22px;letter-spacing: 0.7px;text-decoration-line: underline;color:#0762a4;position: relative;word-break: break-all;" target="_blank" href="<?php echo $content_item["link_block"]["link"]["url"] ; ?>"> <?php echo $content_item["link_block"]["link"]["title"]; ?></a>
                                 </div>
@@ -206,9 +206,7 @@ foreach ($content_items as $content_item) {
         <?php if ($content_item['item_type'] == 'Buttons Group') { ?>
         <div class="content-item buttons-block" style ="margin: 32px 0">
 
-            <?php $button_group = $content_item['button_group']; ?>
-
-            <?php if($button_group['buttons']) { ?>
+            <?php if(!empty($content_item['button_group']['buttons'])) { ?>
                 <div class="btn-group  ?>" style=" margin: -4px">
                     <?php foreach($button_group['buttons'] as $button) { ?>
                         <a href="<?php echo  $button['button']['url'] ?>" target="_blank" class="  btn-body " style="   min-width: 217px;font-family: Proxima Nova;font-style: normal;font-weight: 800;font-size: 15px;line-height: 14px;display: flex;align-items: center;text-align: center;display: inline-block;letter-spacing: 0.08em;text-transform: uppercase;text-decoration: none;border-radius: 5px;padding: 17px 20px;transition: all .3s;box-sizing: border-box;position: relative;cursor: pointer;white-space: nowrap; color: #fff; background-color: #0762a4; margin: 4px;">

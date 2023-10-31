@@ -2,7 +2,7 @@
 function get_pdf_page_content($data) {
     $content_items = $data;
     $html = '';
-    if ($content_items)  {
+    if (!empty($content_items))  {
 
         foreach ($content_items as $content_item) {
             //Subheads-->
@@ -44,14 +44,14 @@ function get_pdf_page_content($data) {
 
                 if ($content_item['video_block']['video_source_type'] == 'embed') {
 
-                    if($content_item['video_block']['youtube_code']) {
+                    if(!empty($content_item['video_block']['youtube_code'])) {
 
                         $html .=            '<a  style="font-family: Proxima Nova;font-size: 14px;line-height: 22px;letter-spacing: 0.7px;text-decoration-line: underline;color:#0762a4;position: relative;word-break: break-all;" target="_blank" href="https://youtu.be/'.$content_item['video_block']['youtube_code'].'"> '.$content_item["video_block"]["title"].'</a>';
 
                     }
 
                 } else if ($content_item['video_block']['video_source_type'] == 'upload') {
-                    if ($content_item['video_block']['add_file']) {
+                    if (!empty($content_item['video_block']['add_file'])) {
                         $html .=            '<a  style="font-family: Proxima Nova;font-size: 14px;line-height: 22px;letter-spacing: 0.7px;text-decoration-line: underline;color:#0762a4;position: relative;word-break: break-all;" target="_blank" href="'.$content_item['video_block']['add_file']['url'].'"> '.$content_item["video_block"]["title"].'</a>';
                     }
 
@@ -74,7 +74,7 @@ function get_pdf_page_content($data) {
 
             if ($content_item['item_type'] == 'Video') {
                 //Image
-                if ($content_item['image_block']['add_image']) {
+                if (!empty($content_item['image_block']['add_image'])) {
                     $html .= '<div class="resource-image__wrap">';
                     $html .= '<img src="'.$content_item["image_block"]["add_image"]["url"].'" alt="'. $content_item["image_block"]["add_image"]["title"] .'" style="max-width: 800px;"/>'  ;
                     $html .= '</div>';
@@ -103,22 +103,22 @@ function get_pdf_page_content($data) {
             //Accordion
             if ($content_item['item_type'] == 'Accordion') {
 
-                if ($content_item['accordion_block']) {
+                if (!empty($content_item['accordion_block'])) {
                     $html .= '<div class="content-item accordion" style="margin: 16px 0">';
                     $html .=   '<div class="accordion_wrapper">';
                     foreach ($content_item['accordion_block'] as $accordion_item) {
                         $html .=   '<div class="accordion_item" style="border-top: 1px solid #dfdfdf; padding-top: 12px;">';
-                        if($accordion_item['content']) {
+                        if(!empty($accordion_item['content'])) {
                             $html .= '<span class="title-h4 nav_list-title" style="font-style: normal;font-weight: bold;font-size: 22.44px;line-height: 25px;letter-spacing: 0.02em;color: #231F20;">'. $accordion_item["title"].'</span>';
                         }
 
                         $html .=      '<div  class="accordion_panel" style="padding-top: 10px;">';
-                        if($accordion_item['subtitle']) {
+                        if(!empty($accordion_item['subtitle'])) {
                             $html .= '<span class="accordion_subtitle" style="font-style: normal;font-weight: bold;font-size: 18px;line-height: 25px;letter-spacing: 0.02em;color:#0762a4; padding-left: 16px">'. $accordion_item["subtitle"].'</span>';
                         }
 
                         $html .=     '<div class="accordion_content" style="font-style: normal;font-weight: normal;font-size: 16px;line-height: 24px; letter-spacing: 0.05em; color:#4d4d4d; padding-left: 16px">';
-                        if($accordion_item['content']) {
+                        if(!empty($accordion_item['content'])) {
                             $html .= $accordion_item['content'];
                         }
                         $html .=      '</div>';
@@ -149,7 +149,7 @@ function get_pdf_page_content($data) {
                 $html .=                     $content_item['file_block']['file_text'];
                 $html .=                '</div>';
 
-                if($content_item['file_block']['files']) {
+                if(!empty($content_item['file_block']['files'])) {
                     foreach ($content_item['file_block']['files'] as $file) {
                         $html .=                        '<div class="resource-link file">';
                         $html .=                            '<a style="font-family: Proxima Nova;font-size: 14px;line-height: 22px;letter-spacing: 0.7px;text-decoration-line: underline;color:#0762a4;position: relative;word-break: break-all;" href="'. $file["file"]["url"].'" download>'. $file["file"]["title"].'</a>';
@@ -179,7 +179,7 @@ function get_pdf_page_content($data) {
                 $html .=                   '<div class="resource__text"  style="font-size: 14.4px;line-height: 24px;letter-spacing: 0.05em;color:#4d4d4d;padding: 20px 0;">';
                 $html .=                        $content_item['link_block']['link_text'];
                 $html .=                   '</div>';
-                if($content_item['link_block']['link']) {
+                if(!empty($content_item['link_block']['link'])) {
                     $html .=                       '<div class="resource-link">';
                     $html .=                           '<a  style="font-family: Proxima Nova;font-size: 14px;line-height: 22px;letter-spacing: 0.7px;text-decoration-line: underline;color:#0762a4;position: relative;word-break: break-all;" target="_blank" href="'.$content_item["link_block"]["link"]["url"].'"> '.$content_item["link_block"]["link"]["title"].'</a>';
                     $html .=                        '</div>';
@@ -199,7 +199,7 @@ function get_pdf_page_content($data) {
 
                 $button_group = $content_item['button_group'];
 
-                if($button_group['buttons']) {
+                if(!empty($button_group['buttons'])) {
                     $html .=    '<div class="btn-group  ?>" style=" margin: -4px">';
                     foreach($button_group['buttons'] as $button) {
                         $html .=             '<a href=" '.$button['button']['url'].' " target="_blank" class="  btn-body " style="   min-width: 217px;font-family: Proxima Nova;font-style: normal;font-weight: 800;font-size: 15px;line-height: 14px;display: flex;align-items: center;text-align: center;display: inline-block;letter-spacing: 0.08em;text-transform: uppercase;text-decoration: none;border-radius: 5px;padding: 17px 20px;transition: all .3s;box-sizing: border-box;position: relative;cursor: pointer;white-space: nowrap; color: #fff; background-color: #0762a4; margin: 4px;">';

@@ -31,7 +31,7 @@ $data_video_suf = '';
      $type = 'tips';
  } else if ($terms[0] == 'Publication') {
      $type = 'publication';
-     if (get_field('td_resource_image')) {
+     if (!empty(get_field('td_resource_image'))) {
          $resource_bg_extended = 'extended';
      }
  }
@@ -53,7 +53,7 @@ $data_video_suf = '';
         </div>
         <div class="single-resource__body">
 
-            <?php if(get_field('youtube_code')): ?>
+            <?php if(!empty(get_field('youtube_code'))): ?>
                 <div class="resource-video__wrap">
 <!--                    <object width="100%" height="100%"><param name="movie" value="https://www.youtube.com/v/--><?php //the_field('youtube_code'); ?><!--?wmode=transparent&version=3&amp;hl=en_US&amp;rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="https://www.youtube.com/v/--><?php //the_field('youtube_code'); ?><!--?version=1&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" width="460" height="264" allowscriptaccess="always" allowfullscreen="true"></embed></object>-->
                     <iframe width="100%" height="100%" src="https://www.youtube.com/embed/<?php the_field('youtube_code'); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -76,7 +76,7 @@ $data_video_suf = '';
                 </div>
             <?php endif ?>
 
-            <?php if (get_field('add_diagram')) : ?> <!-- Diagram -->
+            <?php if (!empty(get_field('add_diagram'))) : ?> <!-- Diagram -->
 <!--                <div class="resource-image__wrap">-->
 <!--                    <picture>-->
 <!--                        <img src="--><?php //echo get_field('add_diagram');?><!--" alt="--><?php //the_title();?><!--">-->
@@ -113,7 +113,7 @@ $data_video_suf = '';
                 </div>
             <?php endif ?>
 
-            <?php if (get_field('td_resource_image')) : ?> <!-- Publication -->
+            <?php if (!empty(get_field('td_resource_image'))) : ?> <!-- Publication -->
                 <div class="resource-image__wrap">
                     <picture>
                         <img src="<?php echo get_field('td_resource_image')['url'];?>" alt="<?php echo get_field('td_resource_image')['title'];?>">
@@ -147,32 +147,32 @@ $data_video_suf = '';
                 </div>
             <?php endif; ?>
 
-            <?php if(get_field('td_resource_content')): ?> <!--publication -->
+            <?php if(!empty(get_field('td_resource_content'))): ?> <!--publication -->
             <div class="resource__text">
                 <?php the_field('td_resource_content'); ?>
             </div>
             <?php endif ?>
 
-            <?php if(get_field('add_link')): ?> <!-- Link -->
+            <?php if(!empty(get_field('add_link'))): ?> <!-- Link -->
                 <div class="resource-link">
                     <a target="_blank" href="<?php echo get_field('add_link'); ?>"><?php echo parse_url(get_field('add_link'), PHP_URL_HOST); ?></a>
                 </div>
             <?php endif; ?>
 
 
-            <?php if(get_field('td_resource_download')['file']): ?> <!--publication -->
+            <?php if(!empty(get_field('td_resource_download')['file'])): ?> <!--publication -->
                 <div class="resource-link file">
                     <a target="_blank" href="<?php echo get_field('td_resource_download')['file']; ?>"><?php echo get_field('td_resource_download')['link_text']; ?></a>
                 </div>
             <?php endif; ?>
 
-            <?php if(get_field('add_file') && !($terms[0] == 'Video')): ?> <!-- Video -->
+            <?php if(!empty(get_field('add_file')) && !($terms[0] == 'Video')): ?> <!-- Video -->
                 <div class="resource-link file">
                     <a href="<?php echo get_field('add_file'); ?>" download><?php echo aigi_get_filename_from_url( get_field('add_file') ); ?></a>
                 </div>
             <?php endif; ?>
 
-            <?php if(get_field('how_to_use')): ?>
+            <?php if(!empty(get_field('how_to_use'))): ?>
             <div class="resource__text">
                 <p><strong>How To Use:</strong><br/><?php echo get_field('how_to_use'); ?><p>
             </div>
