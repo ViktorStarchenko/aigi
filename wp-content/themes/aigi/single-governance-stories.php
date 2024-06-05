@@ -113,61 +113,70 @@
                                 <?php endif ?>
                             <?php } ?>
 
-                            <?php if (get_field('organization')) : ?>
-                                <?php if (get_field('organization')['enable'] == true)  {?>
+
+                            <?php
+                            if( have_rows('field_61fced47d533a') ): //Organization
+                            while ( have_rows('field_61fced47d533a') ) : the_row(); ?>
+                                <?php if (get_sub_field('field_6322f1fcccc76')): ?>
                                     <div class="post-details__item organisation-info">
-                                        <?php if (get_field('organization')['name']) { ?>
-                                            <div class="post-details__heading"><?= get_field('organization')['name']; ?></div>
+                                        <?php if (get_sub_field('field_6321885ce6292')) { //Name ?>
+                                            <div class="post-details__heading"><?= get_sub_field('field_6321885ce6292'); ?></div>
                                         <?php } ?>
 
-                                        <?php if (get_field('organization')['website']) { ?>
+                                        <?php if (get_sub_field('field_632188a2e6299')) { //Website ?>
                                             <div class="post-details__text">
                                                 <span class="single-event__pricing-type">Website: </span>
-                                                <a target="_blank" href="<?= get_field('organization')['website']; ?>"><?= get_field('organization')['website']; ?></a>
+                                                <a target="_blank" href="<?= get_sub_field('field_632188a2e6299'); ?>"><?= get_sub_field('field_632188a2e6299'); ?></a>
                                             </div>
                                         <?php } ?>
 
-                                        <?php if (get_field('organization')['about']) { ?>
+                                        <?php if (get_sub_field('field_63218869e6293')) { //About ?>
                                             <div class="post-details__text">
                                                 <span class="single-event__pricing-type">About: </span>
-                                                <?= get_field('organization')['about']; ?></div>
+                                                <?= get_sub_field('field_63218869e6293'); ?></div>
                                         <?php } ?>
 
-                                        <?php if (get_field('organization')['purpose']) { ?>
+                                        <?php if (get_sub_field('field_63218873e6294')) { //Purpose ?>
                                             <div class="post-details__text">
                                                 <span class="single-event__pricing-type">Purpose: </span>
-                                                <?= get_field('organization')['purpose']; ?></div>
+                                                <?= get_sub_field('field_63218873e6294'); ?></div>
                                         <?php } ?>
 
-                                        <?php if (get_field('organization')['sector']) { ?>
+                                        <?php if (get_sub_field('field_632189e140b9a')) { //Based in/Locations ?>
+                                            <div class="post-details__text">
+                                                <span class="single-event__pricing-type">Based In: </span>
+                                                <?= get_sub_field('field_632189e140b9a'); ?></div>
+                                        <?php } ?>
+
+                                        <?php if (get_sub_field('field_663c265fb6035')) { //Service area ?>
+                                            <div class="post-details__text">
+                                                <span class="single-event__pricing-type">Service area: </span>
+                                                <?= get_sub_field('field_663c265fb6035'); ?></div>
+                                        <?php } ?>
+
+                                        <?php if (get_sub_field('field_6321887de6295')) { //Sector ?>
                                             <div class="post-details__text">
                                                 <span class="single-event__pricing-type">Sector: </span>
-                                                <?= get_field('organization')['sector']; ?></div>
+                                                <?= get_sub_field('field_6321887de6295'); ?></div>
                                         <?php } ?>
 
-                                        <?php if (get_field('organization')['locations']) { ?>
-                                            <div class="post-details__text">
-                                                <span class="single-event__pricing-type">Location/s: </span>
-                                                <?= get_field('organization')['locations']; ?></div>
-                                        <?php } ?>
-
-                                        <?php if (get_field('organization')['incorporated']) { ?>
+                                        <?php if (get_sub_field('field_63218888e6296')) { //incorporated ?>
                                             <div class="post-details__text">
                                                 <span class="single-event__pricing-type">Incorporated?: </span>
-                                                <?= get_field('organization')['incorporated']; ?></div>
+                                                <?= get_sub_field('field_63218888e6296'); ?></div>
                                         <?php } ?>
 
-                                        <?php if (get_field('organization')['governance_features']) { ?>
+                                        <?php if (get_sub_field('field_63218891e6297')) { //Governance features ?>
                                             <div class="post-details__text rounded-list">
                                                 <span class="single-event__pricing-type">Governance features: </span>
-                                                <?= get_field('organization')['governance_features']; ?></div>
+                                                <?= get_sub_field('field_63218891e6297'); ?></div>
                                         <?php } ?>
 
-                                        <?php if (get_field('organization')['achievements']) : ?>
+                                        <?php if (get_sub_field('field_63218899e6298')) : //Achievements ?>
                                             <div class="post-details__text">
                                                 <span class="single-event__pricing-type">Achievements: </span>
                                                 <ul class="rounded-list">
-                                                    <?php foreach (get_field('organization')['achievements'] as $achievements) : ?>
+                                                    <?php foreach (get_sub_field('field_63218899e6298') as $achievements) : ?>
                                                         <li><?php echo $achievements['item']; ?></li>
                                                     <?php endforeach ?>
                                                 </ul>
@@ -175,15 +184,14 @@
                                             </div>
                                         <?php endif ?>
 
-                                        <?php if (get_field('organization')['this_profile_last_updated']) { ?>
+                                        <?php if (get_sub_field('field_632188c4e629b')) { //This profile last updated ?>
                                             <div class="post-details__text">
                                                 <span class="single-event__pricing-type">This profile last updated: </span>
-                                                <?= get_field('organization')['this_profile_last_updated']; ?></div>
+                                                <?= get_sub_field('field_632188c4e629b'); ?></div>
                                         <?php } ?>
                                     </div>
-                                <?php } ?>
-
-                            <?php endif ?>
+                                <?php endif; ?>
+                            <?php endwhile;  endif; ?>
 
                         </div>
 
