@@ -143,7 +143,7 @@
 
                                             <?php if (get_sub_field('field_632189e140b9a')) { //Based in/Locations ?>
                                                 <div class="post-details__text">
-                                                    <span class="single-event__pricing-type">Based In: </span>
+                                                    <span class="single-event__pricing-type">Based in: </span>
                                                     <?= get_sub_field('field_632189e140b9a'); ?></div>
                                             <?php } ?>
 
@@ -167,7 +167,7 @@
 
                                             <?php if (get_sub_field('field_63218891e6297')) { //Governance features ?>
                                                 <div class="post-details__text rounded-list">
-                                                    <span class="single-event__pricing-type">Governance features: </span>
+                                                    <span class="single-event__pricing-type">Governance structures: </span>
                                                     <?= get_sub_field('field_63218891e6297'); ?></div>
                                             <?php } ?>
 
