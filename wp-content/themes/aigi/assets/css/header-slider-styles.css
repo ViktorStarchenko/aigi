@@ -91,10 +91,12 @@
     /*margin-bottom: 32px;*/
     margin-bottom: 16px;
 }
-.header-slider__short-text {
+.header-slider__short-text,
+.header-slider__pronouns {
     margin-bottom: 16px;
 }
-.header-slider__short-text p {
+.header-slider__short-text p,
+.header-slider__pronouns p {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-normal);
@@ -385,7 +387,8 @@
     }
 
     /*Staff Display Page*/
-    .single-aigi_staff .header-slider__short-text p {
+    .single-aigi_staff .header-slider__short-text p,
+    .single-aigi_staff .header-slider__pronouns p {
         font-size: 15.78px;
         line-height: 20px;
         letter-spacing: 0.45px;
