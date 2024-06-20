@@ -95,8 +95,7 @@
 .header-slider__pronouns {
     margin-bottom: 16px;
 }
-.header-slider__short-text p,
-.header-slider__pronouns p {
+.header-slider__short-text p {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-normal);
@@ -104,6 +103,14 @@
     line-height: 24px;
     letter-spacing: 0.45px;
     color: #fff;
+}
+.header-slider__pronouns p {
+    font-weight: bold;
+    font-size: 22.44px;
+    line-height: 25px;
+    letter-spacing: 0.02em;
+    color: #FFFFFF;
+    margin-bottom: 4px;
 }
 .header-slider__image-credit {
     font-family: var(--font-family);
@@ -387,10 +394,10 @@
     }
 
     /*Staff Display Page*/
-    .single-aigi_staff .header-slider__short-text p,
-    .single-aigi_staff .header-slider__pronouns p {
+    .single-aigi_staff .header-slider__short-text p {
         font-size: 15.78px;
         line-height: 20px;
         letter-spacing: 0.45px;
     }
+
 }

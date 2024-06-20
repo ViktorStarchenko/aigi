@@ -174,9 +174,11 @@
                                                                             </div>
 
                                                                             <div class="team-block__member-body">
-                                                                                <div class="team-block__member-name" data-height="teamMemberName"><?php echo $board_members->post_title; ?></div>
-                                                                                <div class="team-block__member-pronouns" data-height="teamMemberPronouns"><?php echo get_field('staff_info', $board_members->ID)['pronouns']; ?></div>
-                                                                                <div class="team-block__member-position" data-height="teamMemberPosition"><?php echo get_field('staff_info', $board_members->ID)['role_qualifications']; ?></div>
+                                                                                <div data-height="teamMemberNameGroupBoard">
+                                                                                    <div class="team-block__member-name" data-height=""><?php echo $board_members->post_title; ?></div>
+                                                                                    <div class="team-block__member-pronouns" data-height=""><?php echo get_field('staff_info', $board_members->ID)['pronouns']; ?></div>
+                                                                                </div>
+                                                                                <div class="team-block__member-position" data-height="teamMemberPositionBoard"><?php echo get_field('staff_info', $board_members->ID)['role_qualifications']; ?></div>
                                                                                 <a href="<?php echo  get_the_permalink($board_members->ID) ?>" target="" class="team-block__member-link  btn-body  btn-transparent-white  Between " tabindex="0">
                                                                                     <span class="btn-inner">Read more</span>
                                                                                 </a>
@@ -212,9 +214,11 @@
                                                                             </div>
 
                                                                             <div class="team-block__member-body">
-                                                                                <div class="team-block__member-name" data-height="teamMemberName"><?php echo $our_staff->post_title; ?></div>
-                                                                                <div class="team-block__member-pronouns" data-height="teamMemberPronouns"><?php echo get_field('staff_info', $our_staff->ID)['pronouns']; ?></div>
-                                                                                <div class="team-block__member-position" data-height="teamMemberPosition"><?php echo get_field('staff_info', $our_staff->ID)['role_qualifications']; ?></div>
+                                                                                <div data-height="teamMemberNameGroupStaff">
+                                                                                    <div class="team-block__member-name" data-height=""><?php echo $our_staff->post_title; ?></div>
+                                                                                    <div class="team-block__member-pronouns" data-height=""><?php echo get_field('staff_info', $our_staff->ID)['pronouns']; ?></div>
+                                                                                </div>
+                                                                                <div class="team-block__member-position" data-height="teamMemberPositionStaff"><?php echo get_field('staff_info', $our_staff->ID)['role_qualifications']; ?></div>
                                                                                 <a href="<?php echo  get_the_permalink($our_staff->ID) ?>" target="" class="team-block__member-link  btn-body  btn-transparent-white  Between " tabindex="0">
                                                                                     <span class="btn-inner">Read more</span>
                                                                                 </a>
@@ -255,9 +259,11 @@
                                                                                 </div>
 
                                                                                 <div class="team-block__member-body">
-                                                                                    <div class="team-block__member-name" data-height="teamMemberName"><?php echo $board_members->post_title; ?></div>
-                                                                                    <div class="team-block__member-pronouns" data-height="teamMemberPronouns"><?php echo get_field('staff_info', $board_members->ID)['pronouns']; ?></div>
-                                                                                    <div class="team-block__member-position" data-height="teamMemberPosition"><?php echo get_field('staff_info', $board_members->ID)['role_qualifications']; ?></div>
+                                                                                    <div data-height="teamMemberNameGroupBoard">
+                                                                                        <div class="team-block__member-name" data-height=""><?php echo $board_members->post_title; ?></div>
+                                                                                        <div class="team-block__member-pronouns" data-height=""><?php echo get_field('staff_info', $board_members->ID)['pronouns']; ?></div>
+                                                                                    </div>
+                                                                                    <div class="team-block__member-position" data-height="teamMemberPositionBoard"><?php echo get_field('staff_info', $board_members->ID)['role_qualifications']; ?></div>
                                                                                     <a href="<?php echo  get_the_permalink($board_members->ID) ?>" target="" class="team-block__member-link  btn-body  btn-transparent-white  Between " tabindex="0">
                                                                                         <span class="btn-inner">Read more</span>
                                                                                     </a>
@@ -299,9 +305,11 @@
                                                                                 </div>
 
                                                                                 <div class="team-block__member-body">
-                                                                                    <div class="team-block__member-name" data-height="teamMemberName"><?php echo $our_staff->post_title; ?></div>
-                                                                                    <div class="team-block__member-pronouns" data-height="teamMemberPronouns"><?php echo get_field('staff_info', $our_staff->ID)['pronouns']; ?></div>
-                                                                                    <div class="team-block__member-position" data-height="teamMemberPosition"><?php echo get_field('staff_info', $our_staff->ID)['role_qualifications']; ?></div>
+                                                                                    <div data-height="teamMemberNameGroupStaff">
+                                                                                        <div class="team-block__member-name" data-height=""><?php echo $our_staff->post_title; ?></div>
+                                                                                        <div class="team-block__member-pronouns" data-height=""><?php echo get_field('staff_info', $our_staff->ID)['pronouns']; ?></div>
+                                                                                    </div>
+                                                                                    <div class="team-block__member-position" data-height="teamMemberPositionStaff"><?php echo get_field('staff_info', $our_staff->ID)['role_qualifications']; ?></div>
                                                                                     <a href="<?php echo  get_the_permalink($our_staff->ID) ?>" target="" class="team-block__member-link  btn-body  btn-transparent-white  Between " tabindex="0">
                                                                                         <span class="btn-inner">Read more</span>
                                                                                     </a>

@@ -60,7 +60,8 @@
     background-size: cover;
     background-position: center;
 }
-.team-block__member-name {
+.team-block__member-name,
+.team-block__member-pronouns {
     font-weight: bold;
     font-size: 22.44px;
     line-height: 25px;

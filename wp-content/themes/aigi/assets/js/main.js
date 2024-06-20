@@ -808,7 +808,7 @@ function normalizeHeigh(data) {
 }
 
 jQuery(document).ready(function() {
-    let data_arr = ['Hero2ColText', 'teamMemberName', 'teamMemberPosition', 'teamMemberPronouns', 'NewsrsliderTitle', 'NewsrsliderDesc', 'NewsrsliderTags','CaseStudiesrsliderTitle', 'CaseStudiesrsliderDesc', 'CaseStudiesrsliderTags','ConferencersliderTitle', 'ConferencersliderDesc', 'ConferencersliderTags','ResourcesrsliderTitle', 'ResourcesrsliderDesc', 'ResourcesrsliderTags','SpeakersrsliderTitle', 'SpeakersrsliderDesc', 'TestimonialsrsliderName','TestimonialsrsliderTitle', 'TestimonialsrsliderDesc'];
+    let data_arr = ['Hero2ColText', 'teamMemberName', 'teamMemberNameGroup', 'teamMemberPosition', 'teamMemberPronouns', 'teamMemberNameBoard', 'teamMemberNameGroupBoard', 'teamMemberPositionBoard', 'teamMemberPronounsBoard', 'teamMemberNameStaff', 'teamMemberNameGroupStaff', 'teamMemberPositionStaff', 'teamMemberPronounsStaff', 'NewsrsliderTitle', 'NewsrsliderDesc', 'NewsrsliderTags','CaseStudiesrsliderTitle', 'CaseStudiesrsliderDesc', 'CaseStudiesrsliderTags','ConferencersliderTitle', 'ConferencersliderDesc', 'ConferencersliderTags','ResourcesrsliderTitle', 'ResourcesrsliderDesc', 'ResourcesrsliderTags','SpeakersrsliderTitle', 'SpeakersrsliderDesc', 'TestimonialsrsliderName','TestimonialsrsliderTitle', 'TestimonialsrsliderDesc'];
 
     for(i=0; i<=data_arr.length; i++) {
         normalizeHeigh(data_arr[i])
