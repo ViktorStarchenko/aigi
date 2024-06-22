@@ -148,7 +148,6 @@
 
                                             </div>
 
-
                                             <div class="content">
                                                 <div class="tabs__content" id="global-search__filter">
                                                     <div class="tab tab-all global-search-tab is-active" data-post-type="all">
