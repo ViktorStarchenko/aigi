@@ -232,8 +232,6 @@ if ($slider): ?>
                             </div>
                         <?php endif ?>
 
-
-
                         <?php if ($title): ?>
                             <div class="header-slider__title">
                                 <p><?php echo $title ?></p>
