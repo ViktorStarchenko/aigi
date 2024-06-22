@@ -829,7 +829,6 @@ jQuery( window ).on('load resize', function() {
 })
 
 
-
 // PRINT BUTTON
 
 jQuery(document).ready(function(){
