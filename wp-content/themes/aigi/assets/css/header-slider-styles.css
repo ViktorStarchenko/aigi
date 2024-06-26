@@ -105,9 +105,8 @@
     color: #fff;
 }
 .header-slider__pronouns p {
-    font-weight: bold;
-    font-size: 22.44px;
-    line-height: 25px;
+    font-size: 18px;
+    line-height: 1.2;
     letter-spacing: 0.02em;
     color: #FFFFFF;
     margin-bottom: 4px;

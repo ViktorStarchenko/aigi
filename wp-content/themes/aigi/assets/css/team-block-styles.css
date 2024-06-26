@@ -59,11 +59,17 @@
     background-size: cover;
     background-position: center;
 }
-.team-block__member-name,
-.team-block__member-pronouns {
+.team-block__member-name {
     font-weight: bold;
     font-size: 22.44px;
     line-height: 25px;
+    letter-spacing: 0.02em;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+}
+.team-block__member-pronouns {
+    font-size: 18px;
+    line-height: 1.2;
     letter-spacing: 0.02em;
     color: #FFFFFF;
     margin-bottom: 4px;
