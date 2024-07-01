@@ -83,6 +83,9 @@ if ($slider): ?>
                 $image_credit = $slide['background']['image_credit'];
             }
 
+            if (get_post_type(get_the_id()) == 'aigi_staff') {
+                $pronouns = !empty(get_field('staff_info', get_the_id())['pronouns']) ? get_field('staff_info', get_the_id())['pronouns'] : '';
+            }
 
                 if ($slide['slide_type'] == 'custom') {
                     //content
@@ -229,11 +232,15 @@ if ($slider): ?>
                             </div>
                         <?php endif ?>
 
-
-
                         <?php if ($title): ?>
                             <div class="header-slider__title">
                                 <p><?php echo $title ?></p>
+                            </div>
+                        <?php endif ?>
+
+                        <?php if (!empty($pronouns)) : ?>
+                            <div class="header-slider__pronouns">
+                                <p><?php echo $pronouns ?></p>
                             </div>
                         <?php endif ?>
 

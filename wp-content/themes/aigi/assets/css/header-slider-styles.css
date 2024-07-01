@@ -91,7 +91,8 @@
     /*margin-bottom: 32px;*/
     margin-bottom: 16px;
 }
-.header-slider__short-text {
+.header-slider__short-text,
+.header-slider__pronouns {
     margin-bottom: 16px;
 }
 .header-slider__short-text p {
@@ -102,6 +103,13 @@
     line-height: 24px;
     letter-spacing: 0.45px;
     color: #fff;
+}
+.header-slider__pronouns p {
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    color: #FFFFFF;
+    margin-bottom: 4px;
 }
 .header-slider__image-credit {
     font-family: var(--font-family);
