@@ -566,6 +566,7 @@ p.image_description {
 .footer_social_block {
 	display: flex;
     flex-wrap: wrap;
+	row-gap: 30px;
     max-width: 294px;
     justify-content: space-between;
     margin-right: -34px;
