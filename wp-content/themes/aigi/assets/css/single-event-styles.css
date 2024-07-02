@@ -161,6 +161,12 @@
     /*color: inherit;*/
     /*text-decoration: none;*/
 }
+.post-details__item .content-tags__item {
+    padding: 3px 10px;
+    margin: 2px;
+    line-height: 1;
+    font-size: 10.85px;
+}
 
 
 

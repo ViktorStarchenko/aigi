@@ -10,6 +10,9 @@
     <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
     <div class="main-inner  <?php  echo ((get_field('header_slider')['enable'] == true) ? ' top-of-hero ' :''); ?>">
 
+        <?php
+        $terms =  get_the_terms( get_the_ID(), 'content_tags');
+        ?>
         <div class="wrapper-1245 content-wrapper">
             <div class="has-sidebar  sidebar-right">
                 <div class="col-sidebar">
@@ -122,6 +125,16 @@
                                         <?php if (get_sub_field('field_6321885ce6292')) { //Name ?>
                                             <div class="post-details__heading"><?= get_sub_field('field_6321885ce6292'); ?></div>
                                         <?php } ?>
+
+                                        <?php if(!empty($terms)): ?>
+                                            <div class="content-tags">
+                                                <?php foreach ($terms as $cur_term) : ?>
+                                                    <div class="content-tags__item">
+                                                        <span href="<?php echo get_term_link( $cur_term->term_id, $cur_term->taxonomy ) ?>"><?php echo $cur_term->name; ?></span>
+                                                    </div>
+                                                <?php endforeach ?>
+                                            </div>
+                                        <?php endif ?>
 
                                         <?php if (get_sub_field('field_632188a2e6299')) { //Website ?>
                                             <div class="post-details__text">

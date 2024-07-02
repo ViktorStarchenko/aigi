@@ -454,3 +454,15 @@ if (!function_exists('dd')) {
         die();
     }
 }
+
+/**
+ * @return array|string[]
+ */
+function getUserRole() {
+    $current_user = wp_get_current_user();
+    $user_roles = [];
+    if ( $current_user->exists() ) {
+        $user_roles = $current_user->roles;
+    }
+    return $user_roles;
+}
