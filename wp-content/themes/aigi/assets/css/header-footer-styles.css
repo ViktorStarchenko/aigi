@@ -554,6 +554,7 @@ p.image_description {
 .footer_contacts_block {
 	display: flex;
     justify-content: space-between;
+	align-items: flex-start;
     max-width: 730px;
     max-width: 1000px;
     margin: 0 auto;
@@ -641,8 +642,8 @@ p.image_description {
 	row-gap: 20px;
 }
 .footer_icons__item {
-	width: 57px;
-	height: 57px;
+	width: 100px;
+	height: 100px;
 	position: relative;
 }
 .footer_icons__item img,
