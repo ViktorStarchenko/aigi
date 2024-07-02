@@ -7,6 +7,7 @@ $footer_partners = get_field('footer_partners', 'option');
 $footer_button = get_field('footer_button', 'option');
 $footer_copyright = get_field('copyright', 'option');
 $footer_bottom_menu = get_field('footer_bottom_menu', 'option');
+$footer_icons = get_field('footer_icons', 'option');
 ?>
 <footer id="footer" role="contentinfo">
 	<div class="footer_wrapper">
@@ -39,6 +40,23 @@ $footer_bottom_menu = get_field('footer_bottom_menu', 'option');
 					<a class="footer_facebook" href="<?= $footer_contacts['facebook']['url'] ?>"><?= $footer_contacts['facebook']['title'] ?></a>
 					<?php endif; ?>
 				</div>
+                <?php if (!empty($footer_icons)) { ?>
+                    <div class="footer_icons_block footer_contacts_col">
+                        <?php foreach ($footer_icons as $item) { ?>
+                            <?php if (!empty($item)) { ?>
+                                <div class="footer_icons__item">
+                                    <?php if (!empty($item['link'])) { ?>
+                                        <a class="footer_icons__item-link" target="<?= $item['link']['target']; ?>" href="<?= $item['link']['url']; ?>"><?=$item['link']['title'];?></a>
+                                    <?php } ?>
+                                    <?php if (!empty($item['image'])) { ?>
+                                        <img src="<?=$item['image']['url'];?>" alt="<?=$item['image']['url'];?>" title="<?=$item['image']['url'];?>">
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+
 			</div>
 		</div>
 		<div class="footer_partners_block">
