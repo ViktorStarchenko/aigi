@@ -2,11 +2,11 @@
 <?php //var_dump($args[0]);?>
 <?php if ($content_items) : ?>
     <?php foreach ($content_items as $content_item) : ?>
-        <?php
-        if ($content_item['only_for_admin'] == true && !current_user_can( 'administrator' )) {
-            continue;
-        }
-        ?>
+<!--        --><?php
+//        if ($content_item['only_for_admin'] == true && !current_user_can( 'administrator' )) {
+//            continue;
+//        }
+//        ?>
         <!--                            Header-->
         <?php if ($content_item['item_type'] == 'Header Block') : ?>
             <div class="content-item header-block">

@@ -124,7 +124,6 @@ if ($slider): ?>
                         $terms = get_the_terms($post->ID, 'people_group');
                     } else if ($post->post_type == 'partners') {
                         $terms = get_the_terms($post->ID, 'partners_group');
-
                     } else if ($post->post_type == 'event' || $post->post_type == 'news' || $post->post_type == 'resource'){
                         $terms =  get_the_terms( $post->ID, 'content_tags');
                     } else if ($post->post_type == 'post') {
@@ -199,7 +198,8 @@ if ($slider): ?>
                 } else if ($post->post_type == 'case_studies') {
                     $terms =  get_the_terms( $post->ID, 'content_tags');
                 } else if ($post->post_type == 'governance-stories') {
-                    $terms =  get_the_terms( $post->ID, 'content_tags');
+//                    $terms =  get_the_terms( $post->ID, 'content_tags');
+                    $terms =  NULL;
                 }
             }
 
