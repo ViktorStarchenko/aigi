@@ -164,11 +164,11 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 24px;
-    height: 24px;
+    width: 27px;
+    height: 27px;
     display: block;
     position: absolute;
-    top: 1px;
+    top: -3px;
     left: 0;
 }
 .resource-video__wrap,
