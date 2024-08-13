@@ -114,5 +114,10 @@ function wpshout_add_cron_interval( $schedules ) {
 }
 wp_schedule_event( time(), 'everyminute', 'fwp_scheduled_index' );
 
+add_filter( 'facetwp_map_init_args', function ( $args ) {
+    $args['init']['mapTypeId'] = 'satellite'; // valid options are: roadmap, satellite, hybrid, terrain
+    return $args;
+});
+
 
 
