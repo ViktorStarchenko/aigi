@@ -90,6 +90,9 @@ $footer_icons = get_field('footer_icons', 'option');
 	</div>
 </footer>
 </div>
+
+<?php get_template_part('template-parts/content-blocks/content', 'feedback-widget'); ?>
+
 <?php wp_footer(); ?>
 
 <!--partner popup-->
