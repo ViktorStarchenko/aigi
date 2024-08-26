@@ -38,6 +38,7 @@
 @import 'breadcrumb-styles.css';
 @import 'preloader-styles.css';
 @import 'donation-styles.css';
+/*@import '../fonts/ProximaNova/stylesheet.css';*/
 
 
 
@@ -2626,24 +2627,24 @@ input[type="submit"].btn-transparent-white:hover {
 .provide-feedback-widget .popup_button {
     min-width: unset;
     transform: rotate(-90deg);
-    right: -70px;
-    border-radius: 0;
-    font-size: 26.97px;
-    line-height: 30px;
-    letter-spacing: 0.02em;
-    font-weight: 500;
-    padding: 10px 20px 20px;
+    right: -63px;
+    /*border-radius: 0;*/
+    /*font-size: 26.97px;*/
+    /*line-height: 30px;*/
+    /*letter-spacing: 0.02em;*/
+    /*font-weight: 500;*/
+    padding: 17px 30px 40px;
 }
 .provide-feedback-widget .popup_button:hover {
-    right: -60px;
+    right: -43px;
 }
 @media (max-width: 767px) {
     .provide-feedback-widget .popup_button {
-        font-size: 18.97px;
-        padding: 3px 20px 20px;
-        right: -59px;
+        /*font-size: 18.97px;*/
+        /*padding: 3px 20px 20px;*/
+        /*right: -59px;*/
     }
     .provide-feedback-widget .popup_button:hover {
-        right: -49px;
+        /*right: -49px;*/
     }
 }

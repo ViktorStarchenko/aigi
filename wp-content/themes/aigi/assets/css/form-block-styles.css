@@ -20,11 +20,11 @@
 }
 .form-block-wrapper .form-wrapper {
     margin-top: 50px;
- }
- .form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_fields {
+}
+.form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_fields {
     grid-row-gap: 10px;
- }
- .form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_footer input {
+}
+.form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_footer input {
     min-width: 217px;
     font-family: var(--font-family);
     font-style: normal;
@@ -49,20 +49,28 @@
     color: white;
     border: unset;
     line-height: 1;
-    }
-    .form-block-wrapper .form-wrapper .gform_wrapper input::-webkit-input-placeholder { 
-      font-size: 13.33px;
-    }
-    .form-block-wrapper .form-wrapper .gform_wrapper input::-moz-placeholder { 
-      font-size: 13.33px;
-    }
-    .form-block-wrapper .form-wrapper .gform_wrapper input:-ms-input-placeholder { 
-      font-size: 13.33px;
-    }
-    .form-block-wrapper .form-wrapper .gform_wrapper input:-moz-placeholder { 
-      font-size: 13.33px;
-    }
- .form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_footer::after {
+}
+.form-block-wrapper .form-wrapper .gform_wrapper input::-webkit-input-placeholder,
+.gform_wrapper input::-webkit-input-placeholder {
+    font-size: 13.33px;
+    font-family: var(--font-family);
+}
+.form-block-wrapper .form-wrapper .gform_wrapper input::-moz-placeholder,
+.gform_wrapper input::-moz-placeholder {
+    font-size: 13.33px;
+    font-family: var(--font-family);
+}
+.form-block-wrapper .form-wrapper .gform_wrapper input:-ms-input-placeholder,
+.gform_wrapper input::-ms-input-placeholder {
+    font-size: 13.33px;
+    font-family: var(--font-family);
+}
+.form-block-wrapper .form-wrapper .gform_wrapper input:-moz-placeholder,
+.gform_wrapper input::-moz-placeholder {
+    font-size: 13.33px;
+    font-family: var(--font-family);
+}
+.form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_footer::after {
     content: '';
     border: 4px solid transparent;
     border-left: 4px solid white;
@@ -70,16 +78,16 @@
     position: absolute;
     top: 32px;
     right: 23px;
- }
-  .form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_footer {
+}
+.form-block-wrapper .form-wrapper .gform_wrapper.gravity-theme .gform_footer {
     margin: 0;
     padding: 10px 0;
     position: relative;
- }
- .form-block-section {
+}
+.form-block-section {
     background-size: auto;
     background-position: center bottom;
- }
+}
 
 .gform_body ul {
     padding-left: 24px;
