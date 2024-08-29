@@ -840,6 +840,7 @@ jQuery(document).ready(function(){
 //////////////////////////////// Popup
 
 jQuery('.popup_button').on('click', function () {
+    console.log(this)
     jQuery(this).siblings(".popup-main-wrapper").addClass('popup_opened');
     jQuery('body').addClass('hidden');
 });

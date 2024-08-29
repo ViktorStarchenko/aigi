@@ -38,6 +38,7 @@
 @import 'breadcrumb-styles.css';
 @import 'preloader-styles.css';
 @import 'donation-styles.css';
+/*@import '../fonts/ProximaNova/stylesheet.css';*/
 
 
 
@@ -258,6 +259,10 @@ ul li:before {
     top: 9px;
     width: 4px;
     height: 4px;
+}
+.list-dot {
+    margin-right: 5px;
+    align-self: flex-start;
 }
 select {
     padding: 16px;
@@ -1289,6 +1294,14 @@ input[type="submit"].gform_button {
     color: var(--color-brand-navy-primary);
     margin-bottom: 10px;
 }
+.form-subtitle {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    color: var(--color-brand-navy-primary);
+    margin-bottom: 10px;
+}
 .form-desc {
     font-size: 14px;
     line-height: 22px;
@@ -1409,6 +1422,7 @@ textarea.form-input {
 /*input[type="email"].form-input,*/
 input[type="text"],
 input[type="email"],
+input[type="tel"],
 textarea {
     width: 100%;
     font-size: 14px;
@@ -2602,3 +2616,35 @@ input[type="submit"].btn-transparent-white:hover {
     }
 }
 /*Heading block*/
+
+/*Provide Feedback Widget*/
+.provide-feedback-widget {
+    position: fixed;
+    right: 0;
+    top: 47vh;
+    z-index: 10;
+}
+.provide-feedback-widget .popup_button {
+    min-width: unset;
+    transform: rotate(-90deg);
+    right: -63px;
+    /*border-radius: 0;*/
+    /*font-size: 26.97px;*/
+    /*line-height: 30px;*/
+    /*letter-spacing: 0.02em;*/
+    /*font-weight: 500;*/
+    padding: 17px 30px 40px;
+}
+.provide-feedback-widget .popup_button:hover {
+    right: -43px;
+}
+@media (max-width: 767px) {
+    .provide-feedback-widget .popup_button {
+        /*font-size: 18.97px;*/
+        /*padding: 3px 20px 20px;*/
+        /*right: -59px;*/
+    }
+    .provide-feedback-widget .popup_button:hover {
+        /*right: -49px;*/
+    }
+}
