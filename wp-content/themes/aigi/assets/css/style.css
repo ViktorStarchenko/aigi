@@ -77,6 +77,7 @@
 :root {
 
     --color-main-text: #4D4D4D;
+    --text-paragraph-primary: #231F20;
     /*Brand Colours [theme]*/
     --color-brand-navy-primary: #131032;
     --color-brand-m-blue-primary: #0762A4;
@@ -582,6 +583,60 @@ strong {
     display: block;
     z-index: 10;
 }
+.landing-two-columns {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+.landing-two-columns.equal-columns .col {
+    flex: 1;
+}
+
+/*Expandable text*/
+.expandable-text-content {
+    display: none;
+}
+
+.expandable-text-block {
+    /*margin-bottom: 20px;*/
+}
+
+.expandable-toggle-button {
+    font-family: var(--font-family);
+    font-size: 12.85px;
+    line-height: 15.65px;
+    font-weight: 600;
+    color: var(--color-brand-m-blue-primary);
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.7px;
+    border-bottom: 1px solid var(--color-brand-m-blue-primary);
+    display: inline-block;
+    position: relative;
+}
+.expandable-toggle-button:after {
+    content: '';
+    background-image: url(/wp-content/themes/aigi/assets/images/right-arrow-blue.svg);
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    position: absolute;
+    top: calc(50% - 5px);
+    transform: rotate(90deg);
+    right: -18px;
+    transition: all .2s;
+}
+.is-expanded .expandable-toggle-button:after {
+    transform: rotate(-90deg);
+}
+
+.expandable-toggle-button:focus {
+    outline: none;
+}
+
 @media (min-width: 1920px)  {
 
 }

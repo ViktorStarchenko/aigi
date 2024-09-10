@@ -1,38 +1,17 @@
+<div class="content-wrapper wrapper-1245">
+    <div class="post-tile__list landing-page search-page__results">
 
-<?php while ( have_posts() ): the_post(); ?>
-    <?php
-    $post_type = get_post_type( get_the_ID() );
+        <?php get_template_part('template-parts/layout', 'posts-list'); ?>
 
-    if($post_type == 'event') {
+    </div>
 
+    <div class="search-pagination">
 
-        $terms =  wp_get_post_terms( get_the_ID(), 'event_group');
+        <div class="search-pagination__info">
+            You've viewed <span class="search-pagination__per-page"><?php echo FWP()->facet->pager_args['per_page']; ?></span> of <span class="search-pagination__total-rows"><?php echo FWP()->facet->pager_args['total_rows']; ?></span> events
+        </div>
+        <?php echo do_shortcode('[facetwp facet="pager_"]'); ?>
 
-        if ($terms[0]->slug == 'event' || $terms[0]->slug == 'webinar' || $terms[0]->slug == 'indigenous-governance-award') {
-            include( get_stylesheet_directory() . '/template-parts/post-tiles/events-tile.php' );
-        }
-        if ($terms[0]->slug == 'masterclass') {
-            include( get_stylesheet_directory() . '/template-parts/post-tiles/events-tile.php' );
-        }
-    } else if ($post_type == 'news') {
+    </div>
 
-        include( get_stylesheet_directory() . '/template-parts/post-tiles/news-tile.php' );
-
-    } else if ($post_type == 'resource') {
-        include( get_stylesheet_directory() . '/template-parts/post-tiles/resource-tile.php' );
-
-    } else if ($post_type == 'toolkit') {
-        include( get_stylesheet_directory() . '/template-parts/post-tiles/toolkit-tile.php' );
-
-    } else if ($post_type == 'case_studies') {
-        include( get_stylesheet_directory() . '/template-parts/post-tiles/cstudies-tile.php' );
-
-    } else if ($post_type == 'governance-stories') {
-        include( get_stylesheet_directory() . '/template-parts/post-tiles/cstudies-tile.php' );
-
-    } else if($post_type == 'people' || $post_type == 'post' || $post_type == 'page' || $post_type == 'partners') {
-        continue;
-    }
-
-    ?>
-<?php endwhile; ?>
+</div>

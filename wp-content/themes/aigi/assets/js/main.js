@@ -1107,3 +1107,21 @@ jQuery(document).ready(function(){
         // console.log(zoom)
     })
 })
+
+// Expandable text
+jQuery(document).ready(function() {
+    jQuery('.expandable-toggle-button').click(function() {
+        var textBlock = jQuery(this).closest('.expandable-text-block');
+        var textContent = textBlock.find('.expandable-text-content');
+
+        if (textContent.is(':visible')) {
+            textContent.slideUp();
+            jQuery(this).text('Show more');
+            textBlock.removeClass('is-expanded');
+        } else {
+            textContent.slideDown();
+            jQuery(this).text('Show less');
+            textBlock.addClass('is-expanded');
+        }
+    });
+});

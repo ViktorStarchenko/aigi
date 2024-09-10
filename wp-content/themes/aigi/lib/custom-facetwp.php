@@ -32,7 +32,7 @@ if (!is_admin()) {
     }
 
 
-    if ('templates/landing-page.php' == get_page_template_slug($post)) {
+    if ('templates/landing-page.php' == get_page_template_slug($post) || 'templates/landing-page-big-map.php' == get_page_template_slug($post)) {
 
         /*** Set post type for landing page filter ***/
         add_filter( 'facetwp_preload_url_vars', function( $url_vars ) {
@@ -63,16 +63,22 @@ if (!is_admin()) {
             }
             return $url_vars;
 
-
         } );
-
-
 
     }
 
+
 }
 
-
+add_filter( 'facetwp_indexer_query_args', function( $args ) {
+    unset ( $args['post_type']['case_studies'] ); // Prevent this post type from being indexed
+    unset ( $args['post_type']['post'] ); // Prevent this post type from being indexed
+    unset ( $args['post_type']['partners'] ); // Prevent this post type from being indexed
+    unset ( $args['post_type']['people'] ); // Prevent this post type from being indexed
+    unset ( $args['post_type']['aigi_staff'] ); // Prevent this post type from being indexed
+    unset ( $args['post_type']['author'] ); // Prevent this post type from being indexed
+    return $args;
+});
 
 /*
 Plugin Name: FacetWP Schedule Indexer
@@ -114,10 +120,119 @@ function wpshout_add_cron_interval( $schedules ) {
 }
 wp_schedule_event( time(), 'everyminute', 'fwp_scheduled_index' );
 
+//Map type
+add_filter( 'facetwp_map_proximity_marker_args', '__return_false' );
+
 add_filter( 'facetwp_map_init_args', function ( $args ) {
     $args['init']['mapTypeId'] = 'satellite'; // valid options are: roadmap, satellite, hybrid, terrain
     return $args;
 });
+
+//map pin
+add_filter( 'facetwp_map_marker_args', function( $args, $post_id ) {
+    $args['icon'] = get_stylesheet_directory_uri() . '/assets/images/custom-marker-1.svg'; // set your theme image path here
+    return $args;
+}, 10, 2 );
+
+//Set marker cluster to zoom in when clicking on it
+//Customize the marker cluster images
+//Cluser Using cssClass
+add_filter( 'facetwp_map_init_args', function( $args ) {
+
+//    dd(FWP());
+
+    $args['init']['mapTypeControl']    = false; // roadmap / satellite toggle
+    $args['init']['streetViewControl'] = false; // street view / yellow man icon
+    $args['init']['fullscreenControl'] = false; // full screen icon
+
+    if ( isset( $args['config']['cluster'] ) ) {
+        $args['config']['cluster']['imagePath']      = get_stylesheet_directory_uri() . '/assets/img/googlemaps/m'; // set your own image directory in your theme here. Note: the /m at the end is not a directory, but the first part of the image names.
+        $args['config']['cluster']['imageExtension'] = 'svg'; // 'svg' will work too
+
+        $args['config']['cluster']['zoomOnClick'] = true; // default: false
+        $args['config']['cluster']['maxZoom'] = 14; // default: 15. Level must be between 1 and 20.
+        $args['config']['cluster']['minimumClusterSize'] = 2; // default: 2
+    }
+
+    $args['config']['spiderfy']['markersWontMove'] = false;
+    echo '<br>';
+    return $args;
+} );
+
+//Customize cluster click behavior
+add_action( 'wp_footer', function() {
+    ?>
+    <script type="text/javascript">
+        (function($) {
+
+            ClusterIcon.prototype.triggerClusterClick = function() {
+
+
+                var markerClusterer = this.cluster_.getMarkerClusterer();
+
+                // Trigger the clusterclick event
+                google.maps.event.trigger(markerClusterer, 'clusterclick', this.cluster_);
+                var markers = this.cluster_.getMarkers();
+                //
+                // Your code here. Two examples:
+//              Example 2: Put all markers in the clicked cluster into an object
+//                 markers.each((marker) => {
+//                     console.log(marker);
+//                 })
+                console.log(this.cluster_.getMarkers())
+                // Example 1: Zoom in to bounds of cluster. Does the same as when zoomOnClick is set to true
+                this.map_.fitBounds(this.cluster_.getBounds());
+
+
+            }
+
+        })(jQuery);
+    </script>
+
+    <script>
+        (function($) {
+            document.addEventListener('facetwp-loaded', function() {
+                if ('undefined' === typeof FWP_MAP) {
+                    return;
+                }
+                var filterButton = $(".facetwp-map-filtering");
+                if (!filterButton.hasClass('enabled') && 'undefined' == typeof FWP_MAP.enableFiltering) {
+                    filterButton.text(FWP_JSON['map']['resetText']);
+                    FWP_MAP.is_filtering = true;
+                    filterButton.addClass('enabled');
+                    FWP_MAP.enableFiltering = true;
+                }
+            });
+        })(fUtil);
+    </script>
+
+    <script>
+        (function($) {
+            $(document).on('click', '.post-item', function(e) {
+                e.preventDefault(); // Necessary if '.post-item' is an <a> tag and you don't want it to open the post page itself.
+                var postid = $(this).attr('data-id');
+                var marker = FWP_MAP.get_post_markers(postid);
+                $.each( marker, function( key, value ) {
+
+                    FWP_MAP.map.setCenter({
+                        lat: value.position.lat(),
+                        lng: value.position.lng()
+                    });
+                    FWP_MAP.is_zooming = true; // Needed if you are using the "Enable map filtering" button
+                    FWP_MAP.map.setZoom(5); // Set a zoom level between 1 and 20. Make sure it is higher than the marker clusterer's bottom limit.
+
+                    // google.maps.event.trigger(value, 'click'); // If you don't have spiderfied markers
+                    google.maps.event.trigger(value, 'spider_click'); // If you have spiderfied markers. Will also work if you don't have spiderfied markers.
+
+                });
+            });
+        })(jQuery);
+    </script>
+    <?php
+}, 100 );
+
+
+
 
 
 

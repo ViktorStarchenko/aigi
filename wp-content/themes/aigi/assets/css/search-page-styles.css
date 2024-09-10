@@ -85,8 +85,8 @@ body .facetwp-facet {
     color: #231F20;
 }
 .filter-button {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border: 1px solid var(--color-field-border);
     box-sizing: border-box;
     background-color: #fff;
@@ -349,7 +349,7 @@ global-search__filter-mobile .tab {
     width: 37.5px;
     height: 35px;
     border-radius: 50%;
-    border: 1px solid var(--color-field-border);
+    /*border: 1px solid var(--color-field-border);*/
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -365,13 +365,16 @@ global-search__filter-mobile .tab {
     letter-spacing: 0.05em;
     color: #1A1A1A;
     transition: all .3s;
+    background-image: url(/wp-content/themes/aigi/assets/images/pagination-oval-border-grey.svg);
 }
 .facetwp-page.active {
-    border: 1px solid var(--color-text-field-blue);
+    /*border: 1px solid var(--color-text-field-blue);*/
+    background-image: url(/wp-content/themes/aigi/assets/images/pagination-oval-border-navy.svg);
 }
 .facetwp-page:hover {
-    background-color: var(--color-text-field-blue);
+    /*background-color: var(--color-text-field-blue);*/
     color: #fff;
+    background-image: url(/wp-content/themes/aigi/assets/images/pagination-oval-bg-navy.svg);
 }
 body .facetwp-radio {
     font-size: 15px;

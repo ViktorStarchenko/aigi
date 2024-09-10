@@ -215,7 +215,7 @@
                    <div class="facetwp__search_bar-wrap">
                        <?php echo do_shortcode('[facetwp facet="search_bar"]');?>
                        <?php
-                       if ('templates/landing-page.php' != get_page_template_slug($post)) { ?>
+                       if ('templates/landing-page.php' != get_page_template_slug(get_the_id()) && 'templates/landing-page-big-map.php' != get_page_template_slug(get_the_id())) { ?>
                            <div style="display:none"><?php echo do_shortcode('[facetwp template="search_page_result"]');?></div>
                        <?php } ?>
                        <button class="fwp-submit btn-body btn-m-blue" data-href="/search/">Search</button>
