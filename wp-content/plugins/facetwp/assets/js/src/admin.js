@@ -57,20 +57,21 @@
 
                     return settings;
                 },
-                cloneObj(obj) {
-                    return JSON.parse(JSON.stringify(obj));
-                },
                 getSettingsMeta() {
                     let settings = {
                         num_columns: {
                             type: 'number',
-                            title: FWP.__('Grid columns '),
+                            title: FWP.__('Number of grid columns '),
                             defaultValue: 1
                         },
                         grid_gap: {
                             type: 'number',
-                            title: FWP.__('Grid gap'),
+                            title: FWP.__('Spacing between results'),
                             defaultValue: 10
+                        },
+                        no_results_text: {
+                            type: 'textarea',
+                            title: FWP.__('No results text')
                         },
                         text_style: {
                             type: 'text-style',
@@ -212,7 +213,7 @@
                         date_format: {
                             type: 'text',
                             title: FWP.__('Date format'),
-                            placeholder: 'F j, Y',
+                            defaultValue: 'F j, Y',
                             v_show: [
                                 { type: 'field_type', value: 'date' },
                                 { type: 'source', value: 'post_date' },
@@ -222,7 +223,7 @@
                         input_format: {
                             type: 'text',
                             title: FWP.__('Input format'),
-                            placeholder: 'Y-m-d',
+                            defaultValue: 'Y-m-d',
                             v_show: [
                                 { type: 'field_type', value: 'date' },
                                 { type: 'source', value: 'post_date' },
@@ -292,7 +293,8 @@
                         },
                         name: {
                             type: 'text',
-                            title: FWP.__('Name')
+                            title: FWP.__('Unique name'),
+                            notes: '(Required) unique element name, without spaces'
                         },
                         css_class: {
                             type: 'text',
@@ -301,11 +303,11 @@
                         }
                     };
 
-                    settings.button_border = this.cloneObj(settings.border);
+                    settings.button_border = this.$root.cloneObj(settings.border);
                     settings.button_border.title = FWP.__('Button border');
-                    settings.button_border.tab = 'content';
+                    settings.button_border.tab = 'basic';
 
-                    settings.term_link = this.cloneObj(settings.link);
+                    settings.term_link = this.$root.cloneObj(settings.link);
                     settings.term_link.children.type.choices = {
                         'none': FWP.__('None'),
                         'term': FWP.__('Term URL'),
@@ -318,7 +320,7 @@
                     let fields = [];
 
                     if ('layout' == type) {
-                        fields.push('num_columns', 'grid_gap');
+                        fields.push('num_columns', 'grid_gap', 'no_results_text');
                     }
 
                     if ('row' == type) {
@@ -405,9 +407,7 @@
             },
             template: `
             <div class="qb-wrap">
-                <div class="side-link">
-                    <a href="javascript:;" @click="$root.getQueryArgs(template)">{{ 'Convert to query args' | i18n }}</a>
-                </div>
+                <h3>Which results should be in the listing?</h3>
 
                 <div class="qb-condition">
                     {{ 'Fetch' | i18n }}
@@ -439,6 +439,7 @@
                             <option value="type">{{ 'Post Type' | i18n }}</option>
                             <option value="date">{{ 'Post Date' | i18n }}</option>
                             <option value="modified">{{ 'Post Modified' | i18n }}</option>
+                            <option value="comment_count">{{ 'Comment Count' | i18n }}</option>
                             <option value="menu_order">{{ 'Menu Order' | i18n }}</option>
                             <option value="post__in">post__in</option>
                         </optgroup>
@@ -486,24 +487,30 @@
                         <option v-if="showCompare('NOT IN', row)" value="NOT IN">NOT IN</option>
                         <option v-if="showCompare('EXISTS', row)" value="EXISTS">EXISTS</option>
                         <option v-if="showCompare('NOT EXISTS', row)" value="NOT EXISTS">NOT EXISTS</option>
+                        <option v-if="showCompare('EMPTY', row)" value="EMPTY">EMPTY</option>
+                        <option v-if="showCompare('NOT EMPTY', row)" value="NOT EMPTY">NOT EMPTY</option>
                     </select>
 
                     <v-select
                         v-model="row.value"
-                        v-show="row.compare != 'EXISTS' && row.compare != 'NOT EXISTS'"
+                        v-show="maybeShowValue(row.compare)"
                         :options="[]"
                         :multiple="true"
                         :taggable="true"
                         :close-on-select="false"
                         :placeholder="getPlaceholder(row)">
+                        <div slot="no-options">
+                            Type a value, then press "Enter" to add it
+                        </div>
                     </v-select>
 
                     <span @click="deleteFilterCriteria(index)" class="qb-remove" v-html="FWP.svg['minus-circle']"></span>
                 </div>
 
-                <div>
-                    <button class="button" @click="addSortCriteria">{{ 'Add sort' | i18n }}</button>
-                    <button class="button" @click="addFilterCriteria">{{ 'Add filter' | i18n }}</button>
+                <div class="qb-actions">
+                    <span class="facetwp-btn" @click="addSortCriteria">{{ 'Add query sort' | i18n }}</span>
+                    <span class="facetwp-btn" @click="addFilterCriteria">{{ 'Add query filter' | i18n }}</span>
+                    <span class="facetwp-btn" @click="$root.getQueryArgs(template)">{{ 'Convert to query args' | i18n }}</span>
                 </div>
             </div>
             `,
@@ -513,6 +520,9 @@
                 },
                 getPlaceholder({key}) {
                     return ('tax/' == key.substr(0, 4)) ? FWP.__('Enter term slugs') : FWP.__('Enter values');
+                },
+                maybeShowValue(compare) {
+                    return !['EXISTS', 'NOT EXISTS', 'EMPTY', 'NOT EMPTY'].includes(compare);
                 },
                 showCompare(option, {key, type}) {
                     if ('tax/' == key.substr(0, 4)) {
@@ -600,6 +610,7 @@
             template: `
             <div class="builder-wrap">
                 <div class="builder-canvas-wrap">
+                    <h3>How should an individual result appear?</h3>
                     <div class="builder-canvas">
                         <draggable :list="layout.items" handle=".builder-row-actions.not-child">
                             <builder-row
@@ -610,10 +621,6 @@
                                 :key="index">
                             </builder-row>
                         </draggable>
-                    </div>
-                    <div class="builder-intro">
-                        In the above canvas, build the layout for an individual result.<br><br>
-                        Then in <strong>Layout</strong>, choose the number of grid columns.
                     </div>
                 </div>
                 <builder-settings :layout="layout"></builder-settings>
@@ -626,8 +633,12 @@
             props: ['settings', 'name', 'source', 'tab'],
             template: `
             <div class="builder-setting" v-show="isVisible">
-                <div v-html="title"></div>
-                <component :is="getSettingComponent" v-bind="$props" :meta="meta"></component>
+                <div v-if="meta.notes" class="setting-title facetwp-tooltip">
+                    {{ title }}
+                    <div class="facetwp-tooltip-content" v-html="meta.notes"></div>
+                </div>
+                <div v-else class="setting-title" v-html="title"></div>
+                <div><component :is="getSettingComponent" v-bind="$props" :meta="meta"></component></div>
             </div>
             `,
             computed: {
@@ -639,7 +650,7 @@
                     let self = this;
 
                     if ('undefined' === typeof this.meta.tab) {
-                        this.meta.tab = 'content';
+                        this.meta.tab = 'basic';
                     }
 
                     if (this.meta.tab !== this.tab) {
@@ -876,20 +887,20 @@
                     type: 'layout',
                     settings: this.layout.settings,
                     source: '',
-                    active_tab: 'content'
+                    active_tab: 'basic'
                 }
             },
             template: `
             <div class="builder-settings-wrap">
                 <h3>
                     <div v-show="this.title" class="builder-crumb">
-                        <a href="javascript:;" @click="$root.$emit('edit-layout')">{{ 'Layout' | i18n }}</a> &raquo;
+                        <a href="javascript:;" @click="$root.$emit('edit-layout')">{{ 'Settings' | i18n }}</a> &raquo;
                     </div>
                     {{ settingTitle }}
                 </h3>
                 <div class="builder-settings">
                     <div class="template-tabs">
-                        <span @click="setActiveTab('content')" :class="isActiveTab('content')">{{ 'Content' | i18n }}</span>
+                        <span @click="setActiveTab('basic')" :class="isActiveTab('basic')">{{ 'Basic' | i18n }}</span>
                         <span @click="setActiveTab('style')" :class="isActiveTab('style')">{{ 'Style' | i18n }}</span>
                     </div>
                     <setting-wrap
@@ -905,7 +916,7 @@
             `,
             computed: {
                 settingTitle() {
-                    return ('' === this.title) ? FWP.__('Layout') : this.title;
+                    return ('' === this.title) ? FWP.__('Settings') : this.title;
                 },
                 settingsFields() {
                     return this.getDefaultFields(this.type, this.source);
@@ -1272,13 +1283,23 @@
                 >
                     <div class="card-drag">&#9776;</div>
                     <div class="card-label">
-                        <span class="label-text" :title="facet.name">{{ facet.label }}</span>
+                        <span class="label-text">{{ facet.label }}</span>
                         <span v-if="facet._code" v-html="FWP.svg['lock']"></span>
                     </div>
-                    <div class="card-delete" @click.stop="$root.deleteItem('facet', index)"></div>
+                    <div class="card-name">{{ facet.name }}</div>
                     <div class="card-type">{{ facet.type }}</div>
                     <div class="card-source" v-html="getSource(facet.source)"></div>
                     <div class="card-rows">{{ getRowCount(facet.name) }}</div>
+                    <div class="card-actions">
+                        <div class="actions-wrap">
+                            <div class="actions-btn" v-html="FWP.svg['cog']"></div>
+                            <div class="actions-modal">
+                                <div @click.stop="$root.copyToClipboard(facet.name, 'facet', $event)">Copy shortcode</div>
+                                <div @click.stop="$root.duplicateItem('facet', index)">Duplicate</div>
+                                <div @click.stop="$root.deleteItem('facet', index)">Delete</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </draggable>
             `,
@@ -1306,12 +1327,22 @@
                 >
                     <div class="card-drag">&#9776;</div>
                     <div class="card-label">
-                        <span class="label-text" :title="template.name">{{ template.label }}</span>
+                        <span class="label-text">{{ template.label }}</span>
                         <span v-if="template._code" v-html="FWP.svg['lock']"></span>
                     </div>
-                    <div class="card-delete" @click.stop="$root.deleteItem('template', index)"></div>
+                    <div class="card-name">{{ template.name }}</div>
                     <div class="card-display-mode">{{ getDisplayMode(index) }}</div>
                     <div class="card-post-types">{{ getPostTypes(index) }}</div>
+                    <div class="card-actions">
+                        <div class="actions-wrap">
+                            <div class="actions-btn" v-html="FWP.svg['cog']"></div>
+                            <div class="actions-modal">
+                                <div @click.stop="$root.copyToClipboard(template.name, 'template', $event)">Copy shortcode</div>
+                                <div @click.stop="$root.duplicateItem('template', index)">Duplicate</div>
+                                <div @click.stop="$root.deleteItem('template', index)">Delete</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </draggable>
             `,
@@ -1363,7 +1394,7 @@
                 </div>
                 <div class="facetwp-content" :class="[ 'type-' + facet.type, { locked: facet._code } ]">
                     <div class="facetwp-row">
-                        <div>{{ 'Label' | i18n }}:</div>
+                        <div>{{ 'Label' | i18n }}</div>
                         <div>
                             <input
                                 type="text"
@@ -1378,7 +1409,7 @@
                         </div>
                     </div>
                     <div class="facetwp-row">
-                        <div>{{ 'Facet type' | i18n }}:</div>
+                        <div>{{ 'Facet type' | i18n }}</div>
                         <div>
                             <facet-types
                                 :facet="facet"
@@ -1388,12 +1419,11 @@
                         </div>
                     </div>
                     <div class="facetwp-row field-data-source">
-                        <div>{{ 'Data source' | i18n }}:</div>
+                        <div>{{ 'Data source' | i18n }}</div>
                         <div>
                             <data-sources :facet="facet"></data-sources>
                         </div>
                     </div>
-                    <hr />
                     <facet-settings :facet="facet"></facet-settings>
                 </div>
             </div>
@@ -1469,8 +1499,9 @@
                         </span>
                     </div>
 
-                    <div @click="switchMode()" v-show="isMode('visual')" class="side-link">{{ 'Switch to advanced mode' | i18n }}</div>
-                    <div @click="switchMode()" v-show="isMode('advanced')" class="side-link">{{ 'Switch to visual mode' | i18n }}</div>
+                    <label class="facetwp-dev-mode">
+                        <input type="checkbox" :checked="isMode('advanced')" @change="switchMode()"> Dev mode?
+                    </label>
 
                     <div class="template-tabs top-level">
                         <span @click="tab = 'display'" :class="{ active: tab == 'display' }">{{ 'Display' | i18n }}</span>
@@ -1482,10 +1513,7 @@
                             <builder :layout="template.layout"></builder>
                         </div>
                         <div class="table-row" v-show="template.modes.display == 'advanced'">
-                            <div class="side-link">
-                                <a href="https://facetwp.com/documentation/templates/advanced-mode/" target="_blank">{{ 'Help' | i18n }}</a>
-                            </div>
-                            <div class="row-label">{{ 'Display Code' | i18n }}</div>
+                            <h3>{{ 'Display Code' | i18n }} <a class="facetwp-btn" href="https://facetwp.com/help-center/listing-templates/listing-builder/using-the-listing-builder-in-dev-mode/#how-to-use-display-code-in-dev-mode" target="_blank">{{ 'Help' | i18n }}</a></h3>
                             <textarea v-model="template.template"></textarea>
                         </div>
                     </div>
@@ -1495,10 +1523,7 @@
                             <query-builder :query_obj="template.query_obj" :template="template"></query-builder>
                         </div>
                         <div class="table-row" v-show="template.modes.query == 'advanced'">
-                            <div class="side-link">
-                                <a href="https://facetwp.com/documentation/templates/advanced-mode/" target="_blank">{{ 'Help' | i18n }}</a>
-                            </div>
-                            <div class="row-label">{{ 'Query Arguments' | i18n }}</div>
+                            <h3>{{ 'Query Arguments' | i18n }} <a class="facetwp-btn" href="https://facetwp.com/help-center/listing-templates/listing-builder/using-the-listing-builder-in-dev-mode/#how-to-use-query-arguments-in-dev-mode" target="_blank">{{ 'Help' | i18n }}</a></h3>
                             <textarea v-model="template.query"></textarea>
                         </div>
                     </div>
@@ -1629,7 +1654,7 @@
             },
             watch: {
                 'facet.type': function(val) {
-                    if ('search' == val || 'pager' == val || 'sort' == val) {
+                    if ('search' == val || 'pager' == val || 'reset' == val || 'sort' == val) {
                         Vue.delete(this.facet, 'source');
                     }
                 }
@@ -1662,6 +1687,38 @@
             }
         });
 
+        Vue.component('facet-names', {
+            props: {
+                facet: Object,
+                setting: String
+            },
+            template: `
+            <select :class="className" v-model="facet[setting]" multiple>
+                <template v-for="(f) in FWP.data.facets">
+                    <option v-if="!['reset'].includes(f.type)" :value="f.name" :class="bindSelectedClass(f.name)">{{ f.label }}</option>
+                </template>
+            </select>
+            `,
+            computed: {
+                className() {
+                    return 'facet-' + this.setting.replace(/_/g, '-');
+                }
+            },
+            methods: {
+                bindSelectedClass(name) {
+                    return this.facet[this.setting].includes(name) ? 'selected' : '';
+                }
+            },
+            created() {
+                if ('undefined' === typeof this.facet[this.setting]) {
+                    this.facet[this.setting] = [];
+                }
+            },
+            mounted() {
+                fSelect(this.$el, { 'placeholder': 'Choose facets' });
+            }
+        });
+
         Vue.component('ui-type', {
             props: {
                 facet: Object
@@ -1669,10 +1726,12 @@
             created() {
                 this.ui_fields = FWP.facet_types[this.facet.type].ui_fields || [];
                 this.sorted = Object.keys(this.ui_fields).reverse();
+                if ('undefined' === typeof this.facet['ui_type'] || this.facet['ui_type'].length < 1) {
+                    this.facet['ui_type'] = this.sorted[0];
+                }
             },
             template: `
             <select class="facet-ui-type" v-model="facet.ui_type">
-                <option value="">{{ 'None' | i18n }}</option>
                 <option v-for="name in sorted" :value="name" :selected="facet.ui_type == name">{{ FWP.facet_types[name].label }}</option>
             </select>
             `
@@ -1703,6 +1762,7 @@
                                     <option value="type">{{ 'Post Type' | i18n }}</option>
                                     <option value="date">{{ 'Post Date' | i18n }}</option>
                                     <option value="modified">{{ 'Post Modified' | i18n }}</option>
+                                    <option value="comment_count">{{ 'Comment Count' | i18n }}</option>
                                     <option value="menu_order">{{ 'Menu Order' | i18n }}</option>
                                     <option value="post__in">post__in</option>
                                 </optgroup>
@@ -1729,7 +1789,7 @@
                 </div>
 
                 <div>
-                    <button class="button" @click="addSort">{{ 'Add sort' | i18n }}</button>
+                    <span class="facetwp-btn" @click="addSort">{{ 'Add sort' | i18n }}</span>
                 </div>
             </div>
             `,
@@ -1764,6 +1824,71 @@
             }
         });
 
+        Vue.component('color-picker', {
+            props: {
+                facet: Object,
+                settingName: {
+                    type: String,
+                    default: 'color'
+                },
+                defaultColor: {
+                    type: String,
+                    default: '#000'
+                },
+            },
+            template: `
+            <div class="color-wrap">
+                <div class="color-canvas">
+                    <span class="color-preview"></span>
+                    <input type="text" :class="className" v-model="facet[settingName]" :placeholder="colorName" />
+                </div>
+                <span class="color-clear">X</span>
+            </div>`,
+            created() {
+                if ('undefined' === typeof this.facet[this.settingName]) {
+                    this.facet[this.settingName] = this.defaultColor;
+                }
+            },
+            computed: {
+                className() {
+                    return 'facet-' + this.settingName.replace(/_/g, '-') + ' color-input';
+                },
+                colorName() {
+                    return this.defaultColor;
+                }
+            },
+            mounted() {
+                let self = this;
+                let $canvas = self.$el.getElementsByClassName('color-canvas')[0];
+                let $preview = self.$el.getElementsByClassName('color-preview')[0];
+                let $input = self.$el.getElementsByClassName('color-input')[0];
+                let $clear = self.$el.getElementsByClassName('color-clear')[0];
+                $preview.style.backgroundColor = $input.value;
+
+                let picker = new Picker({
+                    parent: $canvas,
+                    popup: 'right',
+                    alpha: false,
+                    onDone(color) {
+                        let hex = color.hex().substr(0, 7);
+                        self.facet[self.settingName] = hex;
+                        $input.value = hex;
+                        $preview.style.backgroundColor = hex;
+                    }
+                });
+
+                picker.onOpen = function(color) {
+                    picker.setColor($input.value);
+                };
+
+                $clear.addEventListener('click', function() {
+                    self.facet[self.settingName] = self.defaultColor;
+                    $input.value = self.defaultColor;
+                    $preview.style.backgroundColor = $input.value;
+                });
+            }
+        });
+
         // Vue instance
         FWP.vue = new Vue({
             el: '#app',
@@ -1784,23 +1909,31 @@
             methods: {
                 addItem(type) {
                     if ('facet' == type) {
-                        var index = this.app.facets.push({
+                        let len = this.app.facets.push({
                             'name': 'new_facet',
                             'label': 'New Facet',
                             'type': 'checkboxes',
                             'source': 'post_type'
                         });
-                        this.editItem('facet', this.app.facets[index-1]);
+                        this.editItem('facet', this.app.facets[len-1]);
                     }
                     else {
-                        var index = this.app.templates.push({
+                        let len = this.app.templates.push({
                             'name': 'new_template',
                             'label': 'New Template',
                             'query': '',
                             'template': ''
                         });
-                        this.editItem('template', this.app.templates[index-1]);
+                        this.editItem('template', this.app.templates[len-1]);
                     }
+                },
+                duplicateItem(type, index) {
+                    let facet = this.cloneObj(this.app[type + 's'][index]);
+                    facet.label += ' (copy)';
+                    facet.name += '_copy';
+
+                    this.app[type + 's'].splice(index+1, 0, facet)
+                    this.editItem(type, facet);
                 },
                 editItem(type, data) {
                     this['editing_' + type] = true;
@@ -1823,9 +1956,7 @@
                     return this.editing.label;
                 },
                 deleteItem(type, index) {
-                    if (confirm(FWP.__('Delete item?'))) {
-                        this.app[type + 's'].splice(index, 1);
-                    }
+                    this.app[type + 's'].splice(index, 1);
                 },
                 saveChanges() {
                     window.setStatus('load', FWP.__('Saving') + '...');
@@ -1905,15 +2036,15 @@
                                     window.setStatus('ok', FWP.__('Indexing complete'));
 
                                     // Update the row counts
-                                    $.each(data.rows, function(count, facet_name) {
-                                        Vue.set(self.row_counts, facet_name, count);
+                                    $.each(self.$root.app.facets, function(facet) {
+                                        Vue.set(self.row_counts, facet.name, data.rows[facet.name]);
                                     });
                                 }
                             }
                             else if (isNumeric(data.pct)) {
                                 window.setStatus('load', FWP.__('Indexing') + '... ' + data.pct + '%');
                                 self.is_indexing = true;
-    
+
                                 self.timeout = setTimeout(() => {
                                     self.getProgress();
                                 }, 5000);
@@ -2012,10 +2143,11 @@
                 },
                 sanitizeName(name) {
                     let val = name.trim().toLowerCase();
+                    let res = [ 'pager', 'sort', 'labels', 'length', 'name', 'method', 'num_choices' ];
                     val = val.replace(/[^\w- ]/g, ''); // strip invalid characters
                     val = val.replace(/[- ]/g, '_'); // replace space and hyphen with underscore
                     val = val.replace(/[_]{2,}/g, '_'); // strip consecutive underscores
-                    val = ('pager' == val || 'sort' == val) ? val + '_' : val; // reserved
+                    val = res.includes(val) ? val + '_' : val; // reserved
                     return val;
                 },
                 documentClick({target}) {
@@ -2024,6 +2156,9 @@
                     if (! el.classList.contains('btn-caret')) {
                         this.is_rebuild_open = false;
                     }
+                },
+                cloneObj(obj) {
+                    return JSON.parse(JSON.stringify(obj));
                 }
             },
             computed: {
@@ -2112,12 +2247,6 @@
                 fTip(this, {
                     content: (node) => $(node).find('.facetwp-tooltip-content').html()
                 }).open();
-            }
-        });
-
-        $().on('mouseover', '.card-label .label-text', function() {
-            if (!this.classList.contains('.ftip-enabled')) {
-                fTip(this).open();
             }
         });
 

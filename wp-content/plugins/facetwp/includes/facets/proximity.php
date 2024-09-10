@@ -3,16 +3,16 @@
 class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
 {
 
-    /* (array) Ordered array of post IDs */
-    public $ordered_posts = [];
-
-    /* (array) Associative array containing each post ID and its distance */
+    /* (array) Associative array containing post_id => distance */
     public $distance = [];
+
+    /* (array) Associative array containing post_id => [lat, lng] */
+    public $post_latlng = [];
 
 
     function __construct() {
         $this->label = __( 'Proximity', 'fwp' );
-        $this->fields = [ 'longitude', 'unit', 'radius_ui', 'radius_options', 'radius_min', 'radius_max', 'radius_default' ];
+        $this->fields = [ 'longitude', 'unit', 'radius_ui', 'radius_options', 'radius_min', 'radius_max', 'radius_default', 'placeholder' ];
 
         add_filter( 'facetwp_index_row', [ $this, 'index_latlng' ], 1, 2 );
         add_filter( 'facetwp_sort_options', [ $this, 'sort_options' ], 1, 2 );
@@ -29,6 +29,9 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
         $facet = $params['facet'];
         $value = $params['selected_values'];
         $unit = empty( $facet['unit'] ) ? 'mi' : $facet['unit'];
+        $unit_display = 'km' == $facet['unit'] ? __( 'km', 'fwp-front' ) : ( 'mi' == $facet['unit'] ? __( 'mi', 'fwp-front' ) : $facet['unit'] );
+        $placeholder = empty( $facet['placeholder'] ) ? __( 'Enter location', 'fwp-front' ) : $facet['placeholder'];
+        $placeholder = facetwp_i18n( $placeholder );
 
         $lat = empty( $value[0] ) ? '' : $value[0];
         $lng = empty( $value[1] ) ? '' : $value[1];
@@ -64,7 +67,7 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
 
         <span class="facetwp-input-wrap">
             <i class="facetwp-icon locate-me"></i>
-            <input type="text" class="facetwp-location" value="<?php echo esc_attr( $location_name ); ?>" placeholder="<?php _e( 'Enter location', 'fwp-front' ); ?>" autocomplete="off" />
+            <input type="text" class="facetwp-location" value="<?php echo esc_attr( $location_name ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>" autocomplete="off" />
             <div class="location-results facetwp-hidden"></div>
         </span>
 
@@ -73,7 +76,7 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
         <select class="facetwp-radius facetwp-radius-dropdown">
             <?php foreach ( $radius_options as $radius ) : ?>
             <?php $selected = ( $chosen_radius == $radius ) ? ' selected' : ''; ?>
-            <option value="<?php echo $radius; ?>"<?php echo $selected; ?>><?php echo "$radius $unit"; ?></option>
+            <option value="<?php echo $radius; ?>"<?php echo $selected; ?>><?php echo $radius . ' ' . facetwp_i18n( $unit_display ); ?></option>
             <?php endforeach; ?>
         </select>
 
@@ -87,7 +90,7 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
             />
             <div class="facetwp-radius-label">
                 <span class="facetwp-radius-dist"><?php echo $chosen_radius; ?></span>
-                <span class="facetwp-radius-unit"><?php echo $facet['unit']; ?></span>
+                <span class="facetwp-radius-unit"><?php echo facetwp_i18n( $unit_display ); ?></span>
             </div>
         </div>
 
@@ -119,40 +122,50 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
             return 'continue';
         }
 
-        $lat = (float) $selected_values[0];
-        $lng = (float) $selected_values[1];
+        $lat1 = (float) $selected_values[0];
+        $lng1 = (float) $selected_values[1];
         $radius = (float) $selected_values[2];
+        $rad = M_PI / 180;
 
         $sql = "
-        SELECT DISTINCT post_id, ( $earth_radius * acos(
-            greatest( -1, least( 1, ( /* acos() must be between -1 and 1 */
-                cos( radians( $lat ) ) *
-                cos( radians( facet_value ) ) *
-                cos( radians( facet_display_value ) - radians( $lng ) ) +
-                sin( radians( $lat ) ) *
-                sin( radians( facet_value ) )
-            ) ) )
-        ) ) AS distance
+        SELECT DISTINCT post_id, facet_value AS `lat`, facet_display_value AS `lng`
         FROM {$wpdb->prefix}facetwp_index
-        WHERE facet_name = '{$facet['name']}'
-        HAVING distance < $radius
-        ORDER BY distance";
+        WHERE facet_name = '{$facet['name']}'";
 
-        $this->ordered_posts = [];
-        $this->distance = [];
+        $results = $wpdb->get_results( $sql );
 
-        if ( apply_filters( 'facetwp_proximity_store_distance', false ) ) {
-            $results = $wpdb->get_results( $sql );
-            foreach ( $results as $row ) {
-                $this->ordered_posts[] = $row->post_id;
-                $this->distance[ $row->post_id ] = $row->distance;
+        foreach ( $results as $row ) {
+            $lat2 = (float) $row->lat;
+            $lng2 = (float) $row->lng;
+
+            if ( ( $lat1 == $lat2 ) && ( $lng1 == $lng2 ) ) {
+                $dist = 0;
+            }
+            else {
+                $calc = sin( $lat1 * $rad ) * sin( $lat2 * $rad ) +
+                        cos( $lat1 * $rad ) * cos( $lat2 * $rad ) *
+                        cos( $lng2 * $rad - $lng1 * $rad );
+
+                // acos() must be between -1 and 1
+                $dist = acos( max( -1, min( 1, $calc ) ) ) * $earth_radius;
+            }
+
+            if ( $dist <= $radius ) {
+                $existing = $this->distance[ $row->post_id ] ?? -1;
+
+                if ( -1 == $existing || $dist < $existing ) {
+                    $this->distance[ $row->post_id ] = $dist;
+
+                    if ( apply_filters( 'facetwp_proximity_store_latlng', false ) ) {
+                        $this->post_latlng[ $row->post_id ] = [ $lat2, $lng2 ];
+                    }
+                }
             }
         }
-        else {
-            $this->ordered_posts = $wpdb->get_col( $sql );
-        }
 
-        return $this->ordered_posts;
+        asort( $this->distance, SORT_NUMERIC );
+
+        return array_keys( $this->distance );
     }
 
 
@@ -172,7 +185,7 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
             // hook
             $api_key = apply_filters( 'facetwp_gmaps_api_key', $api_key );
 
-            FWP()->display->assets['gmaps'] = '//maps.googleapis.com/maps/api/js?libraries=places&key=' . trim( $api_key );
+            FWP()->display->assets['gmaps'] = '//maps.googleapis.com/maps/api/js?libraries=places&key=' . trim( $api_key ) . '&callback=Function.prototype';
         }
 
         // Pass extra options into Places Autocomplete
@@ -192,7 +205,7 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
                     'source_other' => [
                         'label' => __( 'Longitude', 'fwp' ),
                         'notes' => '(Optional) use a separate longitude field',
-                        'html' => '<data-sources :facet="facet" settingName="source_other"></data-sources>'
+                        'html' => '<data-sources :facet="facet" setting-name="source_other"></data-sources>'
                     ]
                 ]
             ],
@@ -249,7 +262,7 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
             $latlng = $params['facet_value'];
 
             // Only handle "lat, lng" strings
-            if ( is_string( $latlng ) ) {
+            if ( ! empty( $latlng ) && is_string( $latlng ) ) {
                 $latlng = preg_replace( '/[^0-9.,-]/', '', $latlng );
 
                 if ( ! empty( $facet['source_other'] ) ) {
@@ -257,7 +270,7 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
                     $other_params['facet_source'] = $facet['source_other'];
                     $rows = $class->get_row_data( $other_params );
 
-                    if ( false === strpos( $latlng, ',' ) ) {
+                    if ( ! empty( $rows ) && false === strpos( $latlng, ',' ) ) {
                         $lng = $rows[0]['facet_display_value'];
                         $lng = preg_replace( '/[^0-9.,-]/', '', $lng );
                         $latlng .= ',' . $lng;
@@ -296,20 +309,19 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
 
 
     /**
-     * After the final list of post IDs has been produced,
-     * sort them by distance if needed
+     * Sort the final (filtered) post IDs by distance
      */
     function sort_by_distance( $post_ids, $class ) {
 
-        $ordered_posts = FWP()->helper->facet_types['proximity']->ordered_posts;
+        $distance = FWP()->helper->facet_types['proximity']->distance;
 
-        if ( ! empty( $ordered_posts ) ) {
-
-            // Sort the post IDs according to distance
-            $intersected_ids = [ 0 ];
+        if ( ! empty( $distance ) ) {
+            $ordered_posts = array_keys( $distance );
+            $filtered_posts = array_flip( $post_ids );
+            $intersected_ids = [];
 
             foreach ( $ordered_posts as $p ) {
-                if ( in_array( $p, $post_ids ) ) {
+                if ( isset( $filtered_posts[ $p ] ) ) {
                     $intersected_ids[] = $p;
                 }
             }
@@ -324,7 +336,6 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
 
 /**
  * Get a post's distance
- * NOTE: SET facetwp_proximity_store_distance filter = TRUE
  */
 function facetwp_get_distance( $post_id = false ) {
     global $post;
@@ -335,8 +346,10 @@ function facetwp_get_distance( $post_id = false ) {
     // Get the proximity class
     $facet_type = FWP()->helper->facet_types['proximity'];
 
-    if ( isset( $facet_type->distance[ $post_id ] ) ) {
-        $distance = $facet_type->distance[ $post_id ];
+    // Get the distance
+    $distance = $facet_type->distance[ $post_id ] ?? -1;
+
+    if ( -1 < $distance ) {
         return apply_filters( 'facetwp_proximity_distance_output', $distance );
     }
 

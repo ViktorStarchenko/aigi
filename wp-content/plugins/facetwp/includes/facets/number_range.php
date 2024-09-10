@@ -45,10 +45,10 @@ class FacetWP_Facet_Number_Range extends FacetWP_Facet
         $values = $params['selected_values'];
         $where = '';
 
-        $min = ( '' == $values[0] ) ? false : FWP()->helper->format_number( $values[0] );
-        $max = ( '' == $values[1] ) ? false : FWP()->helper->format_number( $values[1] );
+        $min = ( '' == $values[0] ) ? false : $values[0];
+        $max = ( '' == $values[1] ) ? false : $values[1];
 
-        $fields = isset( $facet['fields'] ) ? $facet['fields'] : 'both';
+        $fields = $facet['fields'] ?? 'both';
         $compare_type = empty( $facet['compare_type'] ) ? 'basic' : $facet['compare_type'];
         $is_dual = ! empty( $facet['source_other'] );
 
@@ -119,6 +119,19 @@ class FacetWP_Facet_Number_Range extends FacetWP_Facet
                     ]
                 ]
             ]
+        ];
+    }
+
+
+    /**
+     * (Front-end) Attach settings to the AJAX response
+     */
+    function settings_js( $params ) {
+        $facet = $params['facet'];
+        $fields = empty( $facet['fields'] ) ? 'both' : $facet['fields'];
+
+        return [
+            'fields' => $fields
         ];
     }
 }

@@ -15,7 +15,8 @@
 
         // We need useCapture, so add the event listeners manually
         // useCapture handles outer elements first (unlike event bubbling)
-        this.addEventListener('click', function() {
+        // use mousedown instead of click for better dropdown support
+        this.addEventListener('mousedown', function() {
             var $items = $('.facetwp-facet-' + $(this).attr('data-name'));
             if (1 < $items.len()) {
                 $items.addClass('facetwp-ignore');
@@ -137,9 +138,14 @@
             var num = $(this).find('.facetwp-checkbox').len();
             var $el = $(this).next('.facetwp-toggle');
             $el.text($el.text().replace('{num}', num));
+
+            // auto-expand if a checkbox within the overflow is checked
+            if (0 < $(this).find('.facetwp-checkbox.checked').len()) {
+                $el.trigger('click');
+            }
         });
 
-        // add toggle feature
+        // hierarchy expand / collapse buttons
         $('.facetwp-type-checkboxes').each(function() {
             var $facet = $(this);
             var name = $facet.attr('data-name');
@@ -223,24 +229,38 @@
         var vals = params.selected_values;
         var facet_name = $el.attr('data-name');
         var fields = FWP.settings[facet_name].fields;
-        var out = [];
+        var out = '';
 
-        if ('' !== vals[0]) {
-            let val = $el.find('.facetwp-date-min').val();
-            if ('start_date' === fields || ('both' === fields && '' === vals[1])) {
-                val = val + '...';
+        if ('exact' == fields) {
+            if ('' !== vals[0]) {
+                out = vals[0];
             }
-            out.push(val);
         }
-        if ('' !== vals[1]) {
-            let val = $el.find('.facetwp-date-max').val();
-            if ('end_date' === fields || ('both' === fields && '' === vals[0])) {
-                val = '...' + val;
+        else if ('start_date' == fields) {
+            if ('' !== vals[0]) {
+                out = '[>=] ' + vals[0];
             }
-            out.push(val);
+        }
+        else if ('end_date' == fields) {
+            if ('' !== vals[1]) {
+                out = '[<=] ' + vals[1];
+            }
+        }
+        else if ('both' == fields) {
+            if ('' !== vals[0] || '' !== vals[1]) {
+                if ('' !== vals[0] && '' !== vals[1]) {
+                    out = vals[0] + ' - ' + vals[1];
+                }
+                else if ('' !== vals[0]) {
+                    out = '[>=] ' + vals[0];
+                }
+                else if ('' !== vals[1]) {
+                    out = '[<=] ' + vals[1];
+                }
+            }
         }
 
-        return (out.length) ? '(' + out.join('...') + ')' : '';
+        return out;
     });
 
     $().on('facetwp-loaded', function() {
@@ -276,7 +296,7 @@
             else {
                 opts.minDate = settings.range.minDate;
                 opts.maxDate = settings.range.maxDate;
-            }      
+            }
 
             opts = FWP.hooks.applyFilters('facetwp/set_options/date_range', opts, {
                 'facet_name': facet_name,
@@ -285,7 +305,13 @@
 
             $this.addClass('ready'); // add class before fDate()
 
-            new fDate(this, opts);
+            if (opts.minDate.length && opts.maxDate.length) {
+                new fDate(this, opts);
+            } else {
+                let emptyText = $this.attr('data-empty');
+                $this.attr('placeholder', emptyText).attr('disabled','disabled').addClass('disabled');
+            }
+
         });
     });
 
@@ -356,7 +382,7 @@
     });
 
     $().on('facetwp-loaded', function() {
-        $('.facetwp-type-fselect select:not(.hidden)').each(function() {
+        $('.facetwp-type-fselect select:not(.fs-hidden)').each(function() {
             var facet_name = $(this).closest('.facetwp-facet').attr('data-name');
             var settings = FWP.settings[facet_name];
 
@@ -371,13 +397,13 @@
 
             fSelect(this, opts);
         });
-
-        // unfreeze choices
-        $('.fs-wrap.fs-disabled').removeClass('fs-disabled');
     });
 
-    $().on('fs:changed', function() {
-        FWP.autoload();
+    $().on('fs:changed', function(e) {
+        var is_facet = $(e.detail[0]).closest('.facetwp-type-fselect').len() > 0;
+        if (! FWP.is_refresh && is_facet) {
+            FWP.autoload();
+        }
     });
 
     $().on('fs:closed', function() {
@@ -424,7 +450,48 @@
     });
 
     FWP.hooks.addFilter('facetwp/selections/number_range', function(output, params) {
-        return params.selected_values[0] + ' - ' + params.selected_values[1];
+        var $el = params.el;
+        var vals = params.selected_values;
+        var facet_name = $el.attr('data-name');
+        var fields = FWP.settings[facet_name].fields;
+        var out = '';
+
+        if ('exact' == fields) {
+            if ('' !== vals[0]) {
+                out = vals[0];
+            }
+        }
+        else if ('min' == fields) {
+            if ('' !== vals[0]) {
+                out = '[>=] ' + vals[0];
+            }
+        }
+        else if ('max' == fields) {
+            if ('' !== vals[1]) {
+                out = '[<=] ' + vals[1];
+            }
+        }
+        else if ('both' == fields) {
+            if ('' !== vals[0] || '' !== vals[1]) {
+                if ('' !== vals[0] && '' !== vals[1]) {
+                    out = vals[0] + ' - ' + vals[1];
+                }
+                else if ('' !== vals[0]) {
+                    out = '[>=] ' + vals[0];
+                }
+                else if ('' !== vals[1]) {
+                    out = '[<=] ' + vals[1];
+                }
+            }
+        }
+
+        return out;
+    });
+
+    $().on('keyup', '.facetwp-type-number_range .facetwp-number', function(e) {
+        if (13 === e.which && ! FWP.is_refresh) {
+            FWP.autoload();
+        }
     });
 
     $().on('click', '.facetwp-type-number_range .facetwp-submit', function() {
@@ -495,7 +562,8 @@
 
         FWP_MAP.placesService.getDetails({
             placeId: place_id,
-            fields: ['geometry']
+            fields: ['geometry'],
+            sessionToken: FWP_MAP.sessionToken,
         }, function(place, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 $facet.find('.facetwp-lat').val(place.geometry.location.lat());
@@ -739,9 +807,17 @@
             var facet_name = $parent.attr('data-name');
             var opts = FWP.settings[facet_name];
 
+            // custom slider options
+            var slider_opts = FWP.hooks.applyFilters('facetwp/set_options/slider', {
+                range: opts.range,
+                start: opts.start,
+                step: parseFloat(opts.step),
+                connect: true
+            }, { 'facet_name': facet_name });
+
             if ($this.hasClass('ready')) {
                 $this.nodes[0].noUiSlider.updateOptions({
-                    range: FWP.settings[facet_name].range
+                    range: slider_opts.range
                 }, false);
             }
             else {
@@ -752,37 +828,44 @@
                 }
 
                 // fail if start values are null
-                if (null === FWP.settings[facet_name].start[0]) {
+                if (null === slider_opts.start[0]) {
                     return;
                 }
 
                 // fail on invalid ranges
-                if (parseFloat(opts.range.min) >= parseFloat(opts.range.max)) {
+                if (parseFloat(opts.range.min) > parseFloat(opts.range.max)) {
                     FWP.settings[facet_name]['lower'] = opts.range.min;
                     FWP.settings[facet_name]['upper'] = opts.range.max;
                     FWP.hooks.doAction('facetwp/set_label/slider', $parent);
                     return;
                 }
 
-                // custom slider options
-                var slider_opts = FWP.hooks.applyFilters('facetwp/set_options/slider', {
-                    range: opts.range,
-                    start: opts.start,
-                    step: parseFloat(opts.step),
-                    connect: true
-                }, { 'facet_name': facet_name });
-
+                // disable the UI if only 1 value
+                if (parseFloat(opts.range.min) == parseFloat(opts.range.max)) {
+                    $this.attr('data-disabled', 'true');
+                }
 
                 var slider = this;
                 noUiSlider.create(slider, slider_opts);
+
+                // Only trigger a refresh if slider handles have actually moved
+                slider.noUiSlider.on('slide', function () {
+                    $this.attr('data-has-moved', 'true');
+                });
+
                 slider.noUiSlider.on('update', function(values, handle) {
                     FWP.settings[facet_name]['lower'] = values[0];
                     FWP.settings[facet_name]['upper'] = values[1];
                     FWP.hooks.doAction('facetwp/set_label/slider', $parent);
                 });
+
+                // This runs after click or handle slide
                 slider.noUiSlider.on('set', function() {
-                    FWP.active_facet = $this.closest('.facetwp-facet');
-                    FWP.autoload();
+                    if ('true' === $this.attr('data-has-moved')) {
+                        $this.attr('data-has-moved', '');
+                        FWP.active_facet = $this.closest('.facetwp-facet');
+                        FWP.autoload();
+                    }
                 });
 
                 $this.addClass('ready');
@@ -816,7 +899,7 @@
         FWP.facets[facet_name] = selected_values;
     });
 
-    $().on('mouseover', '.facetwp-star', function() {
+    $().on('mouseover', '.facetwp-star:not(.disabled)', function() {
         var $facet = $(this).closest('.facetwp-facet');
 
         if ($(this).hasClass('selected')) {
@@ -829,13 +912,13 @@
         }
     });
 
-    $().on('mouseout', '.facetwp-star', function() {
+    $().on('mouseout', '.facetwp-star:not(.disabled)', function() {
         var $facet = $(this).closest('.facetwp-facet');
         $facet.find('.facetwp-star-label').text('');
         $facet.find('.facetwp-counter').text('');
     });
 
-    $().on('click', '.facetwp-star', function() {
+    $().on('click', '.facetwp-star:not(.disabled)', function() {
         var $facet = $(this).closest('.facetwp-facet');
         var is_selected = $(this).hasClass('selected');
         $facet.find('.facetwp-star').removeClass('selected');
@@ -875,7 +958,7 @@
             // layout builder
             if ( 0 < $('.fwpl-layout').len() ) {
                 var layout = $(params.html).find('.fwpl-layout').html();
-                $('.fwpl-layout').append(layout);
+                $('.facetwp-template .fwpl-layout').append(layout);
             }
             // other
             else {
@@ -907,6 +990,43 @@
         if (! FWP.loaded || ! FWP.is_load_more) {
             FWP.load_more_paged = 1;
         }
+    });
+
+    /* ======== Reset ======== */
+
+    $().on('click', '.facetwp-reset', function() {
+       let values = $(this).nodes[0]._facets;
+        FWP.reset(values);
+    });
+
+    $().on('facetwp-loaded', function() {
+        if (! FWP.loaded) {
+            $('.facetwp-reset').each(function() {
+                let $this = $(this);
+                let mode = $this.attr('data-mode');
+                let values = $this.attr('data-values');
+
+                values = (null == values) ? Object.keys(FWP.facets) : values.split(',');
+
+                if ('exclude' == mode) {
+                    values = Object.keys(FWP.facets).filter(name => {
+                        return !values.includes(name);
+                    });
+                }
+
+                // store the target facets (array) within the DOM element
+                $this.nodes[0]._facets = values;
+            });
+        }
+
+        // hide the reset if its target facets are all empty
+        $('.facetwp-hide-empty').each(function() {
+            let $this = $(this);
+            let $wrap = $this.closest('.facetwp-facet');
+            let facets = $this.nodes[0]._facets;
+            let all_empty = facets.every(val => 'undefined' === typeof FWP.facets[val] || FWP.facets[val].length < 1);
+            all_empty ? $wrap.addClass('facetwp-hidden') : $wrap.removeClass('facetwp-hidden');
+        });
     });
 
 })(fUtil);

@@ -29,15 +29,31 @@ class FacetWP_Settings
                         'label' => __( 'URL prefix', 'fwp' ),
                         'html' => $this->get_setting_html( 'prefix', 'dropdown', [
                             'choices' => [ 'fwp_' => 'fwp_', '_' => '_' ]
-                        ] )
+                        ])
                     ],
                     'load_jquery' => [
-                        'label' => __( 'Load jQuery?', 'fwp' ),
+                        'label' => __( 'Load jQuery', 'fwp' ),
                         'notes' => 'FacetWP no longer requires jQuery, but enable if needed',
                         'html' => $this->get_setting_html( 'load_jquery', 'toggle', [
                             'true_value' => 'yes',
                             'false_value' => 'no'
-                        ] )
+                        ])
+                    ],
+                    'load_a11y' => [
+                        'label' => __( 'Load a11y support', 'fwp' ),
+                        'notes' => 'Improved accessibility for users with disabilities',
+                        'html' => $this->get_setting_html( 'load_a11y', 'toggle', [
+                            'true_value' => 'yes',
+                            'false_value' => 'no'
+                        ])
+                    ],
+                    'strict_query_detection' => [
+                        'label' => __( 'Strict query detection', 'fwp' ),
+                        'notes' => 'Enable if FacetWP auto-detects the wrong archive query',
+                        'html' => $this->get_setting_html( 'strict_query_detection', 'toggle', [
+                            'true_value' => 'yes',
+                            'false_value' => 'no'
+                        ])
                     ],
                     'debug_mode' => [
                         'label' => __( 'Debug mode', 'fwp' ),
@@ -45,7 +61,7 @@ class FacetWP_Settings
                         'html' => $this->get_setting_html( 'debug_mode', 'toggle', [
                             'true_value' => 'on',
                             'false_value' => 'off'
-                        ] )
+                        ])
                     ]
                 ]
             ],
@@ -58,7 +74,7 @@ class FacetWP_Settings
                         'html' => $this->get_setting_html( 'wc_enable_variations', 'toggle' )
                     ],
                     'wc_index_all' => [
-                        'label' => __( 'Include all products?', 'fwp' ),
+                        'label' => __( 'Index out-of-stock products?', 'fwp' ),
                         'notes' => __( 'Show facet choices for out-of-stock products?', 'fwp' ),
                         'html' => $this->get_setting_html( 'wc_index_all', 'toggle' )
                     ]
@@ -191,7 +207,8 @@ class FacetWP_Settings
             'soft_limit' => [
                 'label' => __( 'Soft limit', 'fwp' ),
                 'notes' => 'Show a toggle link after this many choices',
-                'default' => 5
+                'default' => 5,
+                'show' => "facet.hierarchical != 'yes'"
             ],
             'source_other' => [
                 'label' => __( 'Other data source', 'fwp' ),
@@ -201,6 +218,7 @@ class FacetWP_Settings
             'compare_type' => [
                 'type' => 'select',
                 'label' => __( 'Compare type', 'fwp' ),
+                'notes' => "<strong>Basic</strong> - entered range surrounds the post's range<br /><strong>Enclose</strong> - entered range is fully inside the post's range<br /><strong>Intersect</strong> - entered range overlaps the post's range<br /><br />When in doubt, choose <strong>Basic</strong>",
                 'choices' => [
                     '' => __( 'Basic', 'fwp' ),
                     'enclose' => __( 'Enclose', 'fwp' ),
@@ -210,6 +228,15 @@ class FacetWP_Settings
             'ui_type' => [
                 'label' => __( 'UI type', 'fwp' ),
                 'html' => '<ui-type :facet="facet"></ui-type>'
+            ],
+            'ui_ghosts' => [
+                'type' => 'toggle',
+                'label' => __( 'Show ghosts', 'fwp' ),
+                'notes' => 'Show choices that would return zero results?'
+            ],
+            'reset_text' => [
+                'label' => __( 'Reset text', 'fwp' ),
+                'default' => 'Reset'
             ]
         ];
 
@@ -261,7 +288,8 @@ class FacetWP_Settings
         $placeholder = $field['placeholder'] ?? '';
         $show = isset( $field['show'] ) ? ' v-show="' . $field['show'] . '"' : '';
         $default = isset( $field['default'] ) ? ' value="' . $field['default'] . '"' : '';
-        $label = empty( $field['label'] ) ? '' : $field['label'] . ':';
+        $label = empty( $field['label'] ) ? '' : $field['label'];
+        $checked = ( isset( $field['default'] ) && 'checked' == $field['default'] ) ? ' checked="checked"' : '';
 
         if ( isset( $field['notes'] ) ) {
             $label = '<div class="facetwp-tooltip">' . $label . '<div class="facetwp-tooltip-content">' . $field['notes'] . '</div></div>';
@@ -283,9 +311,9 @@ class FacetWP_Settings
 <?php
         }
         elseif ( 'toggle' == $type ) {
-?>
+            ?>
                 <label class="facetwp-switch">
-                    <input type="checkbox" class="facet-<?php echo $name; ?>" true-value="yes" false-value="no" />
+                    <input type="checkbox" class="facet-<?php echo $name; ?>" true-value="yes" false-value="no"<?php echo $checked; ?> />
                     <span class="facetwp-slider"></span>
                 </label>
 <?php
@@ -365,8 +393,8 @@ class FacetWP_Settings
 <?php elseif ( 'toggle' == $field_type ) : ?>
 <?php
 
-$true_value = isset( $atts['true_value'] ) ? $atts['true_value'] : 'yes';
-$false_value = isset( $atts['false_value'] ) ? $atts['false_value'] : 'no';
+$true_value = $atts['true_value'] ?? 'yes';
+$false_value = $atts['false_value'] ?? 'no';
 
 ?>
         <label class="facetwp-switch">
@@ -435,8 +463,9 @@ $false_value = isset( $atts['false_value'] ) ? $atts['false_value'] : 'no';
      */
     function get_i18n_strings() {
         return [
-            'Grid columns' => __( 'Grid columns', 'fwp' ),
-            'Grid gap' => __( 'Grid gap', 'fwp' ),
+            'Number of grid columns' => __( 'Number of grid columns', 'fwp' ),
+            'Spacing between results' => __( 'Spacing between results', 'fwp' ),
+            'No results text' => __( 'No results text', 'fwp' ),
             'Text style' => __( 'Text style', 'fwp' ),
             'Text color' => __( 'Text color', 'fwp' ),
             'Font size' => __( 'Font size', 'fwp' ),
@@ -492,12 +521,13 @@ $false_value = isset( $atts['false_value'] ) ? $atts['false_value'] : 'no';
             'Post Type' => __( 'Post Type', 'fwp' ),
             'Post Date' => __( 'Post Date', 'fwp' ),
             'Post Modified' => __( 'Post Modified', 'fwp' ),
+            'Comment Count' => __( 'Comment Count', 'fwp' ),
             'Menu Order' => __( 'Menu Order', 'fwp' ),
             'Custom Fields' => __( 'Custom Fields', 'fwp' ),
             'Narrow results by' => __( 'Narrow results by', 'fwp' ),
             'Hit Enter' => __( 'Hit Enter', 'fwp' ),
-            'Add sort' => __( 'Add sort', 'fwp' ),
-            'Add filter' => __( 'Add filter', 'fwp' ),
+            'Add query sort' => __( 'Add query sort', 'fwp' ),
+            'Add query filter' => __( 'Add query filter', 'fwp' ),
             'Clear' => __( 'Clear', 'fwp' ),
             'Enter term slugs' => __( 'Enter term slugs', 'fwp' ),
             'Enter values' => __( 'Enter values', 'fwp' ),
@@ -508,7 +538,7 @@ $false_value = isset( $atts['false_value'] ) ? $atts['false_value'] : 'no';
             'Column' => __( 'Column', 'fwp' ),
             'Start typing' => __( 'Start typing', 'fwp' ),
             'Label' => __( 'Label', 'fwp' ),
-            'Name' => __( 'Name', 'fwp' ),
+            'Unique name' => __( 'Unique name', 'fwp' ),
             'Facet type' => __( 'Facet type', 'fwp' ),
             'Copy shortcode' => __( 'Copy shortcode', 'fwp' ),
             'Data source' => __( 'Data source', 'fwp' ),
@@ -532,8 +562,7 @@ $false_value = isset( $atts['false_value'] ) ? $atts['false_value'] : 'no';
             'Stop indexer' => __( 'Stop indexer', 'fwp' ),
             'Loading' => __( 'Loading', 'fwp' ),
             'Importing' => __( 'Importing', 'fwp' ),
-            'Convert to query args' => __( 'Convert to query args', 'fwp' ),
-            'Delete item?' => __( 'Delete item?', 'fwp' )
+            'Convert to query args' => __( 'Convert to query args', 'fwp' )
         ];
     }
 

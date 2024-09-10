@@ -5,7 +5,7 @@ class FacetWP_Facet_Hierarchy extends FacetWP_Facet
 
     function __construct() {
         $this->label = __( 'Hierarchy', 'fwp' );
-        $this->fields = [ 'label_any', 'modifiers', 'orderby', 'count' ];
+        $this->fields = [ 'label_any', 'modifiers', 'orderby', 'soft_limit' ];
     }
 
 
@@ -113,12 +113,12 @@ class FacetWP_Facet_Hierarchy extends FacetWP_Facet
         $selected_values = (array) $params['selected_values'];
 
         $output = '';
-        $num_visible = $this->get_limit( $facet );
+        $num_visible = $this->get_limit( $facet, 10, 'soft_limit' );
         $num = 0;
 
         if ( ! empty( $values ) ) {
             foreach ( $values as $row ) {
-                $last_depth = isset( $last_depth ) ? $last_depth : $row['depth'];
+                $last_depth = $last_depth ?? $row['depth'];
                 $selected = ( ! empty( $selected_values ) && $row['facet_value'] == $selected_values[0] );
 
                 $label = esc_html( $row['facet_display_value'] );

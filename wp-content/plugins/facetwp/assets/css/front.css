@@ -4,6 +4,8 @@
 
 .facetwp-facet.is-loading {
     opacity: 0.6;
+    /** prevent clicks during refresh **/
+    pointer-events: none;
 }
 
 .facetwp-overlay {
@@ -61,6 +63,10 @@
 
 .facetwp-checkbox .facetwp-expand {
     float: right;
+}
+
+.facetwp-display-value {
+    padding-right: 5px;
 }
 
 /* Radio */
@@ -151,6 +157,15 @@
     box-shadow: inset 0 0 1px #fff, inset 0 1px 7px #ebebeb, 0 3px 6px -3px #bbb;
     padding: 4px 8px;
     cursor: pointer;
+}
+
+.facetwp-slider[data-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.facetwp-slider[data-disabled="true"] .noUi-handle {
+    cursor: not-allowed;
 }
 
 /* Search */
@@ -262,8 +277,8 @@
     color: #ccc;
 }
 
-.facetwp-star:hover,
-.facetwp-star:hover ~ .facetwp-star,
+.facetwp-star:not(.disabled):hover,
+.facetwp-star:not(.disabled):hover ~ .facetwp-star,
 .facetwp-star.selected,
 .facetwp-star.selected ~ .facetwp-star {
     color: #000;
@@ -272,6 +287,25 @@
 .facetwp-star.selected:hover,
 .facetwp-star.selected:hover ~ .facetwp-star {
     color: red;
+}
+
+.facetwp-star.disabled,
+.facetwp-star.disabled:hover {
+    cursor: auto;
+    color: #eeeeee;
+}
+
+/* Date Range */
+.facetwp-date.disabled,
+.facetwp-date.disabled::placeholder {
+    color: #b4b4b4;
+    opacity: 1;
+}
+
+/* Listing Builder */
+
+.fwpl-btn {
+    text-decoration: none;
 }
 
 /* CSS animations */
@@ -302,4 +336,13 @@
     background-size: 12px 12px;
     background-repeat: no-repeat;
     background-position: right center;
+}
+
+/* Layout builder */
+
+@media (max-width: 480px) {
+    body .facetwp-template .fwpl-layout,
+    body .facetwp-template-static .fwpl-layout {
+        grid-template-columns: 1fr;
+    }
 }

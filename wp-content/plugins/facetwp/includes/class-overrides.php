@@ -72,14 +72,20 @@ class FacetWP_Overrides
      */
     function ignore_post_types( $is_main_query, $query ) {
         $blacklist = [
-            'carts',
-            'advanced_ads',
-            'ms_relationship',
-            'wc_user_membership',
-            'wp_template',
-            'edd_wish_list',
+            'acf-field',
             'acf-field-group',
-            'acf-field'
+            'advanced_ads',
+            'carts',
+            'cookielawinfo',
+            'edd_wish_list',
+            'ms_relationship',
+            'nav_menu_item',
+            'wc_user_membership',
+            'wp_block',
+            'wp_global_styles',
+            'wp_navigation',
+            'wp_template',
+            'wp_template_part'
         ];
         $post_type = $query->get( 'post_type' );
 

@@ -2,11 +2,11 @@
 /*
 Plugin Name: FacetWP
 Description: Advanced Filtering for WordPress
-Version: 3.9
+Version: 4.3.1
 Author: FacetWP, LLC
 Author URI: https://facetwp.com/
 
-Copyright 2021 FacetWP, LLC
+Copyright 2024 FacetWP, LLC
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,24 +27,38 @@ defined( 'ABSPATH' ) or exit;
 class FacetWP
 {
 
-    public $ajax;
-    public $facet;
+    private static $instance;
+
+    public $filtered_post_ids;
+    public $unfiltered_post_ids;
+    public $is_filtered;
+    public $is_modified;
+    public $or_values;
+
+    public $init;
+    public $api;
     public $helper;
+    public $facet;
+    public $settings;
+    public $diff;
     public $indexer;
     public $display;
-    private static $instance;
+    public $builder;
+    public $request;
+    public $ajax;
+    public $acf;
 
 
     function __construct() {
 
         // php check
-        if ( version_compare( phpversion(), '5.6', '<' ) ) {
+        if ( version_compare( phpversion(), '7.0', '<' ) ) {
             add_action( 'admin_notices', array( $this, 'upgrade_notice' ) );
             return;
         }
 
         // setup variables
-        define( 'FACETWP_VERSION', '3.9' );
+        define( 'FACETWP_VERSION', '4.3.1' );
         define( 'FACETWP_DIR', dirname( __FILE__ ) );
         define( 'FACETWP_URL', plugins_url( '', __FILE__ ) );
         define( 'FACETWP_BASENAME', plugin_basename( __FILE__ ) );
@@ -66,11 +80,11 @@ class FacetWP
 
 
     /**
-     * Require PHP 5.6+
+     * Require PHP 7.0+
      */
     function upgrade_notice() {
         $message = __( 'FacetWP requires PHP %s or above. Please contact your host and request a PHP upgrade.', 'fwp' );
-        echo '<div class="error"><p>' . sprintf( $message, '5.6' ) . '</p></div>';
+        echo '<div class="error"><p>' . sprintf( $message, '7.0' ) . '</p></div>';
     }
 }
 

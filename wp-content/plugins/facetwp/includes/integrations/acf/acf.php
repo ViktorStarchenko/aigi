@@ -85,6 +85,11 @@ class FacetWP_Integration_ACF
             // get values (for sub-fields, use the parent repeater)
             $value = get_field( $hierarchy[0], $object_id, false );
 
+            // prevent null values from being run through format_date()
+            if ( $value === null ) {
+                return true; // skip
+            }
+
             // handle repeater values
             if ( 1 < count( $hierarchy ) ) {
 
@@ -160,13 +165,14 @@ class FacetWP_Integration_ACF
      * Extract field values from the repeater array
      */
     function process_field_value( $value, $hierarchy, $parent_field_key ) {
-
-        if ( ! is_array( $value ) ) {
-            return [];
-        }
-
         $temp_val = [];
-        $parent_field_type = $this->parent_type_lookup[ $parent_field_key ];
+
+        // prevent PHP8 fatal error on invalid lookup field
+        $parent_field_type = $this->parent_type_lookup[ $parent_field_key ] ?? 'none';
+
+        if ( ! is_array( $value ) || 'none' == $parent_field_type ) {
+            return $temp_val;
+        }
 
         // reduce the hierarchy array
         $field_key = array_shift( $hierarchy );
@@ -215,7 +221,7 @@ class FacetWP_Integration_ACF
         $output = [];
 
         // checkboxes
-        if ( 'checkbox' == $type || 'select' == $type || 'radio' == $type ) {
+        if ( 'checkbox' == $type || 'select' == $type || 'radio' == $type || 'button_group' == $type ) {
             if ( false !== $value ) {
                 foreach ( (array) $value as $val ) {
                     $display_value = isset( $field['choices'][ $val ] ) ?
@@ -376,27 +382,29 @@ class FacetWP_Integration_ACF
      * Generates a flat array of fields within a specific field group
      */
     function flatten_fields( $fields, $field_group, $hierarchy = '', $parents = '' ) {
-        foreach ( $fields as $field ) {
+        if ( !empty( $fields ) ) {
+            foreach ( $fields as $field ) {
 
-            // append the hierarchy string
-            $new_hierarchy = $hierarchy . '/' . $field['key'];
+                // append the hierarchy string
+                $new_hierarchy = $hierarchy . '/' . $field['key'];
 
-            // loop again for repeater or group fields
-            if ( 'repeater' == $field['type'] || 'group' == $field['type'] ) {
-                $new_parents = $parents . $field['label'] . ' &rarr; ';
+                // loop again for repeater or group fields
+                if ( ( 'repeater' == $field['type'] || 'group' == $field['type'] ) && !empty( $field['sub_fields'] ) ) {
+                    $new_parents = $parents . $field['label'] . ' &rarr; ';
 
-                $this->parent_type_lookup[ $field['key'] ] = $field['type'];
-                $this->flatten_fields( $field['sub_fields'], $field_group, $new_hierarchy, $new_parents );
-            }
-            else {
-                $this->fields[] = [
-                    'key'           => $field['key'],
-                    'name'          => $field['name'],
-                    'label'         => $field['label'],
-                    'hierarchy'     => trim( $new_hierarchy, '/' ),
-                    'parents'       => $parents,
-                    'group_title'   => $field_group['title'],
-                ];
+                    $this->parent_type_lookup[ $field['key'] ] = $field['type'];
+                    $this->flatten_fields( $field['sub_fields'], $field_group, $new_hierarchy, $new_parents );
+                }
+                else {
+                    $this->fields[] = [
+                        'key'           => $field['key'],
+                        'name'          => $field['name'],
+                        'label'         => $field['label'],
+                        'hierarchy'     => trim( $new_hierarchy, '/' ),
+                        'parents'       => $parents,
+                        'group_title'   => $field_group['title'],
+                    ];
+                }
             }
         }
     }
@@ -441,8 +449,8 @@ class FacetWP_Integration_ACF
         $field = get_field_object( $hierarchy[0], $object_id, false, false );
 
         $type = $field['type'];
-        $format = isset( $field['return_format'] ) ? $field['return_format'] : '';
-        $is_multiple = isset( $field['multiple'] ) ? (bool) $field['multiple'] : false;
+        $format = $field['return_format'] ?? '';
+        $is_multiple = (bool) ( $field['multiple'] ?? false );
 
         if ( ( 'post_object' == $type || 'relationship' == $type ) && 'object' == $format ) {
             $output = [];
@@ -467,7 +475,7 @@ class FacetWP_Integration_ACF
         }
 
         if ( ( 'select' == $type || 'checkbox' == $type || 'radio' == $type || 'button_group' == $type ) && 'array' == $format ) {
-            $value = isset( $value['label'] ) ? $value['label'] : wp_list_pluck( $value, 'label' );
+            $value = $value['label'] ?? wp_list_pluck( $value, 'label' );
         }
 
         if ( ( 'image' == $type || 'gallery' == $type ) && 'array' == $format ) {

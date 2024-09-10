@@ -59,8 +59,9 @@ window.fSelect = (() => {
             var that = this;
             var options = that.buildOptions();
             var label = that.getDropdownLabel();
-            var searchClass = (that.settings.showSearch) ? '' : ' hidden';
             var mode = (that.settings.multiple) ? 'multiple' : 'single';
+            var searchClass = (that.settings.showSearch) ? '' : ' fs-hidden';
+            var noResultsClass = (build.idx < 2) ? '' : ' fs-hidden';
 
             var html = `
             <div class="fs-wrap ${mode}" tabindex="0">
@@ -68,11 +69,11 @@ window.fSelect = (() => {
                     <div class="fs-label">${label}</div>
                     <span class="fs-arrow"></span>
                 </div>
-                <div class="fs-dropdown hidden">
+                <div class="fs-dropdown fs-hidden">
                     <div class="fs-search${searchClass}">
                         <input type="text" placeholder="${that.settings.searchText}" />
                     </div>
-                    <div class="fs-no-results hidden">${that.settings.noResultsText}</div>
+                    <div class="fs-no-results${noResultsClass}">${that.settings.noResultsText}</div>
                     <div class="fs-options">${options}</div>
                 </div>
             </div>
@@ -82,7 +83,7 @@ window.fSelect = (() => {
             tpl.innerHTML = html;
             var wrap = tpl.content.querySelector('.fs-wrap');
             that.input.parentNode.insertBefore(wrap, that.input.nextSibling);
-            that.input.classList.add('hidden');
+            that.input.classList.add('fs-hidden');
 
             // add a relationship link
             that.input._rel = wrap;
@@ -91,7 +92,7 @@ window.fSelect = (() => {
 
         destroy() {
             this.input._rel.remove();
-            this.input.classList.remove('hidden');
+            this.input.classList.remove('fs-hidden');
             delete this.input._rel;
         }
 
@@ -103,8 +104,12 @@ window.fSelect = (() => {
         open() {
             var wrap = this.input._rel;
             wrap.classList.add('fs-open');
-            wrap.querySelector('.fs-dropdown').classList.remove('hidden');
-            wrap.querySelector('.fs-search input').focus();
+            wrap.querySelector('.fs-dropdown').classList.remove('fs-hidden');
+
+            // don't auto-focus for touch devices
+            if (! window.matchMedia("(pointer: coarse)").matches) {
+                wrap.querySelector('.fs-search input').focus();
+            }
 
             window.fSelectInit.lastChoice = this.getSelectedOptions('value');
             window.fSelectInit.activeEl = wrap;
@@ -114,7 +119,7 @@ window.fSelect = (() => {
 
         close() {
             this.input._rel.classList.remove('fs-open');
-            this.input._rel.querySelector('.fs-dropdown').classList.add('hidden');
+            this.input._rel.querySelector('.fs-dropdown').classList.add('fs-hidden');
 
             window.fSelectInit.searchCache = '';
             window.fSelectInit.lastChoice = null;
@@ -182,7 +187,7 @@ window.fSelect = (() => {
             var that = this;
             var which = which || 'next';
             var sibling = window.fSelectInit.lastFocus;
-            var selector = '.fs-option:not(.hidden):not(.disabled)';
+            var selector = '.fs-option:not(.fs-hidden):not(.disabled)';
 
             if (sibling) {
                 sibling = sibling[which + 'ElementSibling'];
@@ -245,7 +250,7 @@ window.fSelect = (() => {
 
         bindEvents() {
             var that = this;
-            var optionSelector = '.fs-option:not(.hidden):not(.disabled)';
+            var optionSelector = '.fs-option:not(.fs-hidden):not(.disabled)';
             var unaccented = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
             // debounce search for better performance
@@ -260,7 +265,7 @@ window.fSelect = (() => {
                 // if the searchCache already has a prefixed version of this search
                 // then don't un-hide the existing exclusions
                 if (0 !== keywords.indexOf(window.fSelectInit.searchCache)) {
-                    wrap.querySelectorAll('.fs-option, .fs-optgroup-label').forEach((node) => node.classList.remove('hidden'));
+                    wrap.querySelectorAll('.fs-option, .fs-optgroup-label').forEach((node) => node.classList.remove('fs-hidden'));
                 }
 
                 window.fSelectInit.searchCache = keywords;
@@ -272,19 +277,29 @@ window.fSelect = (() => {
                     var haystack = unaccented(options[i].text);
 
                     if (null === haystack.match(needle)) {
-                        wrap.querySelector('.fs-option[data-idx="' + i + '"]').classList.add('hidden');
+                        wrap.querySelector('.fs-option[data-idx="' + i + '"]').classList.add('fs-hidden');
                     }
                 }
 
+                // hide optgroups if no choices
                 wrap.querySelectorAll('.fs-optgroup-label').forEach((node) => {
                     var group = node.getAttribute('data-group');
                     var container = node.closest('.fs-options');
-                    var count = container.querySelectorAll('.fs-option.g' + group + ':not(.hidden)').length;
+                    var count = container.querySelectorAll('.fs-option.g' + group + ':not(.fs-hidden)').length;
 
                     if (count < 1) {
-                        node.classList.add('hidden');
+                        node.classList.add('fs-hidden');
                     }
                 });
+
+                // toggle the noResultsText div
+                if (wrap.querySelectorAll('.fs-option:not(.fs-hidden').length) {
+                    wrap.querySelector('.fs-no-results').classList.add('fs-hidden');
+                }
+                else {
+                    wrap.querySelector('.fs-no-results').classList.remove('fs-hidden');
+                }
+
             }, 100));
 
             that.on('click', optionSelector, function(e) {
@@ -308,13 +323,8 @@ window.fSelect = (() => {
                 wrap.querySelector('.fs-label').innerHTML = label;
 
                 // fire a change event
-                var lastChoice = window.fSelectInit.lastChoice;
-                var currentChoice = input.fselect.getSelectedOptions('value');
-    
-                if (JSON.stringify(lastChoice) !== JSON.stringify(currentChoice)) {
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                    input.fselect.trigger('fs:changed', wrap);
-                }
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+                input.fselect.trigger('fs:changed', wrap);
 
                 if (!isMultiple) {
                     input.fselect.close();

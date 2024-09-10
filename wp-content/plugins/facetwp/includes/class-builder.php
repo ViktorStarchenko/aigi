@@ -10,6 +10,17 @@ class FacetWP_Builder
 
     function __construct() {
         add_filter( 'facetwp_query_args', [ $this, 'hydrate_date_values' ], 999 );
+        add_filter( 'facetwp_builder_dynamic_tag_value', [ $this, 'dynamic_tag_value' ], 0, 3 );
+    }
+
+
+    /**
+     * Generate CSS class string (helper method)
+     * @since 3.9.3
+     */
+    function get_classes( $type, $settings ) {
+        $classes = [ $type, $settings['name'], $settings['css_class'] ];
+        return trim( implode( ' ', $classes ) );
     }
 
 
@@ -23,17 +34,24 @@ class FacetWP_Builder
         $counter = 0;
         $settings = $layout['settings'];
         $this->custom_css = $settings['custom_css'];
-        $css_class = empty( $settings['css_class'] ) ? '' : ' ' . $settings['css_class'];
 
-        $this->css['.fwpl-layout'] = [
-            'display' => 'grid',
-            'grid-template-columns' => trim( str_repeat( '1fr ', $settings['num_columns'] ) ),
-            'grid-gap' => $settings['grid_gap'] . 'px'
+        $selector = '.fwpl-layout';
+        $selector .= empty( $settings['name'] ) ? '' : '.' . $settings['name'];
+
+        $this->css = [
+            '.fwpl-layout, .fwpl-row' => [
+                'display' => 'grid'
+            ],
+            $selector => [
+                'grid-template-columns' => 'repeat(' . $settings['num_columns'] . ', 1fr)',
+                'grid-gap' => $settings['grid_gap'] . 'px'
+            ],
+            $selector . ' .fwpl-result' => $this->build_styles( $settings )
         ];
 
-        $this->css['.fwpl-result'] = $this->build_styles( $settings );
+        $classes = $this->get_classes( 'fwpl-layout', $settings );
 
-        $output = '<div class="fwpl-layout ' . $settings['name'] . $css_class . '">';
+        $output = '<div class="' . $classes . '">';
 
         if ( have_posts() ) {
             while ( have_posts() ) : the_post();
@@ -44,13 +62,16 @@ class FacetWP_Builder
                     'post:id'       => $post->ID,
                     'post:name'     => $post->post_name,
                     'post:type'     => $post->post_type,
+                    'post:title'    => $post->post_title,
                     'post:url'      => get_permalink()
                 ];
 
-                $this->data = apply_filters( 'facetwp_builder_dynamic_tags', $tags, [
+                $params = [
                     'layout' => $layout,
                     'post' => $post
-                ] );
+                ];
+
+                $this->data = apply_filters( 'facetwp_builder_dynamic_tags', $tags, $params );
 
                 $output .= '<div class="fwpl-result r' . $counter . '">';
 
@@ -60,15 +81,19 @@ class FacetWP_Builder
 
                 $output .= '</div>';
 
-                $output = $this->short_tags( $output );
+                $output = $this->parse_dynamic_tags( $output, $params );
 
             endwhile;
+        }
+        else {
+            $no_results_text = $settings['no_results_text'] ?? '';
+            $output .= do_shortcode( $no_results_text );
         }
 
         $output .= '</div>';
 
         $output .= $this->render_css();
- 
+
         return $output;
     }
 
@@ -80,11 +105,11 @@ class FacetWP_Builder
     function render_row( $row ) {
         $settings = $row['settings'];
 
-        $this->css['.fwpl-row'] = [ 'display' => 'grid' ];
         $this->css['.fwpl-row.' . $settings['name'] ] = $this->build_styles( $settings );
 
-        $css_class = empty( $settings['css_class'] ) ? '' : ' ' . $settings['css_class'];
-        $output = '<div class="fwpl-row ' . $settings['name'] . $css_class . '">';
+        $classes = $this->get_classes( 'fwpl-row', $settings );
+
+        $output = '<div class="' . $classes . '">';
 
         foreach ( $row['items'] as $col ) {
             $output .= $this->render_col( $col );
@@ -105,8 +130,9 @@ class FacetWP_Builder
 
         $this->css['.fwpl-col.' . $settings['name'] ] = $this->build_styles( $settings );
 
-        $css_class = empty( $settings['css_class'] ) ? '' : ' ' . $settings['css_class'];
-        $output = '<div class="fwpl-col ' . $settings['name'] . $css_class . '">';
+        $classes = $this->get_classes( 'fwpl-col', $settings );
+
+        $output = '<div class="fwpl-col ' . $classes . '">';
 
         foreach ( $col['items'] as $item ) {
             if ( 'row' == $item['type'] ) {
@@ -136,13 +162,8 @@ class FacetWP_Builder
         $value = $source;
 
         $selector = '.fwpl-item.' . $name;
-
-        if ( 'button' == $source ) {
-            $this->css[ $selector . ' button'] = $this->build_styles( $settings );
-        }
-        else {
-            $this->css[ $selector ] = $this->build_styles( $settings );
-        }
+        $selector = ( 'button' == $source ) ? $selector . ' .fwpl-btn' : $selector;
+        $this->css[ $selector ] = $this->build_styles( $settings );
 
         if ( 0 === strpos( $source, 'post_' ) || 'ID' == $source ) {
             if ( 'post_title' == $source ) {
@@ -160,14 +181,44 @@ class FacetWP_Builder
                 $value = $user->$field;
             }
             elseif ( 'post_type' == $source ) {
-                $value = $post->$source;
-                $post_type = get_post_type_object( $value );
-                if ( isset( $post_type->labels->singular_name ) ) {
-                    $value = $post_type->labels->singular_name;
-                }
+                $pt_obj = get_post_type_object( $post->$source );
+                $value = $pt_obj->labels->singular_name ?? $post->$source;
             }
             else {
                 $value = $post->$source;
+            }
+        }
+        elseif ( 0 === strpos( $source, 'cf/attribute_' ) && 'product' == get_post_type( $post->ID ) ) {
+            $value = '';
+            $product = wc_get_product( $post->ID );
+            $attr = substr( $source, 13 );
+            $attributes = array_filter( $product->get_attributes(), 'wc_attributes_array_filter_visible' );
+            if ( isset( $attributes[ $attr ] ) ) {
+                $attribute = $attributes[ $attr ];
+                if ( $attribute->is_taxonomy() ) {
+                    $attribute_taxonomy = $attribute->get_taxonomy_object();
+                    $attribute_values = wc_get_product_terms( $product->get_id(), $attribute->get_name(), [ 'fields' => 'all' ] );
+
+                    foreach ( $attribute_values as $attribute_value ) {
+                        $value_name = esc_html( $attribute_value->name );
+
+                        if ( $attribute_taxonomy->attribute_public ) {
+                            $values[] = '<a href="' . esc_url( get_term_link( $attribute_value->term_id, $attribute->get_name() ) ) . '" rel="tag">' . $value_name . '</a>';
+                        }
+                        else {
+                            $values[] = $value_name;
+                        }
+                    }
+                }
+                else {
+                    $values = $attribute->get_options();
+
+                    foreach ( $values as &$value ) {
+                        $value = make_clickable( esc_html( $value ) );
+                    }
+                }
+
+                $value = implode( ", ", $values );
             }
         }
         elseif ( 0 === strpos( $source, 'cf/' ) ) {
@@ -241,11 +292,11 @@ class FacetWP_Builder
             $value = $this->linkify( $value, $settings['link'] );
         }
         elseif ( 'button' == $source ) {
-            $value = '<button>' . $settings['button_text'] . '</button>';
-            $value = $this->linkify( $value, $settings['link'] );
+            $settings['link']['class'] = 'fwpl-btn';
+            $value = $this->linkify( $settings['button_text'], $settings['link'] );
         }
         elseif ( 'html' == $source ) {
-            $value = $settings['content'];
+            $value = do_shortcode( $settings['content'] );
         }
 
         // Date format
@@ -259,7 +310,7 @@ class FacetWP_Builder
 
             // Use wp_date() to support i18n
             if ( $date ) {
-                $value = wp_date( $settings['date_format'], $date->getTimestamp() );
+                $value = wp_date( $settings['date_format'], $date->getTimestamp(), new DateTimeZone( 'UTC' ) );
             }
         }
 
@@ -287,8 +338,8 @@ class FacetWP_Builder
         }
 
         $output = '';
-        $prefix = isset( $settings['prefix'] ) ? $settings['prefix'] : '';
-        $suffix = isset( $settings['suffix'] ) ? $settings['suffix'] : '';
+        $prefix = $settings['prefix'] ?? '';
+        $suffix = $settings['suffix'] ?? '';
 
         // Allow value hooks
         $value = apply_filters( 'facetwp_builder_item_value', $value, $item );
@@ -309,10 +360,16 @@ class FacetWP_Builder
         // Store the short-tag
         $this->data[ $name ] = $value;
 
+        // Build the list of CSS classes
+        $classes = $this->get_classes( 'fwpl-item', $settings );
+
+        if ( '' == $value ) {
+            $classes .= ' is-empty';
+        }
+
         // Prevent output
         if ( ! $settings['is_hidden'] ) {
-            $css_class = empty( $settings['css_class'] ) ? '' : ' ' . $settings['css_class'];
-            $output = '<div class="fwpl-item ' . $name . $css_class . '">' . $value . '</div>';
+            $output = '<div class="' . $classes . '">' . $value . '</div>';
         }
 
         return $output;
@@ -320,16 +377,29 @@ class FacetWP_Builder
 
 
     /**
-     * Populate short-tag content, e.g. {{ first_name }}
+     * Parse dynamic tags, e.g. {{ first_name }}
      */
-    function short_tags( $output ) {
-        foreach ( $this->data as $tag => $tag_value ) {
-            $pattern = '/({{[ ]?' . $tag . '[ ]?}})/s';
-            $tag_value = str_replace( '$', '\$', $tag_value );
-            $output = preg_replace( $pattern, $tag_value, $output );
+    function parse_dynamic_tags( $output, $params ) {
+        $pattern = '/({{[ ]?(.*?)[ ]?}})/s';
+
+        return preg_replace_callback( $pattern, function( $matches ) use( $params ) {
+            $tag_name = $matches[2];
+            $tag_value = $this->data[ $tag_name ] ?? '';
+            return apply_filters( 'facetwp_builder_dynamic_tag_value', $tag_value, $tag_name, $params );
+        }, $output );
+    }
+
+
+    /**
+     * Calculate some dynamic tag values on-the-fly, to prevent
+     * unnecessary queries and extra load time
+     */
+    function dynamic_tag_value( $tag_value, $tag_name, $params ) {
+        if ( 'post:image' == $tag_name ) {
+            $tag_value = get_the_post_thumbnail_url( $params['post']->ID, 'full' );
         }
 
-        return $output;
+        return $tag_value;
     }
 
 
@@ -414,9 +484,10 @@ class FacetWP_Builder
     function linkify( $value, $link_data, $term_data = [] ) {
         global $post;
 
-        $type = $link_data['type'];
-        $href = $link_data['href'];
-        $target = $link_data['target'];
+        $type = $link_data['type'] ?? '';
+        $href = $link_data['href'] ?? '';
+        $class = $link_data['class'] ?? '';
+        $target = $link_data['target'] ?? '';
 
         if ( 'none' !== $type ) {
             if ( 'post' == $type ) {
@@ -430,7 +501,11 @@ class FacetWP_Builder
                 $target = ' target="' . $target . '"';
             }
 
-            $value = '<a href="' . $href . '"' . $target . '>' . $value . '</a>';
+            if ( ! empty( $class ) ) {
+                $class = ' class="' . $class . '"';
+            }
+
+            $value = '<a href="' . $href . '"' . $class . $target . '>' . $value . '</a>';
         }
 
         return $value;
@@ -459,14 +534,6 @@ class FacetWP_Builder
         if ( ! empty( $this->custom_css ) ) {
             $output .= $this->custom_css . "\n";
         }
-
-        $output .= "
-@media (max-width: 480px) {
-    .fwpl-layout {
-        grid-template-columns: 1fr;
-    }
-}
-";
 
         $output .= "</style>\n";
 
@@ -552,16 +619,37 @@ class FacetWP_Builder
 
             // Cast as decimal for more accuracy
             $type = ( 'NUMERIC' == $type ) ? 'DECIMAL(16,4)' : $type;
+            $exists_bypass = false;
+            $value_bypass = false;
 
-            $in_clause = in_array( $compare, [ 'IN', 'NOT IN' ] );
-            $exists_clause = in_array( $compare, [ 'EXISTS', 'NOT EXISTS' ] );
-
-            if ( empty( $value ) && ! $exists_clause ) {
-                continue;
+            // Clear the value for certain compare types
+            if ( in_array( $compare, [ 'EXISTS', 'NOT EXISTS', 'EMPTY', 'NOT EMPTY' ] ) ) {
+                $value_bypass = true;
+                $value = '';
             }
 
-            if ( ! $in_clause ) {
-                $value = $exists_clause ? '' : $value[0];
+            if ( in_array( $compare, [ 'EXISTS', 'NOT EXISTS' ] ) ) {
+                $exists_bypass = true;
+            }
+
+            // If "EMPTY", use "=" compare type w/ empty string value
+            if ( in_array( $compare, [ 'EMPTY', 'NOT EMPTY' ] ) ) {
+                $compare = ( 'EMPTY' == $compare ) ? '=' : '!=';
+            }
+
+            // Handle multiple values
+            if ( is_array( $value ) ) {
+                if ( in_array( $compare, [ '=', '!=' ] ) ) {
+                    $compare = ( '=' == $compare ) ? 'IN' : 'NOT IN';
+                }
+
+                if ( ! in_array( $compare, [ 'IN', 'NOT IN' ] ) ) {
+                    $value = $value[0];
+                }
+            }
+
+            if ( empty( $value ) && ! $value_bypass ) {
+                continue;
             }
 
             // Support dynamic URL vars
@@ -573,20 +661,12 @@ class FacetWP_Builder
             }
 
             if ( 'ID' == $key ) {
-                if ( 'IN' == $compare ) {
-                    $post_in = $value;
-                }
-                else {
-                    $post_not_in = $value;
-                }
+                $arg_name = ( 'IN' == $compare ) ? 'post_in' : 'post_not_in';
+                $$arg_name = $value;
             }
             elseif ( 'post_author' == $key ) {
-                if ( 'IN' == $compare ) {
-                    $author_in = $value;
-                }
-                else {
-                    $author_not_in = $value;
-                }
+                $arg_name = ( 'IN' == $compare ) ? 'author_in' : 'author_not_in';
+                $$arg_name = $value;
             }
             elseif ( 'post_status' == $key ) {
                 $post_status = $value;
@@ -612,7 +692,7 @@ class FacetWP_Builder
                     'operator' => $compare
                 ];
 
-                if ( ! $exists_clause ) {
+                if ( ! $exists_bypass ) {
                     $temp['terms'] = $value;
                 }
 
@@ -625,7 +705,7 @@ class FacetWP_Builder
                     'type' => $type
                 ];
 
-                if ( ! $exists_clause ) {
+                if ( ! $exists_bypass ) {
                     $temp['value'] = $value;
                 }
 
@@ -732,17 +812,17 @@ class FacetWP_Builder
         }
 
         $data_sources['posts']['choices'] = [
-            'ID' => 'ID',
-            'post_author' => 'Post Author',
-            'post_status' => 'Post Status',
-            'post_date' => 'Post Date',
-            'post_modified' => 'Post Modified'
+            'ID'                => 'ID',
+            'post_author'       => 'Post Author',
+            'post_status'       => 'Post Status',
+            'post_date'         => 'Post Date',
+            'post_modified'     => 'Post Modified'
         ];
 
-        return [
+        return apply_filters( 'facetwp_builder_query_data', [
             'post_types' => $builder_post_types,
             'filter_by' => $data_sources
-        ];
+        ] );
     }
 
 
@@ -780,7 +860,7 @@ class FacetWP_Builder
                 if ( isset( $tag_parts[2] ) ) {
                     $index = (int) $tag_parts[2];
                     $index = ( $index < 0 ) ? count( $uri_parts ) + $index : $index;
-                    $temp[ $key ] = isset( $uri_parts[ $index ] ) ? $uri_parts[ $index ] : '';
+                    $temp[ $key ] = $uri_parts[ $index ] ?? '';
                 }
                 else {
                     $temp[ $key ] = $uri;
@@ -788,12 +868,7 @@ class FacetWP_Builder
             }
             elseif ( 0 === strpos( $value, 'http:get:' ) ) {
                 $tag_parts = explode( ':', $value );
-                if ( isset( $_GET[ $tag_parts[2] ] ) ) {
-                    $temp[ $key ] = $_GET[ $tag_parts[2] ];
-                }
-                else {
-                    $temp[ $key ] = '';
-                }
+                $temp[ $key ] = $_GET[ $tag_parts[2] ] ?? '';
             }
         }
 

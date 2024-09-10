@@ -21,12 +21,16 @@ class FacetWP_Indexer
     /* (array) Value modifiers set via the admin UI */
     public $modifiers;
 
+    /* (bool) Whether indexing hooks are in use */
+    public $is_overridden;
+
 
     function __construct() {
+        $this->set_table( 'auto' );
+        $this->run_cron();
+
         if ( apply_filters( 'facetwp_indexer_is_enabled', true ) ) {
-            $this->set_table_prop();
             $this->run_hooks();
-            $this->run_cron();
         }
     }
 
@@ -207,8 +211,8 @@ class FacetWP_Indexer
         }
 
         // Resume indexing?
-        $offset = isset( $_POST['offset'] ) ? (int) $_POST['offset'] : 0;
-        $attempt = isset( $_POST['retries'] ) ? (int) $_POST['retries'] : 0;
+        $offset = (int) ( $_POST['offset'] ?? 0 );
+        $attempt = (int) ( $_POST['retries'] ?? 0 );
 
         if ( 0 < $offset ) {
             $post_ids = json_decode( get_option( 'facetwp_indexing' ), true );
@@ -219,7 +223,6 @@ class FacetWP_Indexer
             // Store post IDs
             if ( $this->index_all ) {
                 update_option( 'facetwp_indexing', json_encode( $post_ids ) );
-                $this->set_table_prop();
             }
         }
 
@@ -285,7 +288,6 @@ class FacetWP_Indexer
 
             $this->manage_temp_table( 'replace' );
             $this->manage_temp_table( 'delete' );
-            $this->set_table_prop();
         }
 
         do_action( 'facetwp_indexer_complete' );
@@ -293,12 +295,16 @@ class FacetWP_Indexer
 
 
     /**
-     * Get an array of post IDs to index
-     * @since 3.6.8
+     * Get the array of indexer query args
+     * @since 4.1.8
      */
-    function get_post_ids_to_index( $post_id = false ) {
+    function get_query_args( $post_id = false ) {
+        $post_types = get_post_types( [
+            'exclude_from_search' => false
+        ] );
+
         $args = [
-            'post_type'         => 'any',
+            'post_type'         => $post_types,
             'post_status'       => 'publish',
             'posts_per_page'    => -1,
             'fields'            => 'ids',
@@ -312,8 +318,16 @@ class FacetWP_Indexer
             $args['posts_per_page'] = 1;
         }
 
-        $args = apply_filters( 'facetwp_indexer_query_args', $args );
+        return apply_filters( 'facetwp_indexer_query_args', $args );
+    }
 
+
+    /**
+     * Get an array of post IDs to index
+     * @since 3.6.8
+     */
+    function get_post_ids_to_index( $post_id = false ) {
+        $args = $this->get_query_args( $post_id );
         $query = new WP_Query( $args );
         return (array) $query->posts;
     }
@@ -337,7 +351,7 @@ class FacetWP_Indexer
             }
 
             $this->facet = $facet;
-            $source = isset( $facet['source'] ) ? $facet['source'] : '';
+            $source = $facet['source'] ?? '';
 
             // Set default index_row() params
             $defaults = [
@@ -607,7 +621,7 @@ class FacetWP_Indexer
         if ( ! empty( $transients ) ) {
             $transients = json_decode( $transients, true );
             if ( $name ) {
-                return isset( $transients[ $name ] ) ? $transients[ $name ] : false;
+                return $transients[ $name ] ?? false;
             }
 
             return $transients;
@@ -618,13 +632,17 @@ class FacetWP_Indexer
 
 
     /**
-     * Determine whether a temp index table is in use
-     * @since 3.5
+     * Set either the index or temp table
+     * @param string $table 'auto', 'index', or 'temp'
+     * @since 4.1.4
      */
-    function set_table_prop() {
+    function set_table( $table = 'auto' ) {
         global $wpdb;
 
-        $table = ( '' == get_option( 'facetwp_indexing', '' ) ) ? 'index' : 'temp';
+        if ( 'auto' == $table ) {
+            $table = ( '' == get_option( 'facetwp_indexing', '' ) ) ? 'index' : 'temp';
+        }
+
         $this->table = $wpdb->prefix . 'facetwp_' . $table;
     }
 
@@ -641,6 +659,7 @@ class FacetWP_Indexer
 
         if ( 'create' == $action ) {
             $wpdb->query( "CREATE TABLE $temp_table LIKE $table" );
+            $this->set_table( 'temp' );
         }
         elseif ( 'replace' == $action ) {
             $wpdb->query( "TRUNCATE TABLE $table" );
@@ -648,6 +667,7 @@ class FacetWP_Indexer
         }
         elseif ( 'delete' == $action ) {
             $wpdb->query( "DROP TABLE IF EXISTS $temp_table" );
+            $this->set_table( 'index' );
         }
     }
 
@@ -664,9 +684,20 @@ class FacetWP_Indexer
             $type = empty( $facet['modifier_type'] ) ? 'off' : $facet['modifier_type'];
 
             if ( 'include' == $type || 'exclude' == $type ) {
-                $values = preg_split( '/\r\n|\r|\n/', trim( $facet['modifier_values'] ) );
-                $values = array_map( 'trim', $values );
-                $output[ $name ] = [ 'type' => $type, 'values' => $values ];
+                $temp = preg_split( '/\r\n|\r|\n/', trim( $facet['modifier_values'] ) );
+                $values = [];
+
+                // Compare using both original and encoded values
+                foreach ( $temp as $val ) {
+                    $val = trim( $val );
+                    $val_encoded = htmlentities( $val );
+                    $val_decoded = html_entity_decode( $val );
+                    $values[ $val ] = true;
+                    $values[ $val_encoded ] = true;
+                    $values[ $val_decoded ] = true;
+                }
+
+                $output[ $name ] = [ 'type' => $type, 'values' => array_keys( $values ) ];
             }
         }
 

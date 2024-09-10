@@ -2,7 +2,7 @@
 /*
 Plugin Name: FacetWP - Map Facet
 Description: Map facet type
-Version: 0.9.2
+Version: 1.0.1
 Author: FacetWP, LLC
 Author URI: https://facetwp.com/
 GitHub URI: facetwp/facetwp-map-facet
@@ -12,7 +12,7 @@ Domain Path: /languages
 
 defined( 'ABSPATH' ) or exit;
 
-define( 'FACETWP_MAP_FACET_VERSION', '0.9.2' );
+define( 'FACETWP_MAP_FACET_VERSION', '1.0.1' );
 
 
 /**
@@ -83,10 +83,13 @@ class FacetWP_Facet_Map_Addon
         $tmp_key = FWP()->helper->get_setting( 'gmaps_api_key' );
         $api_key = empty( $tmp_key ) ? $api_key : $tmp_key;
 
-        // hook
+        // API key hook
         $api_key = apply_filters( 'facetwp_gmaps_api_key', $api_key );
 
-        return '//maps.googleapis.com/maps/api/js?libraries=places&key=' . $api_key;
+        // URL hook (e.g. for adding a "region" param)
+        $url = '//maps.googleapis.com/maps/api/js?libraries=places&key=' . $api_key;
+
+        return apply_filters( 'facetwp_gmaps_url', $url );
     }
 
 
@@ -174,6 +177,12 @@ class FacetWP_Facet_Map_Addon
             'default_lat'   => (float) $this->map_facet['default_lat'],
             'default_lng'   => (float) $this->map_facet['default_lng'],
             'default_zoom'  => (int) $this->map_facet['default_zoom'],
+            'spiderfy'      => [
+                'markersWontMove'   => true,
+                'markersWontHide'   => true,
+                'basicFormatEvents' => true,
+                'keepSpiderfied'    => true
+            ]
         ];
 
         if ( 'yes' == $this->map_facet['cluster'] ) {
@@ -446,16 +455,14 @@ class FacetWP_Facet_Map_Addon
         <div class="facetwp-row">
             <div>
                 <div class="facetwp-tooltip">
-                    <?php _e( 'Other data source', 'facetwp-map-facet' ); ?>:
-                    <div class="facetwp-tooltip-content"><?php _e( 'Use a separate value for the longitude?', 'facetwp-map-facet' ); ?></div>
+                    <?php _e( 'Longitude', 'facetwp-map-facet' ); ?>:
+                    <div class="facetwp-tooltip-content"><?php _e( '(Optional) use a separate longitude field', 'facetwp-map-facet' ); ?></div>
                 </div>
             </div>
             <div>
                 <data-sources
                     :facet="facet"
-                    :selected="facet.source_other"
-                    :sources="$root.data_sources"
-                    settingName="source_other">
+                    setting-name="source_other">
                 </data-sources>
             </div>
         </div>
@@ -530,7 +537,7 @@ class FacetWP_Facet_Map_Addon
         <div class="facetwp-row">
             <div>
                 <div class="facetwp-tooltip">
-                    <?php _e( 'Default lat / lng', 'facetwp-map-facet' ); ?>:
+                    <?php _e( 'Fallback lat / lng / zoom', 'facetwp-map-facet' ); ?>:
                     <div class="facetwp-tooltip-content"><?php _e( 'Center the map here if there are no results', 'facetwp-map-facet' ); ?></div>
                 </div>
             </div>
@@ -568,7 +575,7 @@ class FacetWP_Facet_Map_Addon
                     $other_params['facet_source'] = $facet['source_other'];
                     $rows = $class->get_row_data( $other_params );
 
-                    if ( false === strpos( $latlng, ',' ) ) {
+                    if ( false === strpos( $latlng, ',' ) && ! empty( $rows ) ) {
                         $lng = $rows[0]['facet_display_value'];
                         $lng = preg_replace( '/[^0-9.,-]/', '', $lng );
                         $latlng .= ',' . $lng;

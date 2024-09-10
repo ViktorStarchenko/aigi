@@ -73,6 +73,8 @@ var FWP_MAP = FWP_MAP || {};
             return;
         }
 
+        var config = FWP.settings.map.config;
+
         if (! FWP.loaded) {
 
             FWP_MAP.map = new google.maps.Map(document.getElementById('facetwp-map'), FWP.settings.map.init);
@@ -86,21 +88,17 @@ var FWP_MAP = FWP_MAP || {};
                 do_refresh();
             });
 
-            google.maps.event.addDomListener(window, 'resize', function() {
+            window.addEventListener('resize', FWP.helper.debounce(function() {
                 var center = FWP_MAP.map.getCenter();
                 google.maps.event.trigger(FWP_MAP.map, 'resize');
                 FWP_MAP.map.setCenter(center);
-            });
+            }, 500));
 
             google.maps.event.addListener(FWP_MAP.map, 'click', function() {
                 FWP_MAP.infoWindow.close();
             });
 
-            FWP_MAP.oms = new OverlappingMarkerSpiderfier(FWP_MAP.map, {
-                markersWontMove: true,
-                markersWontHide: true,
-                basicFormatEvents: true
-            });
+            FWP_MAP.oms = new OverlappingMarkerSpiderfier(FWP_MAP.map, config.spiderfy);
         }
         else {
             clearOverlays();
@@ -171,15 +169,13 @@ var FWP_MAP = FWP_MAP || {};
             }
         });
 
-        var config = FWP.settings.map.config;
+        var has_results = FWP.settings.map.locations.length > 0;
+        var fit_bounds = FWP.hooks.applyFilters('facetwp_map/fit_bounds', ! FWP_MAP.is_filtering);
 
-        var fit_bounds = (! FWP_MAP.is_filtering && 0 < FWP.settings.map.locations.length);
-        fit_bounds = FWP.hooks.applyFilters('facetwp_map/fit_bounds', fit_bounds);
-
-        if (fit_bounds) {
+        if (fit_bounds && has_results) {
             FWP_MAP.map.fitBounds(FWP_MAP.bounds);
         }
-        else if (0 !== config.default_lat || 0 !== config.default_lng) {
+        else if (! FWP_MAP.is_filtering && (0 !== config.default_lat || 0 !== config.default_lng)) {
             FWP_MAP.map.setCenter({
                 lat: parseFloat(config.default_lat),
                 lng: parseFloat(config.default_lng)
